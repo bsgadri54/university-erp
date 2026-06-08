@@ -22,7 +22,7 @@
             password: document.getElementById("password").value
         };
 
-        fetch("http://localhost:8080/users/register", {
+        fetch("/users/create", {
             method: "POST",
             headers: {
                 "Content-Type":"application/json"
