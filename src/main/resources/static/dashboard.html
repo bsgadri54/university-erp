@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>University ERP Dashboard</title>
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:Arial,sans-serif;
+        }
+
+        body{
+            background:#f4f6f9;
+        }
+
+        .sidebar{
+            width:250px;
+            height:100vh;
+            background:#16213e;
+            position:fixed;
+            left:0;
+            top:0;
+        }
+
+        .logo{
+            color:white;
+            text-align:center;
+            padding:25px;
+            font-size:32px;
+            font-weight:bold;
+            border-bottom:1px solid #2d4059;
+        }
+
+        .sidebar ul{
+            list-style:none;
+        }
+
+        .sidebar ul li{
+            border-bottom:1px solid #2d4059;
+        }
+
+        .sidebar ul li a{
+            display:block;
+            color:white;
+            padding:18px;
+            text-decoration:none;
+        }
+
+        .sidebar ul li a:hover{
+            background:#1abc9c;
+        }
+
+        .main{
+            margin-left:250px;
+        }
+
+        .header{
+            background:white;
+            padding:20px;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            box-shadow:0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .welcome{
+            color:#555;
+            margin-top:5px;
+        }
+
+        .logout-btn{
+            background:red;
+            color:white;
+            border:none;
+            padding:10px 20px;
+            cursor:pointer;
+            border-radius:5px;
+        }
+
+        .cards{
+            display:flex;
+            gap:20px;
+            padding:30px;
+            flex-wrap:wrap;
+        }
+
+        .card{
+            width:250px;
+            color:white;
+            padding:25px;
+            border-radius:10px;
+        }
+
+        .students{
+            background:#2962ff;
+        }
+
+        .employees{
+            background:#00c853;
+        }
+
+        .users{
+            background:#ff6d00;
+        }
+
+        .card h2{
+            margin-top:10px;
+            font-size:30px;
+        }
+
+        .quick-links{
+            padding:0 30px 30px;
+        }
+
+        .quick-links h2{
+            margin-bottom:20px;
+        }
+
+        .link-grid{
+            display:grid;
+            grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+            gap:20px;
+        }
+
+        .link-card{
+            background:white;
+            padding:20px;
+            border-radius:10px;
+            text-align:center;
+            box-shadow:0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .link-card a{
+            text-decoration:none;
+            color:#16213e;
+            font-weight:bold;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="sidebar">
+
+    <div class="logo">
+        ERP
+    </div>
+
+    <ul>
+
+        <li>
+            <a href="dashboard.html">Dashboard</a>
+        </li>
+
+        <li>
+            <a href="student.html">Student Management</a>
+        </li>
+
+        <li>
+            <a href="employee.html">Employee Management</a>
+        </li>
+
+        <li id="userMenu">
+            <a href="user-management.html">
+                User Management
+            </a>
+        </li>
+
+        <li>
+            <a href="attendance.html">Attendance</a>
+        </li>
+
+        <li>
+            <a href="reports.html">Reports</a>
+        </li>
+
+        <li>
+            <a href="profile.html">My Profile</a>
+         </li>
+
+        <li>
+            <a href="#" onclick="logout()">
+                Logout
+            </a>
+        </li>
+
+    </ul>
+
+</div>
+
+<div class="main">
+
+    <div class="header">
+
+        <div>
+
+            <h1>University ERP Dashboard</h1>
+
+            <div class="welcome" id="welcomeText"></div>
+
+        </div>
+
+        <button class="logout-btn" onclick="logout()">
+            Logout
+        </button>
+
+    </div>
+
+    <div class="cards">
+
+        <div class="card students">
+            <h3>Total Students</h3>
+            <h2 id="studentCount">0</h2>
+        </div>
+
+        <div class="card employees">
+            <h3>Total Employees</h3>
+            <h2 id="employeeCount">0</h2>
+        </div>
+
+        <div class="card users">
+            <h3>Total Users</h3>
+            <h2 id="userCount">0</h2>
+        </div>
+
+    </div>
+
+    <div class="quick-links">
+
+        <h2>Quick Access</h2>
+
+        <div class="link-grid">
+
+            <div class="link-card">
+                <a href="student.html">
+                    Student Management
+                </a>
+            </div>
+
+            <div class="link-card">
+                <a href="employee.html">
+                    Employee Management
+                </a>
+            </div>
+
+            <div class="link-card" id="userCard">
+                <a href="user-management.html">
+                    User Management
+                </a>
+            </div>
+
+            <div class="link-card">
+                <a href="attendance.html">Attendance Management</a>
+            </div>
+
+            <div class="link-card">
+                <a href="reports.html">Reports Dashboard</a>
+            </div>
+
+            <div class="link-card">
+                <a href="profile.html">My Profile</a>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+    let username = localStorage.getItem("username");
+    let role = localStorage.getItem("role");
+
+    if(!username){
+
+        window.location.href = "login.html";
+
+    }
+
+    document.getElementById("welcomeText").innerHTML =
+        "Welcome " + username + " (" + role + ")";
+
+    if(role !== "ADMIN"){
+
+        document.getElementById("userMenu").style.display = "none";
+
+        document.getElementById("userCard").style.display = "none";
+
+    }
+
+    function logout(){
+
+        localStorage.clear();
+
+        alert("Logout Successful");
+
+        window.location.href="login.html";
+    }
+
+    /* Student Count */
+
+    fetch("/students")
+        .then(res=>res.json())
+        .then(data=>{
+
+            document.getElementById("studentCount").innerHTML =
+                data.length;
+
+        });
+
+    /* Employee Count */
+
+    fetch("/employees")
+        .then(res=>res.json())
+        .then(data=>{
+
+            document.getElementById("employeeCount").innerHTML =
+                data.length;
+
+        });
+
+    /* User Count */
+
+    fetch("/users")
+        .then(res=>res.json())
+        .then(data=>{
+
+            document.getElementById("userCount").innerHTML =
+                data.length;
+
+        });
+
+</script>
+
+</body>
+</html>

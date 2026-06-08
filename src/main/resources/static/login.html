@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>University ERP Login</title>
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:Arial,sans-serif;
+        }
+
+        body{
+            background:#f4f6f9;
+            height:100vh;
+        }
+
+        .container{
+            display:flex;
+            height:100vh;
+        }
+
+        .left-panel{
+            width:70%;
+            padding:40px;
+            background:white;
+        }
+
+        .logo{
+            text-align:center;
+            margin-bottom:20px;
+        }
+
+        .logo img{
+            width:280px;
+        }
+
+        .left-panel h1{
+            margin-top:20px;
+            color:#222;
+        }
+
+        .left-panel p{
+            margin-top:15px;
+            line-height:1.8;
+            color:#555;
+        }
+
+        .modules{
+            margin-top:40px;
+            display:grid;
+            grid-template-columns:repeat(2,1fr);
+            gap:15px;
+        }
+
+        .module{
+            background:#eef3ff;
+            padding:15px;
+            border-radius:8px;
+            font-weight:bold;
+        }
+
+        .right-panel{
+            width:30%;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            background:#f8fafc;
+        }
+
+        .login-box{
+            width:350px;
+            background:white;
+            padding:30px;
+            border-radius:10px;
+            box-shadow:0 0 15px rgba(0,0,0,0.15);
+        }
+
+        .login-box h2{
+            text-align:center;
+            margin-bottom:25px;
+        }
+
+        .form-group{
+            margin-bottom:15px;
+        }
+
+        .form-group label{
+            display:block;
+            margin-bottom:5px;
+        }
+
+        .form-group input{
+            width:100%;
+            padding:12px;
+            border:1px solid #ccc;
+            border-radius:5px;
+        }
+
+        .btn{
+            width:100%;
+            background:#007bff;
+            color:white;
+            border:none;
+            padding:12px;
+            border-radius:5px;
+            cursor:pointer;
+            font-size:16px;
+        }
+
+        .btn:hover{
+            background:#0056b3;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="left-panel">
+
+        <div class="logo">
+            <img src="8a472d5a-8f62-46b9-bca2-a7bee3feb65d.png" alt="University ERP Logo">
+        </div>
+
+        <h1>Welcome To University ERP System</h1>
+
+        <p>
+            An integrated University Management System that automates
+            student, employee, attendance, examination, fee,
+            hostel and academic management processes.
+        </p>
+
+        <div class="modules">
+            <div class="module">Student Management</div>
+            <div class="module">Employee Management</div>
+            <div class="module">Attendance Management</div>
+            <div class="module">Examination Management</div>
+            <div class="module">Fee Management</div>
+            <div class="module">Reports & Analytics</div>
+        </div>
+
+    </div>
+
+    <div class="right-panel">
+
+        <div class="login-box">
+
+            <h2>User Login</h2>
+
+            <form id="loginForm">
+
+                <div class="form-group">
+                    <label>Username</label>
+                    <input type="text" id="username" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="password" required>
+                </div>
+
+                <button type="submit" class="btn">
+                    Login
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+    document.getElementById("loginForm")
+        .addEventListener("submit", function(e){
+
+            e.preventDefault();
+
+            fetch("http://localhost:8080/users/login",{
+                method:"POST",
+                headers:{
+                    "Content-Type":"application/json"
+                },
+                body:JSON.stringify({
+                    username:document.getElementById("username").value,
+                    password:document.getElementById("password").value
+                })
+            })
+
+                .then(response => response.json())
+
+                .then(user => {
+
+                    if(user && user.id){
+
+                        localStorage.setItem("userId", user.id);
+                        localStorage.setItem("username", user.username);
+                        localStorage.setItem("role", user.role);
+
+                        alert("Login Successful");
+
+                        window.location.href = "dashboard.html";
+                    }
+                    else{
+                        alert("Invalid Username or Password");
+                    }
+
+                })
+
+                .catch(error => {
+
+                    console.log(error);
+
+                    alert("Login Failed");
+
+                });
+
+        });
+
+</script>
+
+</body>
+</html>

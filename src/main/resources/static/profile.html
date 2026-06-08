@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Profile</title>
+
+    <style>
+        body{
+            font-family: Arial, sans-serif;
+            margin:0;
+            padding:0;
+            background:linear-gradient(135deg,#5b7cff,#8a5cd8);
+        }
+
+        .container{
+            width:500px;
+            margin:80px auto;
+            background:white;
+            padding:30px;
+            border-radius:15px;
+            box-shadow:0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        h1{
+            text-align:center;
+            margin-bottom:30px;
+        }
+
+        label{
+            font-weight:bold;
+            display:block;
+            margin-top:15px;
+        }
+
+        input{
+            width:100%;
+            padding:10px;
+            margin-top:5px;
+            border:1px solid #ccc;
+            border-radius:5px;
+            box-sizing:border-box;
+        }
+
+        button{
+            padding:10px 20px;
+            border:none;
+            border-radius:5px;
+            cursor:pointer;
+        }
+
+        .dashboard-btn{
+            background:#28a745;
+            color:white;
+            margin-bottom:20px;
+        }
+
+        .update-btn{
+            background:#4f6ddf;
+            color:white;
+            margin-top:15px;
+        }
+
+        hr{
+            margin:25px 0;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <button class="dashboard-btn"
+            onclick="window.location.href='dashboard.html'">
+        Dashboard
+    </button>
+
+    <h1>My Profile</h1>
+
+    <label>Username</label>
+    <input type="text" id="username" readonly>
+
+    <label>Email</label>
+    <input type="email" id="email" readonly>
+
+    <label>Role</label>
+    <input type="text" id="role" readonly>
+
+    <hr>
+
+    <h2>Change Password</h2>
+
+    <label>New Password</label>
+    <input type="password" id="newPassword">
+
+    <button class="update-btn"
+            onclick="updatePassword()">
+        Update Password
+    </button>
+
+</div>
+
+<script>
+
+    let loggedInUser = localStorage.getItem("username");
+
+    fetch("/users")
+        .then(response => response.json())
+        .then(data => {
+
+            let user = data.find(
+                u => u.username === loggedInUser
+            );
+
+            if(user){
+
+                document.getElementById("username").value =
+                    user.username;
+
+                document.getElementById("email").value =
+                    user.email;
+
+                document.getElementById("role").value =
+                    user.role;
+            }
+        });
+
+    function updatePassword(){
+
+        let username = localStorage.getItem("username");
+
+        let password =
+            document.getElementById("newPassword").value;
+
+        if(password==""){
+
+            alert("Enter Password");
+            return;
+        }
+
+        fetch("/users/change-password/" + username, {
+
+            method:"PUT",
+
+            headers:{
+                "Content-Type":"application/json"
+            },
+
+            body:JSON.stringify({
+                password:password
+            })
+
+        })
+            .then(res=>res.json())
+            .then(data=>{
+
+                alert("Password Updated Successfully");
+
+                document.getElementById("newPassword").value="";
+
+            });
+
+    }
+
+</script>
+
+</body>
+</html>

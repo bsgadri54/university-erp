@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Attendance Management System</title>
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:Arial,sans-serif;
+        }
+
+        body{
+            background:linear-gradient(135deg,#667eea,#764ba2);
+            min-height:100vh;
+            padding:40px;
+        }
+
+        .container{
+            max-width:1100px;
+            margin:auto;
+            background:white;
+            padding:30px;
+            border-radius:15px;
+            box-shadow:0 5px 20px rgba(0,0,0,0.2);
+        }
+
+        h1{
+            text-align:center;
+            margin-bottom:30px;
+            color:#222;
+        }
+
+        .top-bar{
+            margin-bottom:20px;
+        }
+
+        .dashboard-btn{
+            background:#28a745;
+            color:white;
+            text-decoration:none;
+            padding:10px 20px;
+            border-radius:5px;
+            font-weight:bold;
+        }
+
+        .form-section{
+            display:grid;
+            grid-template-columns:repeat(4,1fr);
+            gap:15px;
+            margin-bottom:20px;
+        }
+
+        input,select{
+            padding:12px;
+            border:1px solid #ccc;
+            border-radius:5px;
+        }
+
+        button{
+            padding:10px 20px;
+            border:none;
+            cursor:pointer;
+            border-radius:5px;
+            color:white;
+        }
+
+        .save-btn{
+            background:#4e73df;
+        }
+
+        .edit-btn{
+            background:#ffc107;
+            color:black;
+        }
+
+        .delete-btn{
+            background:#dc3545;
+        }
+
+        table{
+            width:100%;
+            border-collapse:collapse;
+            margin-top:20px;
+        }
+
+        th{
+            background:#5d72de;
+            color:white;
+            padding:12px;
+        }
+
+        td{
+            padding:12px;
+            border-bottom:1px solid #ddd;
+            text-align:center;
+        }
+
+    </style>
+
+</head>
+<body>
+
+<div class="container">
+
+    <div class="top-bar">
+        <a href="dashboard.html" class="dashboard-btn">
+            Dashboard
+        </a>
+    </div>
+
+    <h1>Attendance Management System</h1>
+
+    <input type="hidden" id="attendanceId">
+
+    <div class="form-section">
+
+        <select id="personType">
+            <option value="STUDENT">Student</option>
+            <option value="EMPLOYEE">Employee</option>
+        </select>
+
+        <input type="text"
+               id="personName"
+               placeholder="Person Name">
+
+        <input type="date"
+               id="attendanceDate">
+
+        <select id="status">
+            <option value="PRESENT">Present</option>
+            <option value="ABSENT">Absent</option>
+        </select>
+
+    </div>
+
+    <button class="save-btn"
+            onclick="saveAttendance()">
+        Save Attendance
+    </button>
+
+    <h2 style="margin-top:30px;">
+        Attendance Records
+    </h2>
+
+    <table>
+
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Type</th>
+            <th>Name</th>
+            <th>Date</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+
+        <tbody id="attendanceTable">
+
+        </tbody>
+
+    </table>
+
+</div>
+
+<script>
+
+    loadAttendance();
+
+    function saveAttendance(){
+
+        let attendance={
+
+            personType:
+            document.getElementById("personType").value,
+
+            personName:
+            document.getElementById("personName").value,
+
+            attendanceDate:
+            document.getElementById("attendanceDate").value,
+
+            status:
+            document.getElementById("status").value
+
+        };
+
+        fetch("/attendance",{
+
+            method:"POST",
+
+            headers:{
+                "Content-Type":"application/json"
+            },
+
+            body:JSON.stringify(attendance)
+
+        })
+            .then(()=>{
+
+                alert("Attendance Saved");
+
+                loadAttendance();
+
+                clearForm();
+
+            });
+
+    }
+
+    function loadAttendance(){
+
+        fetch("/attendance")
+            .then(res=>res.json())
+            .then(data=>{
+
+                let rows="";
+
+                data.forEach(a=>{
+
+                    rows+=`
+            <tr>
+
+                <td>${a.id}</td>
+                <td>${a.personType}</td>
+                <td>${a.personName}</td>
+                <td>${a.attendanceDate}</td>
+                <td>${a.status}</td>
+
+                <td>
+
+                    <button class="delete-btn"
+                    onclick="deleteAttendance(${a.id})">
+                    Delete
+                    </button>
+
+                </td>
+
+            </tr>
+            `;
+
+                });
+
+                document.getElementById("attendanceTable")
+                    .innerHTML=rows;
+
+            });
+
+    }
+
+    function deleteAttendance(id){
+
+        if(confirm("Delete Attendance?")){
+
+            fetch("/attendance/"+id,{
+
+                method:"DELETE"
+
+            })
+                .then(()=>{
+
+                    loadAttendance();
+
+                });
+
+        }
+
+    }
+
+    function clearForm(){
+
+        document.getElementById("personName").value="";
+
+        document.getElementById("attendanceDate").value="";
+
+    }
+
+</script>
+
+</body>
+</html>

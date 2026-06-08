@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Reports Dashboard</title>
+
+    <style>
+        body{
+            font-family: Arial, sans-serif;
+            margin:0;
+            padding:0;
+            background:linear-gradient(135deg,#5b7cff,#8a5cd8);
+        }
+
+        .container{
+            width:80%;
+            margin:50px auto;
+        }
+
+        h1{
+            text-align:center;
+            color:white;
+            margin-bottom:30px;
+        }
+
+        .cards{
+            display:grid;
+            grid-template-columns:repeat(4,1fr);
+            gap:20px;
+        }
+
+        .card{
+            background:white;
+            padding:30px;
+            border-radius:15px;
+            text-align:center;
+            box-shadow:0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        .card h2{
+            margin:10px 0;
+            font-size:35px;
+            color:#4f6ddf;
+        }
+
+        .card p{
+            font-size:18px;
+            font-weight:bold;
+        }
+
+        button{
+            padding:10px 20px;
+            border:none;
+            border-radius:5px;
+            background:#28a745;
+            color:white;
+            cursor:pointer;
+            margin-bottom:20px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <button onclick="window.location.href='dashboard.html'">
+        Dashboard
+    </button>
+
+    <h1>ERP Reports Dashboard</h1>
+
+    <div class="cards">
+
+        <div class="card">
+            <p>Total Students</p>
+            <h2 id="studentCount">0</h2>
+        </div>
+
+        <div class="card">
+            <p>Total Employees</p>
+            <h2 id="employeeCount">0</h2>
+        </div>
+
+        <div class="card">
+            <p>Total Users</p>
+            <h2 id="userCount">0</h2>
+        </div>
+
+        <div class="card">
+            <p>Total Attendance</p>
+            <h2 id="attendanceCount">0</h2>
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+    fetch("http://localhost:8080/students")
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById("studentCount").innerText = data.length;
+        });
+
+    fetch("http://localhost:8080/employees")
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById("employeeCount").innerText = data.length;
+        });
+
+    fetch("http://localhost:8080/users")
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById("userCount").innerText = data.length;
+        });
+
+    fetch("http://localhost:8080/attendance")
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById("attendanceCount").innerText = data.length;
+        });
+
+</script>
+
+</body>
+</html>
