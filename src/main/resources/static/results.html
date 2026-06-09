@@ -203,17 +203,26 @@
 
 </div>
 
-
 <script>
 
     window.onload = loadResults;
+    const enrollmentNo = localStorage.getItem("username");
 
+    console.log("Logged Student:", enrollmentNo);
+
+    if(!enrollmentNo){
+        alert("Please login again");
+        window.location.href="login.html";
+    }
     function loadResults(){
 
-        const enrollmentNo =
-            localStorage.getItem("enrollmentNo");
+        // Student login stores username as enrollment number
+        const enrollmentNo = localStorage.getItem("username");
+        console.log("Logged Student:", enrollmentNo);
 
-        fetch("/results")
+        console.log("Enrollment:", enrollmentNo);
+
+        fetch("https://university-erp-1-gac1.onrender.com/results")
             .then(response => response.json())
             .then(data => {
 
@@ -225,8 +234,12 @@
 
                 data.forEach(result => {
 
-                    if(result.enrollmentNo === enrollmentNo){
+                    console.log(result.enrollmentNo);
 
+                    if(
+                        result.enrollmentNo.trim() ===
+                        enrollmentNo.trim()
+                    ){
                         totalMarks += result.marks;
                         count++;
 
@@ -235,7 +248,7 @@
                         let passMarks = 40;
 
                         if(
-                            result.subject.toUpperCase().includes("LAB") ||
+                            result.subject.includes("LAB") ||
                             result.subject === "Practical Training 45 Days"
                         ){
                             passMarks = 20;
@@ -251,34 +264,44 @@
                         }
 
                         rows += `
-                <tr>
-                    <td>${result.subject}</td>
-                    <td>${result.marks}</td>
-                    <td>${result.semester}</td>
-                    <td class="${status === 'PASS' ? 'pass' : 'fail'}">
-                        ${status}
-                    </td>
-                </tr>
-                `;
+                    <tr>
+                        <td>${result.subject}</td>
+                        <td>${result.marks}</td>
+                        <td>${result.semester}</td>
+                        <td class="${status === 'PASS' ? 'pass' : 'fail'}">
+                            ${status}
+                        </td>
+                    </tr>
+                    `;
                     }
                 });
 
                 document.getElementById("resultBody").innerHTML = rows;
 
-                document.getElementById("studentName").innerHTML =
-                    localStorage.getItem("studentName") || "Student";
+                // Load student details
+                fetch("https://university-erp-1-gac1.onrender.com/students")
+                    .then(response => response.json())
+                    .then(students => {
 
-                document.getElementById("enrollmentNo").innerHTML =
-                    enrollmentNo || "-";
+                        let student = students.find(
+                            s => s.enrollmentNo === enrollmentNo
+                        );
 
-                document.getElementById("semester").innerHTML =
-                    semester || "-";
+                        if(student){
 
-                document.getElementById("totalSubjects").innerHTML =
-                    count;
+                            document.getElementById("studentName").innerHTML =
+                                student.name;
 
-                document.getElementById("totalMarks").innerHTML =
-                    totalMarks;
+                            document.getElementById("enrollmentNo").innerHTML =
+                                student.enrollmentNo;
+
+                            document.getElementById("semester").innerHTML =
+                                student.semester;
+                        }
+                    });
+
+                document.getElementById("totalSubjects").innerHTML = count;
+                document.getElementById("totalMarks").innerHTML = totalMarks;
 
                 let percentage = 0;
 
@@ -289,45 +312,34 @@
                 document.getElementById("percentage").innerHTML =
                     percentage.toFixed(2) + "%";
 
+                let finalResult = document.getElementById("finalResult");
+
                 if(isFail){
 
-                    document.getElementById("finalResult").innerHTML =
-                        "❌ FAIL";
+                    finalResult.innerHTML = "❌ FAIL";
+                    finalResult.style.color = "#ff4d4d";
 
-                    document.getElementById("finalResult").style.color =
-                        "#ff4d4d";
+                }else if(percentage >= 75){
 
-                }
-                else if(percentage >= 75){
+                    finalResult.innerHTML = "🏆 DISTINCTION";
+                    finalResult.style.color = "#00ff88";
 
-                    document.getElementById("finalResult").innerHTML =
-                        "🏆 DISTINCTION";
+                }else if(percentage >= 60){
 
-                    document.getElementById("finalResult").style.color =
-                        "#00ff88";
+                    finalResult.innerHTML = "🥇 FIRST CLASS";
+                    finalResult.style.color = "#00ff88";
 
-                }
-                else if(percentage >= 60){
+                }else{
 
-                    document.getElementById("finalResult").innerHTML =
-                        "🥇 FIRST CLASS";
-
-                    document.getElementById("finalResult").style.color =
-                        "#00ff88";
-
-                }
-                else{
-
-                    document.getElementById("finalResult").innerHTML =
-                        "✅ PASS";
-
-                    document.getElementById("finalResult").style.color =
-                        "#00ff88";
+                    finalResult.innerHTML = "✅ PASS";
+                    finalResult.style.color = "#00ff88";
                 }
 
             })
             .catch(error => {
-                console.error("Error loading results:", error);
+
+                console.error("Error Loading Results:", error);
+
             });
     }
 
