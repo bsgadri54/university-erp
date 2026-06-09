@@ -1,4 +1,4 @@
-package com.erp.university.controller;
+package com.erp.universityerp.controller;
 
 import com.erp.university.entity.Result;
 import com.erp.university.repository.ResultRepository;
