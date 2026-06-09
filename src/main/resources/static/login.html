@@ -209,6 +209,14 @@
 
                         alert("Login Successful");
                     }
+                    if(user && user.id) {
+
+                        localStorage.setItem("userId", user.id);
+                        localStorage.setItem("username", user.username);
+                        localStorage.setItem("role", user.role);
+
+                        alert("Login Successful");
+
                         if(user.role === "ADMIN"){
                             window.location.href = "dashboard.html";
                         }
@@ -218,6 +226,8 @@
                         else if(user.role === "EMPLOYEE"){
                             window.location.href = "employee-dashboard.html";
                         }
+
+                    }
                     else{
                         alert("Invalid Username or Password");
                     }
