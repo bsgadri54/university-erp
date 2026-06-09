@@ -15,15 +15,12 @@ public class ResultController {
     private ResultRepository repository;
 
     @PostMapping("/results")
-    public Result saveResult(
-            @RequestBody Result result){
-
+    public Result saveResult(@RequestBody Result result){
         return repository.save(result);
     }
 
     @GetMapping("/results")
     public List<Result> getAllResults(){
-
         return repository.findAll();
     }
 
@@ -31,8 +28,11 @@ public class ResultController {
     public List<Result> getStudentResults(
             @PathVariable String enrollmentNo){
 
-        return repository.findByEnrollmentNo(
-                enrollmentNo
-        );
+        return repository.findByEnrollmentNo(enrollmentNo);
+    }
+
+    @GetMapping("/test-result")
+    public String testResult(){
+        return "Result Controller Working";
     }
 }
