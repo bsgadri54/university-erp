@@ -32,21 +32,35 @@
         h1{
             text-align:center;
             color:#333;
-            margin-bottom:25px;
+            margin-bottom:30px;
         }
 
         h2{
             color:#333;
             margin-top:30px;
+            margin-bottom:15px;
         }
 
         .form-group{
             display:grid;
-            grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-            gap:15px;
+            grid-template-columns:repeat(2,1fr);
+            gap:20px;
+            margin-bottom:20px;
         }
 
-        input{
+        .field{
+            display:flex;
+            flex-direction:column;
+        }
+
+        .field label{
+            font-weight:600;
+            margin-bottom:8px;
+            color:#333;
+        }
+
+        .field input,
+        .field select{
             width:100%;
             padding:12px;
             border:1px solid #ddd;
@@ -54,14 +68,16 @@
             font-size:15px;
         }
 
-        input:focus{
+        .field input:focus,
+        .field select:focus{
             outline:none;
             border-color:#667eea;
             box-shadow:0 0 8px rgba(102,126,234,0.4);
         }
 
         .button-group{
-            margin-top:20px;
+            margin-top:10px;
+            margin-bottom:20px;
         }
 
         button{
@@ -69,7 +85,7 @@
             border:none;
             border-radius:8px;
             cursor:pointer;
-            transition:0.3s;
+            transition:.3s;
             font-size:14px;
             margin-right:10px;
         }
@@ -101,7 +117,7 @@
         table{
             width:100%;
             border-collapse:collapse;
-            margin-top:20px;
+            margin-top:15px;
             border-radius:10px;
             overflow:hidden;
             box-shadow:0 5px 15px rgba(0,0,0,0.1);
@@ -132,12 +148,9 @@
         }
 
         @media(max-width:768px){
-            body{
-                padding:15px;
-            }
 
-            .container{
-                padding:20px;
+            .form-group{
+                grid-template-columns:1fr;
             }
 
             table{
@@ -154,19 +167,47 @@
 
 <div class="container">
 
-    <h1>👨‍💼 Employee Management System</h1>
+    <h1>👨‍💼 Employee Management</h1>
 
     <input type="hidden" id="employeeId">
 
     <div class="form-group">
 
-        <input type="text" id="employeeCode" placeholder="Employee Code">
+        <div class="field">
+            <label>Employee Code</label>
+            <input type="text" id="employeeCode" placeholder="EMP001">
+        </div>
 
-        <input type="text" id="employeeName" placeholder="Employee Name">
+        <div class="field">
+            <label>Employee Name</label>
+            <input type="text" id="employeeName" placeholder="Employee Name">
+        </div>
 
-        <input type="text" id="designation" placeholder="Designation">
+        <div class="field">
+            <label>Designation</label>
+            <select id="designation">
+                <option value="">Select Designation</option>
+                <option>Manager</option>
+                <option>ERP Developer</option>
+                <option>Office Assistant</option>
+                <option>Senior System Engineer</option>
+                <option>Network Engineer</option>
+                <option>Accountant</option>
+            </select>
+        </div>
 
-        <input type="text" id="department" placeholder="Department">
+        <div class="field">
+            <label>Department</label>
+            <select id="department">
+                <option value="">Select Department</option>
+                <option>Administration</option>
+                <option>ERP Development</option>
+                <option>IT Support</option>
+                <option>Networking</option>
+                <option>Accounts</option>
+                <option>Training & Placement</option>
+            </select>
+        </div>
 
     </div>
 

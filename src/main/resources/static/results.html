@@ -1,22 +1,81 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Student Results</title>
 
     <style>
 
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:'Segoe UI',sans-serif;
+        }
+
         body{
-            font-family:Arial;
-            background:#f4f6f9;
+            background:linear-gradient(135deg,#667eea,#764ba2);
+            min-height:100vh;
             padding:30px;
         }
 
-        .card{
+        .container{
+            max-width:1200px;
+            margin:auto;
             background:white;
-            padding:25px;
+            padding:30px;
+            border-radius:15px;
+            box-shadow:0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        h1{
+            text-align:center;
+            margin-bottom:25px;
+            color:#333;
+        }
+
+        .student-card{
+            background:#f5f7ff;
+            padding:20px;
             border-radius:10px;
-            box-shadow:0 2px 10px rgba(0,0,0,.1);
+            margin-bottom:20px;
+        }
+
+        .student-card h3{
+            margin-bottom:15px;
+            color:#333;
+        }
+
+        .info-grid{
+            display:grid;
+            grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+            gap:10px;
+        }
+
+        .summary{
+            display:grid;
+            grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+            gap:15px;
+            margin-bottom:25px;
+        }
+
+        .card{
+            background:#667eea;
+            color:white;
+            padding:20px;
+            border-radius:12px;
+            text-align:center;
+        }
+
+        .card h4{
+            margin-bottom:10px;
+        }
+
+        .card span{
+            font-size:28px;
+            font-weight:bold;
         }
 
         table{
@@ -25,25 +84,55 @@
             margin-top:20px;
         }
 
+        thead{
+            background:#667eea;
+            color:white;
+        }
+
         th,td{
-            border:1px solid #ddd;
             padding:12px;
             text-align:center;
+            border:1px solid #ddd;
         }
 
-        th{
-            background:#1565c0;
-            color:white;
+        tbody tr:hover{
+            background:#f5f7ff;
         }
 
-        button{
+        .back-btn{
             margin-top:20px;
-            padding:12px 25px;
-            border:none;
-            background:#1565c0;
+            padding:12px 20px;
+            background:#667eea;
             color:white;
-            border-radius:5px;
+            border:none;
+            border-radius:8px;
             cursor:pointer;
+        }
+
+        .back-btn:hover{
+            background:#5563d8;
+        }
+
+        .pass{
+            color:green;
+            font-weight:bold;
+        }
+
+        .fail{
+            color:red;
+            font-weight:bold;
+        }
+
+        @media(max-width:768px){
+
+            .container{
+                padding:20px;
+            }
+
+            table{
+                display:block;
+                overflow-x:auto;
+            }
         }
 
     </style>
@@ -51,9 +140,46 @@
 
 <body>
 
-<div class="card">
+<div class="container">
 
-    <h1>My Results</h1>
+    <h1>🎓 Student Result Portal</h1>
+
+    <div class="student-card">
+
+        <h3>Student Information</h3>
+
+        <div class="info-grid">
+            <div><b>Name:</b> <span id="studentName">Loading...</span></div>
+            <div><b>Enrollment No:</b> <span id="enrollmentNo">Loading...</span></div>
+            <div><b>Course:</b> Diploma CSE</div>
+            <div><b>Semester:</b> <span id="semester">SEM 4</span></div>
+        </div>
+
+    </div>
+
+    <div class="summary">
+
+        <div class="card">
+            <h4>Total Subjects</h4>
+            <span id="totalSubjects">0</span>
+        </div>
+
+        <div class="card">
+            <h4>Total Marks</h4>
+            <span id="totalMarks">0</span>
+        </div>
+
+        <div class="card">
+            <h4>Percentage</h4>
+            <span id="percentage">0%</span>
+        </div>
+
+        <div class="card">
+            <h4>Result</h4>
+            <span id="finalResult">PASS</span>
+        </div>
+
+    </div>
 
     <table>
 
@@ -62,58 +188,147 @@
             <th>Subject</th>
             <th>Marks</th>
             <th>Semester</th>
+            <th>Status</th>
         </tr>
         </thead>
 
-        <tbody id="resultBody">
-        </tbody>
+        <tbody id="resultBody"></tbody>
 
     </table>
 
-    <button onclick="goDashboard()">
-        Back To Dashboard
+    <button class="back-btn"
+            onclick="window.location.href='student-dashboard.html'">
+        ⬅ Back To Dashboard
     </button>
 
 </div>
 
+
 <script>
 
-    let username =
-        localStorage.getItem("username");
+    window.onload = loadResults;
 
-    fetch("/results/" + username)
+    function loadResults(){
 
-        .then(res => res.json())
+        const enrollmentNo =
+            localStorage.getItem("enrollmentNo");
 
-        .then(data => {
+        fetch("/results")
+            .then(response => response.json())
+            .then(data => {
 
-            let html = "";
+                let rows = "";
+                let totalMarks = 0;
+                let count = 0;
+                let isFail = false;
+                let semester = "";
 
-            data.forEach(r => {
+                data.forEach(result => {
 
-                html += `
-        <tr>
-            <td>${r.subject}</td>
-            <td>${r.marks}</td>
-            <td>${r.semester}</td>
-        </tr>
-        `;
+                    if(result.enrollmentNo === enrollmentNo){
+
+                        totalMarks += result.marks;
+                        count++;
+
+                        semester = result.semester;
+
+                        let passMarks = 40;
+
+                        if(
+                            result.subject.toUpperCase().includes("LAB") ||
+                            result.subject === "Practical Training 45 Days"
+                        ){
+                            passMarks = 20;
+                        }
+
+                        let status =
+                            result.marks >= passMarks
+                                ? "PASS"
+                                : "FAIL";
+
+                        if(status === "FAIL"){
+                            isFail = true;
+                        }
+
+                        rows += `
+                <tr>
+                    <td>${result.subject}</td>
+                    <td>${result.marks}</td>
+                    <td>${result.semester}</td>
+                    <td class="${status === 'PASS' ? 'pass' : 'fail'}">
+                        ${status}
+                    </td>
+                </tr>
+                `;
+                    }
+                });
+
+                document.getElementById("resultBody").innerHTML = rows;
+
+                document.getElementById("studentName").innerHTML =
+                    localStorage.getItem("studentName") || "Student";
+
+                document.getElementById("enrollmentNo").innerHTML =
+                    enrollmentNo || "-";
+
+                document.getElementById("semester").innerHTML =
+                    semester || "-";
+
+                document.getElementById("totalSubjects").innerHTML =
+                    count;
+
+                document.getElementById("totalMarks").innerHTML =
+                    totalMarks;
+
+                let percentage = 0;
+
+                if(count > 0){
+                    percentage = totalMarks / count;
+                }
+
+                document.getElementById("percentage").innerHTML =
+                    percentage.toFixed(2) + "%";
+
+                if(isFail){
+
+                    document.getElementById("finalResult").innerHTML =
+                        "❌ FAIL";
+
+                    document.getElementById("finalResult").style.color =
+                        "#ff4d4d";
+
+                }
+                else if(percentage >= 75){
+
+                    document.getElementById("finalResult").innerHTML =
+                        "🏆 DISTINCTION";
+
+                    document.getElementById("finalResult").style.color =
+                        "#00ff88";
+
+                }
+                else if(percentage >= 60){
+
+                    document.getElementById("finalResult").innerHTML =
+                        "🥇 FIRST CLASS";
+
+                    document.getElementById("finalResult").style.color =
+                        "#00ff88";
+
+                }
+                else{
+
+                    document.getElementById("finalResult").innerHTML =
+                        "✅ PASS";
+
+                    document.getElementById("finalResult").style.color =
+                        "#00ff88";
+                }
+
+            })
+            .catch(error => {
+                console.error("Error loading results:", error);
             });
-
-            document.getElementById(
-                "resultBody"
-            ).innerHTML = html;
-        });
-
-    function goDashboard(){
-
-        let role =
-            localStorage.getItem("role");
-
-        if(role==="STUDENT"){
-            window.location.href =
-                "student-dashboard.html";
-        }
     }
 
 </script>

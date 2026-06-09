@@ -42,8 +42,9 @@
 
         .form-group{
             display:grid;
-            grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+            grid-template-columns:repeat(4,1fr);
             gap:15px;
+            margin-bottom:20px;
         }
 
         input{
@@ -53,6 +54,29 @@
             border-radius:8px;
             font-size:15px;
             transition:0.3s;
+        }
+
+        select{
+            width:100%;
+            padding:12px;
+            border:1px solid #ddd;
+            border-radius:8px;
+            font-size:15px;
+            background:white;
+            height:46px;
+        }
+
+        select:focus{
+            outline:none;
+            border-color:#667eea;
+            box-shadow:0 0 8px rgba(102,126,234,0.4);
+        }
+
+        label{
+            display:block;
+            margin-bottom:6px;
+            font-weight:600;
+            color:#333;
         }
 
         input:focus{
@@ -156,23 +180,50 @@
 
 <div class="container">
 
-    <h1>🎓 Student Management System</h1>
+    <h1>🎓 Student Management</h1>
 
     <input type="hidden" id="studentId">
 
     <div class="form-group">
 
-        <input type="text" id="enrollmentNo" placeholder="Enrollment Number">
+        <div>
+            <input type="text" id="enrollmentNo" placeholder="Enrollment Number">
+        </div>
 
-        <input type="text" id="name" placeholder="Student Name">
+        <div>
+            <input type="text" id="name" placeholder="Student Name">
+        </div>
 
-        <input type="email" id="email" placeholder="Email Address">
+        <div>
+            <input type="email" id="email" placeholder="Email Address">
+        </div>
 
-        <input type="text" id="phone" placeholder="Phone Number">
+        <div>
+            <input type="text" id="phone" placeholder="Phone Number">
+        </div>
 
-        <input type="text" id="course" placeholder="Course">
+        <div>
+            <label>Course</label>
+            <select id="course">
+                <option value="">Select Course</option>
+                <option>
+                    Diploma In Engineering (Polytechnic) - Computer Science and Engineering
+                </option>
+            </select>
+        </div>
 
-        <input type="number" id="semester" placeholder="Semester">
+        <div>
+            <label>Semester</label>
+            <select id="semester">
+                <option value="">Select Semester</option>
+                <option>SEM 1</option>
+                <option>SEM 2</option>
+                <option>SEM 3</option>
+                <option>SEM 4</option>
+                <option>SEM 5</option>
+                <option>SEM 6</option>
+            </select>
+        </div>
 
     </div>
 

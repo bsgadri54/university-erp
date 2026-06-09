@@ -91,13 +91,31 @@
         </select>
 
         <label>Subject</label>
-        <input type="text" id="subject" placeholder="Enter Subject">
+        <select id="subject">
+            <option value="">Select Subject</option>
+
+            <option>Computer Network</option>
+            <option>Data Base Management System</option>
+            <option>Microprocessor and Interfacing</option>
+            <option>Computer System Architecture</option>
+            <option>PC Maintenance and Trouble Shooting</option>
+            <option>Object Oriented Programming through C++</option>
+            <option>Software Engineering</option>
+            <option>Microprocessor and Interfacing LAB</option>
+            <option>Data Base Management System LAB</option>
+            <option>PC Maintenance and Trouble Shooting LAB</option>
+            <option>Object Oriented Programming through C++ LAB</option>
+            <option>English & Communication Skills-4 LAB</option>
+            <option>Practical Training 45 Days</option>
+        </select>
 
         <label>Marks</label>
         <input type="number" id="marks" placeholder="Enter Marks">
 
         <label>Semester</label>
-        <input type="text" id="semester" placeholder="Enter Semester">
+        <select id="semester">
+            <option value="SEM 4" selected>SEM 4</option>
+        </select>
 
         <button onclick="saveMarks()">
             Save Marks
