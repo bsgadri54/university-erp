@@ -1,60 +1,49 @@
-
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
-    <title>Results</title>
+    <title>Student Results</title>
 
     <style>
 
-        *{
-            margin:0;
-            padding:0;
-            box-sizing:border-box;
-            font-family:Arial,sans-serif;
-        }
-
         body{
+            font-family:Arial;
             background:#f4f6f9;
-        }
-
-        .container{
-            max-width:1000px;
-            margin:50px auto;
-            padding:20px;
+            padding:30px;
         }
 
         .card{
             background:white;
-            padding:40px;
-            border-radius:12px;
-            box-shadow:0 4px 15px rgba(0,0,0,0.1);
+            padding:25px;
+            border-radius:10px;
+            box-shadow:0 2px 10px rgba(0,0,0,.1);
+        }
+
+        table{
+            width:100%;
+            border-collapse:collapse;
+            margin-top:20px;
+        }
+
+        th,td{
+            border:1px solid #ddd;
+            padding:12px;
             text-align:center;
         }
 
-        .card h1{
-            color:#16213e;
-            margin-bottom:15px;
-        }
-
-        .card p{
-            color:#666;
-            font-size:18px;
-            margin-bottom:30px;
-        }
-
-        .btn{
-            background:#1abc9c;
+        th{
+            background:#1565c0;
             color:white;
-            border:none;
-            padding:12px 25px;
-            border-radius:6px;
-            cursor:pointer;
-            font-size:16px;
         }
 
-        .btn:hover{
-            background:#16a085;
+        button{
+            margin-top:20px;
+            padding:12px 25px;
+            border:none;
+            background:#1565c0;
+            color:white;
+            border-radius:5px;
+            cursor:pointer;
         }
 
     </style>
@@ -62,42 +51,68 @@
 
 <body>
 
-<div class="container">
+<div class="card">
 
-    <div class="card">
+    <h1>My Results</h1>
 
-        <h1>Student Results</h1>
+    <table>
 
-        <p>
-            Results module is currently under development.
-        </p>
+        <thead>
+        <tr>
+            <th>Subject</th>
+            <th>Marks</th>
+            <th>Semester</th>
+        </tr>
+        </thead>
 
-        <button class="btn" onclick="goDashboard()">
-            Back To Dashboard
-        </button>
+        <tbody id="resultBody">
+        </tbody>
 
-    </div>
+    </table>
+
+    <button onclick="goDashboard()">
+        Back To Dashboard
+    </button>
 
 </div>
 
 <script>
 
+    let username =
+        localStorage.getItem("username");
+
+    fetch("/results/" + username)
+
+        .then(res => res.json())
+
+        .then(data => {
+
+            let html = "";
+
+            data.forEach(r => {
+
+                html += `
+        <tr>
+            <td>${r.subject}</td>
+            <td>${r.marks}</td>
+            <td>${r.semester}</td>
+        </tr>
+        `;
+            });
+
+            document.getElementById(
+                "resultBody"
+            ).innerHTML = html;
+        });
+
     function goDashboard(){
 
-        let role = localStorage.getItem("role");
+        let role =
+            localStorage.getItem("role");
 
-        if(role === "ADMIN"){
-            window.location.href = "dashboard.html";
-        }
-        else if(role === "EMPLOYEE"){
-            window.location.href = "employee-dashboard.html";
-        }
-        else if(role === "STUDENT"){
-            window.location.href = "student-dashboard.html";
-        }
-        else{
-            alert("Please Login Again");
-            window.location.href = "login.html";
+        if(role==="STUDENT"){
+            window.location.href =
+                "student-dashboard.html";
         }
     }
 
@@ -105,4 +120,3 @@
 
 </body>
 </html>
-```
