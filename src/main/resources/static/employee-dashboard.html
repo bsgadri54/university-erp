@@ -175,49 +175,52 @@
 
 <script>
 
-    let username = localStorage.getItem("username");
+let username = localStorage.getItem("username");
 
-    document.getElementById("welcome").innerHTML =
-        "Welcome " + username;
+document.getElementById("welcome").innerHTML =
+"Welcome " + username;
 
-    document.getElementById("username").innerHTML =
-        username;
+document.getElementById("username").innerHTML =
+username;
 
-    fetch("/employees")
-        .then(res => res.json())
-        .then(data => {
+fetch("/employees")
+.then(res => res.json())
+.then(data => {
 
-            let emp = data.find(
-                e => e.employeeCode === username
-            );
+console.log("Username:", username);
+console.log("Employees:", data);
 
-            if(emp){
+let emp = data.find(
+e => e.employeeCode === username
+);
 
-                document.getElementById("empName").innerHTML =
-                    emp.name;
+console.log("Found Employee:", emp);
 
-                document.getElementById("empDepartment").innerHTML =
-                    emp.department;
+if(emp){
 
-                document.getElementById("empDesignation").innerHTML =
-                    emp.designation;
+document.getElementById("empName").innerHTML =
+emp.name;
 
-                document.getElementById("department").innerHTML =
-                    emp.department;
+document.getElementById("empDepartment").innerHTML =
+emp.department;
 
-                document.getElementById("designation").innerHTML =
-                    emp.designation;
-            }
+document.getElementById("empDesignation").innerHTML =
+emp.designation;
 
-        });
+document.getElementById("department").innerHTML =
+emp.department;
 
-    function logout(){
+document.getElementById("designation").innerHTML =
+emp.designation;
+} else {
+console.log("Employee Not Found");
+}
+});
 
-        localStorage.clear();
-
-        window.location.href = "login.html";
-    }
-
+function logout(){
+localStorage.clear();
+window.location.href = "login.html";
+}
 </script>
 
 </body>

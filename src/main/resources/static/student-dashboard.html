@@ -219,6 +219,40 @@
         window.location.href="login.html";
     }
 
+    fetch("/students")
+        .then(res => res.json())
+        .then(data => {
+
+            console.log("Username:", username);
+            console.log("Students:", data);
+
+            let student = data.find(
+                s => s.enrollmentNo === username
+            );
+
+            console.log("Found Student:", student);
+
+            if(student){
+
+                document.getElementById("studentName").innerHTML =
+                    student.name;
+
+                document.getElementById("studentCourse").innerHTML =
+                    student.course;
+
+                document.getElementById("studentSemester").innerHTML =
+                    student.semester;
+
+                document.getElementById("studentEmail").innerHTML =
+                    student.email;
+
+                document.getElementById("semester").innerHTML =
+                    student.semester;
+
+                document.getElementById("course").innerHTML =
+                    student.course;
+            }
+        });
 </script>
 
 </body>
