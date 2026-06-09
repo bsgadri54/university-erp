@@ -120,12 +120,12 @@
 
         <div class="card">
             <h3>Department</h3>
-            <h1>IT</h1>
+            <h1 id="department">-</h1>
         </div>
 
         <div class="card">
             <h3>Designation</h3>
-            <h1>Professor</h1>
+            <h1 id="designation">-</h1>
         </div>
 
         <div class="card">
@@ -139,9 +139,11 @@
 
         <h2>My Profile</h2>
 
+        <p><b>Name:</b> <span id="empName"></span></p>
         <p><b>Employee ID:</b> <span id="username"></span></p>
+        <p><b>Department:</b> <span id="empDepartment"></span></p>
+        <p><b>Designation:</b> <span id="empDesignation"></span></p>
         <p><b>Role:</b> Employee</p>
-        <p><b>Department:</b> Information Technology</p>
 
     </div>
 
@@ -180,6 +182,34 @@
 
     document.getElementById("username").innerHTML =
         username;
+
+    fetch("/employees")
+        .then(res => res.json())
+        .then(data => {
+
+            let emp = data.find(
+                e => e.employeeCode === username
+            );
+
+            if(emp){
+
+                document.getElementById("empName").innerHTML =
+                    emp.name;
+
+                document.getElementById("empDepartment").innerHTML =
+                    emp.department;
+
+                document.getElementById("empDesignation").innerHTML =
+                    emp.designation;
+
+                document.getElementById("department").innerHTML =
+                    emp.department;
+
+                document.getElementById("designation").innerHTML =
+                    emp.designation;
+            }
+
+        });
 
     function logout(){
 
