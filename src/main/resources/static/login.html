@@ -201,21 +201,13 @@
 
                 .then(user => {
 
-                    if(user && user.id) {
+                    if(user && user.id){
 
                         localStorage.setItem("userId", user.id);
                         localStorage.setItem("username", user.username);
                         localStorage.setItem("role", user.role);
 
-                        alert("Login Successful");
-                    }
-                    if(user && user.id) {
-
-                        localStorage.setItem("userId", user.id);
-                        localStorage.setItem("username", user.username);
-                        localStorage.setItem("role", user.role);
-
-                        alert("Login Successful");
+                        alert("Role = " + user.role);
 
                         if(user.role === "ADMIN"){
                             window.location.href = "dashboard.html";
@@ -226,10 +218,14 @@
                         else if(user.role === "EMPLOYEE"){
                             window.location.href = "employee-dashboard.html";
                         }
+                        else{
+                            alert("Unknown Role: " + user.role);
+                        }
 
-                    }
-                    else{
+                    }else{
+
                         alert("Invalid Username or Password");
+
                     }
 
                 })
@@ -237,7 +233,6 @@
                 .catch(error => {
 
                     console.log(error);
-
                     alert("Login Failed");
 
                 });
