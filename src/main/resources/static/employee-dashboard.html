@@ -1,11 +1,88 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Employee Dashboard</title>
 
     <style>
 
+        .menu-toggle{
+            position:fixed;
+            top:15px;
+            left:15px;
+            z-index:9999;
+
+            width:50px;
+            height:40px;
+            background:#5c5c5c;
+            color:white;
+            border:none;
+            border-radius:3px;
+            font-size:22px;
+            cursor:pointer;
+            box-shadow:0 2px 4px rgba(0,0,0,.3);
+        }
+
+        .menu-toggle:hover{
+            background:#444;
+        }
+        .sidebar{
+            width:250px;
+            height:100vh;
+            background:#16213e;
+            position:fixed;
+            left:0;
+            top:0;
+            transition:.3s;
+        }
+
+        .sidebar.hide{
+            left:-250px;
+        }
+
+        .logo{
+            color:white;
+            text-align:center;
+            padding:25px;
+            font-size:32px;
+            font-weight:bold;
+            border-bottom:1px solid #2d4059;
+        }
+
+        .sidebar ul{
+            list-style:none;
+        }
+
+        .sidebar ul li{
+            border-bottom:1px solid #2d4059;
+        }
+
+        .sidebar ul li a{
+            display:block;
+            color:white;
+            padding:18px;
+            text-decoration:none;
+        }
+
+        .sidebar ul li a:hover{
+            background:#1abc9c;
+        }
+
+        .main{
+            margin-left:250px;
+            transition:.3s;
+        }
+
+        .main.full{
+            margin-left:0;
+        }
+        .header{
+            margin-left:0;
+        }
+
+        .container{
+            padding:25px;
+        }
         *{
             margin:0;
             padding:0;
@@ -104,6 +181,49 @@
 
 <body>
 
+<button class="menu-toggle" onclick="toggleSidebar()">
+    ☰
+</button>
+<div class="sidebar">
+
+    <div class="logo">
+        ERP
+    </div>
+
+    <ul>
+
+        <li><a href="employee-dashboard.html">Dashboard</a></li>
+
+        <li><a href="student.html">Add Student</a></li>
+
+        <li><a href="employee.html">Add Employee</a></li>
+
+        <li><a href="attendance.html">Mark Attendance</a></li>
+
+        <li><a href="marks-entry.html">Marks Entry</a></li>
+
+        <li><a href="leave.html">Leave Apply</a></li>
+
+        <li><a href="profile.html">My Profile</a></li>
+
+        <li><a href="attendance-report.html">Attendance Records</a></li>
+
+        <li>
+            <a href="#" onclick="logout()">
+                Logout
+            </a>
+        </li>
+
+    </ul>
+
+</div>
+
+<div class="main">
+
+    <button class="menu-toggle" onclick="toggleSidebar()">
+        ☰
+    </button>
+
 <div class="header">
     <h1>Employee Dashboard</h1>
     <h3 id="welcome"></h3>
@@ -115,7 +235,7 @@
 
         <div class="card">
             <h3>Attendance</h3>
-            <h1>96%</h1>
+            <h1>-</h1>
         </div>
 
         <div class="card">
@@ -221,7 +341,17 @@ function logout(){
 localStorage.clear();
 window.location.href = "login.html";
 }
-</script>
 
+function toggleSidebar(){
+
+    let sidebar = document.querySelector(".sidebar");
+    let main = document.querySelector(".main");
+
+    sidebar.classList.toggle("hide");
+    main.classList.toggle("full");
+}
+
+</script>
+</div>
 </body>
 </html>

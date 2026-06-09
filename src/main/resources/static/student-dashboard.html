@@ -1,11 +1,101 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Student Dashboard</title>
 
     <style>
 
+        .header{
+            background:linear-gradient(135deg,#1565c0,#42a5f5);
+            color:white;
+            padding:30px;
+            text-align:center;
+            position:relative;
+        }
+
+        .menu-toggle{
+            position:fixed;
+            top:15px;
+            left:15px;
+            z-index:9999;
+
+            width:50px;
+            height:40px;
+            border:none;
+            border-radius:4px;
+            background:#555;
+            color:white;
+            font-size:24px;
+            cursor:pointer;
+            box-shadow:0 2px 5px rgba(0,0,0,.3);
+        }
+
+        .menu-toggle:hover{
+            background:#444;
+        }
+
+        .sidebar{
+            width:250px;
+            height:100vh;
+            background:#16213e;
+            position:fixed;
+            left:0;
+            top:0;
+            transition:0.3s;
+        }
+
+        .sidebar.hide{
+            left:-250px;
+        }
+
+        .main{
+            margin-left:250px;
+            transition:0.3s;
+        }
+
+        .main.full{
+            margin-left:0;
+        }
+
+        .logo{
+            color:white;
+            text-align:center;
+            padding:25px;
+            font-size:32px;
+            font-weight:bold;
+            border-bottom:1px solid #2d4059;
+        }
+
+        .sidebar ul{
+            list-style:none;
+        }
+
+        .sidebar ul li{
+            border-bottom:1px solid #2d4059;
+        }
+
+        .sidebar ul li a{
+            display:block;
+            color:white;
+            padding:18px;
+            text-decoration:none;
+        }
+
+        .sidebar ul li a:hover{
+            background:#1abc9c;
+        }
+
+        .main{
+            margin-left:250px;
+        }
+        .header{
+            margin-left:0;
+        }
+
+        .container{
+            padding:25px;
+        }
         *{
             margin:0;
             padding:0;
@@ -103,9 +193,49 @@
 </head>
 <body>
 
-<div class="header">
-    <h1>Student Dashboard</h1>
-    <h3 id="welcome"></h3>
+<button class="menu-toggle" onclick="toggleSidebar()">
+    ☰
+</button>
+
+<div class="sidebar">
+
+    <div class="logo">
+        ERP
+    </div>
+
+    <ul>
+
+        <li><a href="student-dashboard.html">Dashboard</a></li>
+
+        <li><a href="profile.html">My Profile</a></li>
+
+        <li><a href="attendance-report.html">Attendance</a></li>
+
+        <li><a href="results.html">Results</a></li>
+
+        <li><a href="fee.html">Fee Status</a></li>
+
+        <li><a href="course-enrollment.html">Course Enrollment</a></li>
+
+        <li>
+            <a href="#" onclick="logout()">
+                Logout
+            </a>
+        </li>
+
+    </ul>
+
+</div>
+
+<div class="main">
+
+    <button class="menu-toggle" onclick="toggleSidebar()">
+        ☰
+    </button>
+
+    <div class="header">
+        <h1>Student Dashboard</h1>
+        <h3 id="welcome"></h3>
 </div>
 
 <div class="container">
@@ -114,7 +244,7 @@
 
         <div class="card">
             <h3>Attendance</h3>
-            <h1>92%</h1>
+            <h1>-</h1>
         </div>
 
         <div class="card">
@@ -124,7 +254,7 @@
 
         <div class="card">
             <h3>Fees Status</h3>
-            <h1>Paid</h1>
+            <h1>-</h1>
         </div>
 
         <div class="card">
@@ -154,15 +284,15 @@
         </div>
 
         <div class="menu-card">
-            <a href="attendance.html">Attendance</a>
+            <a href="attendance-report.html">Attendance</a>
         </div>
 
         <div class="menu-card">
-            <a href="reports.html">Results</a>
+            <a href="results.html">Results</a>
         </div>
 
         <div class="menu-card">
-            <a href="student.html">Course Details</a>
+            <a href="course-enrollment.html">Course Details</a>
         </div>
 
     </div>
@@ -173,87 +303,62 @@
 
 </div>
 
-<script>
+    <script>
 
-    let username = localStorage.getItem("username");
+        function toggleSidebar(){
 
-    document.getElementById("welcome").innerHTML =
-        "Welcome " + username;
+            const sidebar = document.querySelector(".sidebar");
+            const main = document.querySelector(".main");
 
-    document.getElementById("username").innerHTML =
-        username;
+            sidebar.classList.toggle("hide");
+            main.classList.toggle("full");
+        }
 
-    fetch("/students")
-        .then(res => res.json())
-        .then(data => {
+        function logout(){
+            localStorage.clear();
+            window.location.href="login.html";
+        }
 
-            let student = data.find(
-                s => s.enrollmentNo === username
-            );
+        let username = localStorage.getItem("username");
 
-            if(student){
+        document.getElementById("welcome").innerHTML =
+            "Welcome " + username;
 
-                document.getElementById("studentName").innerHTML =
-                    student.name;
+        document.getElementById("username").innerHTML =
+            username;
 
-                document.getElementById("studentCourse").innerHTML =
-                    student.course;
+        fetch("/students")
+            .then(res => res.json())
+            .then(data => {
 
-                document.getElementById("studentSemester").innerHTML =
-                    student.semester;
+                let student = data.find(
+                    s => s.enrollmentNo === username
+                );
 
-                document.getElementById("studentEmail").innerHTML =
-                    student.email;
+                if(student){
 
-                document.getElementById("semester").innerHTML =
-                    student.semester;
+                    document.getElementById("studentName").innerHTML =
+                        student.name;
 
-                document.getElementById("course").innerHTML =
-                    student.course;
-            }
+                    document.getElementById("studentCourse").innerHTML =
+                        student.course;
 
-        });
+                    document.getElementById("studentSemester").innerHTML =
+                        student.semester;
 
-    function logout(){
-        localStorage.clear();
-        window.location.href="login.html";
-    }
+                    document.getElementById("studentEmail").innerHTML =
+                        student.email;
 
-    fetch("/students")
-        .then(res => res.json())
-        .then(data => {
+                    document.getElementById("semester").innerHTML =
+                        student.semester;
 
-            console.log("Username:", username);
-            console.log("Students:", data);
+                    document.getElementById("course").innerHTML =
+                        student.course;
+                }
+            });
 
-            let student = data.find(
-                s => s.enrollmentNo === username
-            );
+    </script>
 
-            console.log("Found Student:", student);
-
-            if(student){
-
-                document.getElementById("studentName").innerHTML =
-                    student.name;
-
-                document.getElementById("studentCourse").innerHTML =
-                    student.course;
-
-                document.getElementById("studentSemester").innerHTML =
-                    student.semester;
-
-                document.getElementById("studentEmail").innerHTML =
-                    student.email;
-
-                document.getElementById("semester").innerHTML =
-                    student.semester;
-
-                document.getElementById("course").innerHTML =
-                    student.course;
-            }
-        });
-</script>
-
+</div>
 </body>
 </html>

@@ -6,6 +6,49 @@
 
     <style>
 
+        .menu-toggle{
+            position:fixed;
+            top:15px;
+            left:15px;
+            z-index:9999;
+
+            width:50px;
+            height:40px;
+            border:none;
+            border-radius:4px;
+            background:#555;
+            color:white;
+            font-size:24px;
+            cursor:pointer;
+            box-shadow:0 2px 5px rgba(0,0,0,.3);
+        }
+
+        .menu-toggle:hover{
+            background:#444;
+        }
+
+        .sidebar{
+            width:250px;
+            height:100vh;
+            background:#16213e;
+            position:fixed;
+            left:0;
+            top:0;
+            transition:.3s;
+        }
+
+        .sidebar.hide{
+            left:-250px;
+        }
+
+        .main{
+            margin-left:250px;
+            transition:.3s;
+        }
+
+        .main.full{
+            margin-left:0;
+        }
         *{
             margin:0;
             padding:0;
@@ -146,6 +189,10 @@
 
 <body>
 
+<button class="menu-toggle" onclick="toggleSidebar()">
+    ☰
+</button>
+
 <div class="sidebar">
 
     <div class="logo">
@@ -154,40 +201,37 @@
 
     <ul>
 
-        <li>
-            <a href="dashboard.html">Dashboard</a>
-        </li>
+        <li><a href="dashboard.html">Dashboard</a></li>
 
-        <li>
+        <li id="studentMenu">
             <a href="student.html">Student Management</a>
         </li>
 
-        <li>
+        <li id="employeeMenu">
             <a href="employee.html">Employee Management</a>
         </li>
 
         <li id="userMenu">
-            <a href="user-management.html">
-                User Management
-            </a>
+            <a href="user-management.html">User Management</a>
         </li>
 
-        <li>
+        <li id="attendanceMenu">
             <a href="attendance.html">Attendance</a>
         </li>
 
-        <li>
-            <a href="reports.html">Reports</a>
+        <li id="resultMenu">
+            <a href="results.html">Results</a>
         </li>
 
-        <li>
-            <a href="profile.html">My Profile</a>
-         </li>
+        <li id="feeMenu">
+            <a href="fee.html">Fee Management</a>
+        <li><a href="marks-entry.html">Marks Entry</a></li>
 
-        <li>
-            <a href="#" onclick="logout()">
-                Logout
-            </a>
+        <li><a href="leave.html">Leave Approval</a></li>
+
+        <li><a href="profile.html">My Profile</a></li>
+
+        <li><a href="attendance-report.html">Attendance Records</a>
         </li>
 
     </ul>
@@ -200,7 +244,7 @@
 
         <div>
 
-            <h1>University ERP Dashboard</h1>
+            <h1>  University ERP Dashboard</h1>
 
             <div class="welcome" id="welcomeText"></div>
 
@@ -275,67 +319,30 @@
 
 <script>
 
-    let username = localStorage.getItem("username");
     let role = localStorage.getItem("role");
 
-    if(!username){
+    if(role === "STUDENT"){
 
-        window.location.href = "login.html";
+        document.getElementById("studentMenu").style.display = "none";
+        document.getElementById("employeeMenu").style.display = "none";
+        document.getElementById("userMenu").style.display = "none";
 
     }
 
-    document.getElementById("welcomeText").innerHTML =
-        "Welcome " + username + " (" + role + ")";
-
-    if(role !== "ADMIN"){
+    if(role === "EMPLOYEE"){
 
         document.getElementById("userMenu").style.display = "none";
 
-        document.getElementById("userCard").style.display = "none";
-
     }
 
-    function logout(){
+    function toggleSidebar(){
 
-        localStorage.clear();
+        let sidebar = document.querySelector(".sidebar");
+        let main = document.querySelector(".main");
 
-        alert("Logout Successful");
-
-        window.location.href="login.html";
+        sidebar.classList.toggle("hide");
+        main.classList.toggle("full");
     }
-
-    /* Student Count */
-
-    fetch("/students")
-        .then(res=>res.json())
-        .then(data=>{
-
-            document.getElementById("studentCount").innerHTML =
-                data.length;
-
-        });
-
-    /* Employee Count */
-
-    fetch("/employees")
-        .then(res=>res.json())
-        .then(data=>{
-
-            document.getElementById("employeeCount").innerHTML =
-                data.length;
-
-        });
-
-    /* User Count */
-
-    fetch("/users")
-        .then(res=>res.json())
-        .then(data=>{
-
-            document.getElementById("userCount").innerHTML =
-                data.length;
-
-        });
 
 </script>
 

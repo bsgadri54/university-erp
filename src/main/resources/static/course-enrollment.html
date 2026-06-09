@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Course Enrollment</title>
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:Arial,sans-serif;
+        }
+
+        body{
+            background:#f4f6f9;
+        }
+
+        .container{
+            max-width:1000px;
+            margin:50px auto;
+            padding:20px;
+        }
+
+        .card{
+            background:white;
+            padding:40px;
+            border-radius:12px;
+            box-shadow:0 4px 15px rgba(0,0,0,0.1);
+            text-align:center;
+        }
+
+        .card h1{
+            color:#16213e;
+            margin-bottom:15px;
+        }
+
+        .card p{
+            color:#666;
+            font-size:18px;
+            margin-bottom:30px;
+        }
+
+        .btn{
+            background:#1abc9c;
+            color:white;
+            border:none;
+            padding:12px 25px;
+            border-radius:6px;
+            cursor:pointer;
+            font-size:16px;
+        }
+
+        .btn:hover{
+            background:#16a085;
+        }
+
+    </style>
+
+</head>
+<body>
+
+<div class="container">
+
+    <div class="card">
+
+        <h1>Course Enrollment</h1>
+
+        <p>
+            Course Enrollment module is currently under development.
+        </p>
+
+        <button class="btn" onclick="goDashboard()">
+            Back To Dashboard
+        </button>
+
+    </div>
+
+</div>
+
+<script>
+
+    function goDashboard(){
+
+        let role = localStorage.getItem("role");
+
+        if(role === "ADMIN"){
+            window.location.href = "dashboard.html";
+        }
+        else if(role === "EMPLOYEE"){
+            window.location.href = "employee-dashboard.html";
+        }
+        else if(role === "STUDENT"){
+            window.location.href = "student-dashboard.html";
+        }
+        else{
+            alert("Please Login Again");
+            window.location.href = "login.html";
+        }
+    }
+
+</script>
+
+</body>
+</html>
