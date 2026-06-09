@@ -1,6 +1,6 @@
-package com.erp.university.repository;
+package com.erp.universityerp.repository;
 
-import com.erp.university.entity.Result;
+import com.erp.universityerp.entity.Result;
 import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 

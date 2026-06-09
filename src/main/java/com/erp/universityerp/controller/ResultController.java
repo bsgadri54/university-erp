@@ -1,7 +1,7 @@
 package com.erp.universityerp.controller;
 
-import com.erp.university.entity.Result;
-import com.erp.university.repository.ResultRepository;
+import com.erp.universityerp.entity.Result;
+import com.erp.universityerp.repository.ResultRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
