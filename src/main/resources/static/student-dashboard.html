@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Dashboard</title>
+
+    <style>
+        body{
+            font-family:Arial,sans-serif;
+            margin:0;
+            background:#f4f6f9;
+        }
+
+        .header{
+            background:#007bff;
+            color:white;
+            padding:20px;
+            text-align:center;
+        }
+
+        .container{
+            padding:30px;
+        }
+
+        .card{
+            background:white;
+            padding:20px;
+            margin-bottom:20px;
+            border-radius:10px;
+            box-shadow:0 0 10px rgba(0,0,0,0.1);
+        }
+
+        button{
+            background:red;
+            color:white;
+            border:none;
+            padding:10px 20px;
+            cursor:pointer;
+            border-radius:5px;
+        }
+    </style>
+</head>
+<body>
+
+<script>
+    let role = localStorage.getItem("role");
+
+    if(role !== "STUDENT"){
+        window.location.href="login.html";
+    }
+</script>
+
+<div class="header">
+    <h1>Student Dashboard</h1>
+</div>
+
+<div class="container">
+
+    <div class="card">
+        <h2>Welcome Student</h2>
+        <p id="username"></p>
+    </div>
+
+    <div class="card">
+        <h3>My Profile</h3>
+        <p>View Student Information</p>
+    </div>
+
+    <div class="card">
+        <h3>Attendance</h3>
+        <p>View Attendance Records</p>
+    </div>
+
+    <div class="card">
+        <h3>Course Details</h3>
+        <p>View Course Information</p>
+    </div>
+
+    <button onclick="logout()">Logout</button>
+
+</div>
+
+<script>
+
+    document.getElementById("username").innerHTML =
+        "Username : " + localStorage.getItem("username");
+
+    function logout(){
+
+        localStorage.clear();
+        window.location.href="login.html";
+
+    }
+</script>
+
+</body>
+</html>
