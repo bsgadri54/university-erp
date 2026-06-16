@@ -54,8 +54,8 @@
         }
 
         .university-header img{
-            width:90px;
-            height:90px;
+            width:250px;
+            height:auto;
             object-fit:contain;
         }
 
@@ -238,22 +238,25 @@
 
             body{
                 background:white;
-                padding:0;
-            }
-
-            .watermark{
-                color:rgba(0,0,0,0.05);
-            }
-
-            .print-btn,
-            .pdf-btn,
-            .back-btn{
-                display:none;
             }
 
             .container{
+                width:100%;
+                max-width:100%;
                 box-shadow:none;
                 border:none;
+            }
+
+            .button-group{
+                display:none;
+            }
+
+            .watermark{
+                display:block;
+            }
+
+            table{
+                font-size:12px;
             }
 
         }
@@ -322,6 +325,11 @@
                 </span>
             </div>
 
+            <div>
+                <b>Result Date :</b>
+                <span id="resultDate"></span>
+            </div>
+
         </div>
 
     </div>
@@ -355,10 +363,6 @@
             <span id="sgpa">0.00</span>
         </div>
 
-        <div class="card">
-            <h4>CGPA</h4>
-            <span id="cgpa">0.00</span>
-        </div>
 
     </div>
 
@@ -435,7 +439,11 @@
 <script>
 
     window.onload = loadResults;
-
+    document.getElementById("resultDate")
+        .innerHTML =
+        new Date().toLocaleDateString(
+            "en-IN"
+        );
     function getGrade(marks,maxMarks){
 
         let percentage = (marks/maxMarks)*100;
