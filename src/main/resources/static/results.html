@@ -134,6 +134,12 @@
                 overflow-x:auto;
             }
         }
+        @media print{
+            .print-btn,
+            .back-btn{
+                display:none;
+            }
+        }
 
     </style>
 </head>
@@ -180,9 +186,12 @@
         </div>
 
     </div>
+    <button class="back-btn"
+            onclick="printMarksheet()">
+        🖨 Print Marksheet
+    </button>
 
     <table>
-
         <thead>
         <tr>
             <th>Subject</th>
@@ -204,6 +213,10 @@
 </div>
 
 <script>
+
+    function printMarksheet(){
+        window.print();
+    }
 
     window.onload = loadResults;
     const enrollmentNo = localStorage.getItem("username");
@@ -303,10 +316,33 @@
                 document.getElementById("totalSubjects").innerHTML = count;
                 document.getElementById("totalMarks").innerHTML = totalMarks;
 
+                let maxMarks = 0;
+
+                data.forEach(result => {
+
+                    if(
+                        result.enrollmentNo.trim() ===
+                        enrollmentNo.trim()
+                    ){
+
+                        if(
+                            result.subject.includes("LAB") ||
+                            result.subject === "Practical Training 45 Days"
+                        ){
+                            maxMarks += 50;
+                        }
+                        else{
+                            maxMarks += 100;
+                        }
+
+                    }
+
+                });
+
                 let percentage = 0;
 
-                if(count > 0){
-                    percentage = totalMarks / count;
+                if(maxMarks > 0){
+                    percentage = (totalMarks / maxMarks) * 100;
                 }
 
                 document.getElementById("percentage").innerHTML =
