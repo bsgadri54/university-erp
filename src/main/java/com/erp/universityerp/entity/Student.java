@@ -19,7 +19,7 @@ public class Student {
     private String email;
     private String phone;
     private String course;
-    private Integer semester;
+    private String semester;
 
     public Student() {
     }
@@ -72,11 +72,11 @@ public class Student {
         this.course = course;
     }
 
-    public Integer getSemester() {
+    public String getSemester() {
         return semester;
     }
 
-    public void setSemester(Integer semester) {
+    public void setSemester(String semester) {
         this.semester = semester;
     }
 }

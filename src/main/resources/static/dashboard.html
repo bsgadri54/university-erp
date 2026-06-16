@@ -1,190 +1,266 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>University ERP Dashboard</title>
 
     <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
-        .menu-toggle{
-            position:fixed;
-            top:15px;
-            left:15px;
-            z-index:9999;
+    *{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Inter',sans-serif;
+    }
 
-            width:50px;
-            height:40px;
-            border:none;
-            border-radius:4px;
-            background:#555;
-            color:white;
-            font-size:24px;
-            cursor:pointer;
-            box-shadow:0 2px 5px rgba(0,0,0,.3);
-        }
+    :root{
+    --primary:#4f46e5;
+    --secondary:#6366f1;
+    --success:#22c55e;
+    --warning:#f59e0b;
+    --danger:#ef4444;
+    --dark:#0f172a;
+    --bg:#f8fafc;
+    --card:#ffffff;
+    --border:#e2e8f0;
+    --text:#0f172a;
+    }
 
-        .menu-toggle:hover{
-            background:#444;
-        }
+    body{
+    background:var(--bg);
+    }
 
-        .sidebar{
-            width:250px;
-            height:100vh;
-            background:#16213e;
-            position:fixed;
-            left:0;
-            top:0;
-            transition:.3s;
-        }
+    /* Menu Button */
 
-        .sidebar.hide{
-            left:-250px;
-        }
+    .menu-toggle{
+    position:fixed;
+    top:18px;
+    left:18px;
+    z-index:9999;
+    width:42px;
+    height:42px;
+    border:none;
+    border-radius:12px;
+    background:white;
+    color:#0f172a;
+    cursor:pointer;
+    font-size:20px;
+    box-shadow:0 8px 20px rgba(0,0,0,.08);
+    }
 
-        .main{
-            margin-left:250px;
-            transition:.3s;
-        }
+    /* Sidebar */
 
-        .main.full{
-            margin-left:0;
-        }
-        *{
-            margin:0;
-            padding:0;
-            box-sizing:border-box;
-            font-family:Arial,sans-serif;
-        }
+    .sidebar{
+    width:260px;
+    height:100vh;
+    position:fixed;
+    left:0;
+    top:0;
+    background:var(--dark);
+    transition:.3s;
+    overflow-y:auto;
+    }
 
-        body{
-            background:#f4f6f9;
-        }
+    .sidebar.hide{
+    left:-260px;
+    }
 
-        .sidebar{
-            width:250px;
-            height:100vh;
-            background:#16213e;
-            position:fixed;
-            left:0;
-            top:0;
-        }
+    .logo{
+    height:80px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:white;
+    font-size:32px;
+    font-weight:700;
+    border-bottom:1px solid rgba(255,255,255,.08);
+    }
 
-        .logo{
-            color:white;
-            text-align:center;
-            padding:25px;
-            font-size:32px;
-            font-weight:bold;
-            border-bottom:1px solid #2d4059;
-        }
+    .sidebar ul{
+    list-style:none;
+    padding:10px;
+    }
 
-        .sidebar ul{
-            list-style:none;
-        }
+    .sidebar ul li{
+    margin-bottom:6px;
+    }
 
-        .sidebar ul li{
-            border-bottom:1px solid #2d4059;
-        }
+    .sidebar ul li a{
+    display:block;
+    color:#cbd5e1;
+    text-decoration:none;
+    padding:14px 16px;
+    border-radius:12px;
+    transition:.3s;
+    }
 
-        .sidebar ul li a{
-            display:block;
-            color:white;
-            padding:18px;
-            text-decoration:none;
-        }
+    .sidebar ul li a:hover{
+    background:#1e293b;
+    color:white;
+    }
 
-        .sidebar ul li a:hover{
-            background:#1abc9c;
-        }
+    /* Main */
 
-        .main{
-            margin-left:250px;
-        }
+    .main{
+    margin-left:260px;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    transition:.3s;
+    }
 
-        .header{
-            background:white;
-            padding:20px;
-            display:flex;
-            justify-content:space-between;
-            align-items:center;
-            box-shadow:0 2px 5px rgba(0,0,0,0.1);
-        }
+    .main.full{
+    margin-left:0;
+    }
 
-        .welcome{
-            color:#555;
-            margin-top:5px;
-        }
+    /* Header */
 
-        .logout-btn{
-            background:red;
-            color:white;
-            border:none;
-            padding:10px 20px;
-            cursor:pointer;
-            border-radius:5px;
-        }
+    .header{
+    background:white;
+    padding:22px 30px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    border-bottom:1px solid var(--border);
+    }
 
-        .cards{
-            display:flex;
-            gap:20px;
-            padding:30px;
-            flex-wrap:wrap;
-        }
+    .header h1{
+    font-size:34px;
+    font-weight:700;
+    }
 
-        .card{
-            width:250px;
-            color:white;
-            padding:25px;
-            border-radius:10px;
-        }
+    .welcome{
+    color:#64748b;
+    margin-top:5px;
+    }
 
-        .students{
-            background:#2962ff;
-        }
+    .logout-btn{
+    background:var(--danger);
+    color:white;
+    border:none;
+    padding:12px 22px;
+    border-radius:12px;
+    cursor:pointer;
+    font-weight:600;
+    }
 
-        .employees{
-            background:#00c853;
-        }
+    /* Stats Cards */
 
-        .users{
-            background:#ff6d00;
-        }
+    .cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+    gap:20px;
+    padding:30px;
+    }
 
-        .card h2{
-            margin-top:10px;
-            font-size:30px;
-        }
+    .card{
+    padding:28px;
+    border-radius:20px;
+    color:white;
+    box-shadow:0 10px 30px rgba(0,0,0,.08);
+    transition:.3s;
+    }
 
-        .quick-links{
-            padding:0 30px 30px;
-        }
+    .card:hover{
+    transform:translateY(-5px);
+    }
 
-        .quick-links h2{
-            margin-bottom:20px;
-        }
+    .students{
+    background:linear-gradient(135deg,#2563eb,#60a5fa);
+    }
 
-        .link-grid{
-            display:grid;
-            grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-            gap:20px;
-        }
+    .employees{
+    background:linear-gradient(135deg,#16a34a,#4ade80);
+    }
 
-        .link-card{
-            background:white;
-            padding:20px;
-            border-radius:10px;
-            text-align:center;
-            box-shadow:0 2px 8px rgba(0,0,0,0.1);
-        }
+    .users{
+    background:linear-gradient(135deg,#ea580c,#fb923c);
+    }
 
-        .link-card a{
-            text-decoration:none;
-            color:#16213e;
-            font-weight:bold;
-        }
+    .card h3{
+    font-size:15px;
+    opacity:.9;
+    }
 
+    .card h2{
+    margin-top:12px;
+    font-size:42px;
+    font-weight:700;
+    }
+
+    /* Quick Access */
+
+    .quick-links{
+    padding:0 30px 30px;
+    }
+
+    .quick-links h2{
+    margin-bottom:20px;
+    font-size:28px;
+    }
+
+    .link-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:18px;
+    }
+
+    .link-card{
+    background:white;
+    padding:24px;
+    border-radius:18px;
+    text-align:center;
+    box-shadow:0 8px 20px rgba(0,0,0,.05);
+    transition:.3s;
+    }
+
+    .link-card:hover{
+    transform:translateY(-4px);
+    }
+
+    .link-card a{
+    text-decoration:none;
+    color:#0f172a;
+    font-weight:600;
+    }
+
+    /* Dashboard Widgets */
+
+    .dashboard-row{
+    display:grid;
+    grid-template-columns:2fr 1fr;
+    gap:20px;
+    padding:0 30px 30px;
+    }
+
+    .widget{
+    background:white;
+    border-radius:20px;
+    padding:25px;
+    box-shadow:0 8px 20px rgba(0,0,0,.05);
+    }
+
+    .widget h3{
+    margin-bottom:15px;
+    }
+
+    .activity-item{
+    padding:12px 0;
+    border-bottom:1px solid #eee;
+    }
+
+    /* Footer */
+
+    .footer{
+    margin-top:auto;
+    background:var(--dark);
+    color:white;
+    text-align:center;
+    padding:16px;
+    font-size:15px;
+    }
     </style>
-
 </head>
 
 <body>
@@ -225,7 +301,11 @@
 
         <li id="feeMenu">
             <a href="fee.html">Fee Management</a>
-        <li><a href="marks-entry.html">Marks Entry</a></li>
+        </li>
+
+        <li>
+            <a href="marks-entry.html">Marks Entry</a>
+        </li>
 
         <li><a href="leave.html">Leave Approval</a></li>
 
@@ -315,6 +395,63 @@
 
     </div>
 
+    <div class="dashboard-row">
+
+        <div class="widget">
+            <h3>Recent Admissions</h3>
+
+            <table width="100%">
+                <tr>
+                    <th>Name</th>
+                    <th>Course</th>
+                    <th>Status</th>
+                </tr>
+
+                <tr>
+                    <td>Rahul Sharma</td>
+                    <td>B.Tech</td>
+                    <td>Approved</td>
+                </tr>
+
+                <tr>
+                    <td>Priya Patel</td>
+                    <td>MBA</td>
+                    <td>Pending</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="widget">
+            <h3>Recent Activities</h3>
+
+            <div class="activity-item">
+                New student registered
+            </div>
+
+            <div class="activity-item">
+                Attendance uploaded
+            </div>
+
+            <div class="activity-item">
+                Fee payment received
+            </div>
+
+            <div class="activity-item">
+                Result published
+            </div>
+        </div>
+
+    </div>
+
+    <footer class="footer">
+        <p>
+            © 2026 University ERP System |
+            Designed, Developed & Maintained by
+            <strong>Suresh Gadri</strong>
+            as an Academic Project for
+            <strong>Mewar University</strong>
+        </p>
+    </footer>
 </div>
 
 <script>
@@ -355,10 +492,13 @@
     }
 
     function toggleSidebar(){
-        document.querySelector(".sidebar").classList.toggle("show");
+        document.querySelector(".sidebar").classList.toggle("hide");
+        document.querySelector(".main").classList.toggle("full");
     }
 
 </script>
+<!-- Your page content -->
+
 
 </body>
 </html>
