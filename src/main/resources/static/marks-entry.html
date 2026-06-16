@@ -173,6 +173,29 @@
             return;
         }
 
+        // Maximum Marks Validation
+
+        let maxMarks = 100;
+
+        if(
+            subject.includes("LAB") ||
+            subject === "Practical Training 45 Days"
+        ){
+            maxMarks = 50;
+        }
+
+        if(Number(marks) > maxMarks){
+
+            alert(
+                "Maximum marks allowed for '" +
+                subject +
+                "' is " +
+                maxMarks
+            );
+
+            return;
+        }
+
         fetch("/results",{
             method:"POST",
             headers:{
@@ -185,14 +208,28 @@
                 semester:semester
             })
         })
-            .then(res => res.json())
-            .then(data => {
 
-                alert("Marks Saved Successfully");
+            .then(async res => {
 
-                document.getElementById("subject").value="";
-                document.getElementById("marks").value="";
-                document.getElementById("semester").value="";
+                let message = await res.text();
+
+                if(!res.ok){
+
+                    alert(message);
+                    return;
+                }
+
+                alert(message);
+
+                document.getElementById("subject").value = "";
+                document.getElementById("marks").value = "";
+            })
+
+            .catch(error => {
+
+                console.error(error);
+                alert("Error Saving Marks");
+
             });
     }
 

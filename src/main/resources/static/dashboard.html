@@ -230,8 +230,11 @@
             <a href="attendance.html">Attendance</a>
         </li>
 
-        <li id="resultMenu">
-            <a href="results.html">Results</a>
+
+        <li id="resultManagementMenu">
+            <a href="result-management.html">
+                Result Management
+            </a>
         </li>
 
         <li id="feeMenu">
@@ -311,6 +314,12 @@
             </div>
 
             <div class="link-card">
+                <a href="result-management.html">
+                    Result Management
+                </a>
+            </div>
+
+            <div class="link-card">
                 <a href="attendance.html">Attendance Management</a>
             </div>
 
@@ -342,13 +351,19 @@
     let role = localStorage.getItem("role");
 
     if(role === "STUDENT"){
+
         document.getElementById("studentMenu").style.display = "none";
         document.getElementById("employeeMenu").style.display = "none";
         document.getElementById("userMenu").style.display = "none";
+
+        document.getElementById("resultManagementMenu").style.display = "none";
     }
 
     if(role === "EMPLOYEE"){
+
         document.getElementById("userMenu").style.display = "none";
+
+        document.getElementById("resultManagementMenu").style.display = "none";
     }
 
     fetch("/students")

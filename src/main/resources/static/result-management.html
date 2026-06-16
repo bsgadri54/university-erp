@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Result Management</title>
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:'Segoe UI',sans-serif;
+        }
+
+        body{
+            background:linear-gradient(135deg,#667eea,#764ba2);
+            min-height:100vh;
+            padding:30px;
+        }
+
+        .container{
+            max-width:1400px;
+            margin:auto;
+            background:white;
+            padding:30px;
+            border-radius:15px;
+            box-shadow:0 10px 25px rgba(0,0,0,.2);
+        }
+
+        h1{
+            text-align:center;
+            margin-bottom:25px;
+            color:#333;
+        }
+
+        .search-box{
+            margin-bottom:20px;
+        }
+
+        .search-box input{
+            width:100%;
+            padding:12px;
+            border:1px solid #ccc;
+            border-radius:8px;
+        }
+
+        .summary{
+            display:grid;
+            grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+            gap:15px;
+            margin-bottom:25px;
+        }
+
+        .card{
+            background:#667eea;
+            color:white;
+            padding:20px;
+            border-radius:12px;
+            text-align:center;
+        }
+
+        .card h4{
+            margin-bottom:10px;
+        }
+
+        .card span{
+            font-size:30px;
+            font-weight:bold;
+        }
+
+        table{
+            width:100%;
+            border-collapse:collapse;
+            margin-top:15px;
+        }
+
+        thead{
+            background:#667eea;
+            color:white;
+        }
+
+        th,td{
+            padding:12px;
+            text-align:center;
+            border:1px solid #ddd;
+        }
+
+        tbody tr:hover{
+            background:#f5f7ff;
+        }
+
+        .edit-btn{
+            background:#28a745;
+            color:white;
+            border:none;
+            padding:8px 15px;
+            border-radius:6px;
+            cursor:pointer;
+            margin-right:5px;
+        }
+
+        .delete-btn{
+            background:#dc3545;
+            color:white;
+            border:none;
+            padding:8px 15px;
+            border-radius:6px;
+            cursor:pointer;
+        }
+
+        .back-btn{
+            margin-top:20px;
+            padding:12px 20px;
+            background:#667eea;
+            color:white;
+            border:none;
+            border-radius:8px;
+            cursor:pointer;
+        }
+
+        .back-btn:hover{
+            background:#5563d8;
+        }
+
+        @media(max-width:768px){
+
+            table{
+                display:block;
+                overflow-x:auto;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    ```
+    <h1>🎓 Result Management Portal</h1>
+
+    <div class="search-box">
+        <input
+                type="text"
+                id="search"
+                placeholder="Search Enrollment Number..."
+                onkeyup="loadResults()">
+    </div>
+
+    <div class="summary">
+
+        <div class="card">
+            <h4>Total Results</h4>
+            <span id="totalResults">0</span>
+        </div>
+
+        <div class="card">
+            <h4>Pass Subjects</h4>
+            <span id="passCount">0</span>
+        </div>
+
+        <div class="card">
+            <h4>Fail Subjects</h4>
+            <span id="failCount">0</span>
+        </div>
+
+    </div>
+
+    <table>
+
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Enrollment No</th>
+            <th>Subject</th>
+            <th>Marks</th>
+            <th>Semester</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+
+        <tbody id="resultTable"></tbody>
+
+    </table>
+
+    <button
+            class="back-btn"
+            onclick="window.location.href='dashboard.html'">
+        ⬅ Back To Dashboard
+    </button>
+    ```
+
+</div>
+
+<script>
+
+    window.onload = loadResults;
+
+    function loadResults(){
+
+        let search =
+            document.getElementById("search")
+                .value
+                .toLowerCase();
+
+        fetch("/results")
+            .then(res => res.json())
+            .then(data => {
+
+                let rows = "";
+
+                let totalResults = data.length;
+                let passCount = 0;
+                let failCount = 0;
+
+                data.forEach(result => {
+
+                    let passMarks = 40;
+
+                    if(
+                        result.subject.includes("LAB") ||
+                        result.subject === "Practical Training 45 Days"
+                    ){
+                        passMarks = 20;
+                    }
+
+                    if(result.marks >= passMarks){
+                        passCount++;
+                    }else{
+                        failCount++;
+                    }
+
+                    if(
+                        search !== "" &&
+                        !result.enrollmentNo
+                            .toLowerCase()
+                            .includes(search)
+                    ){
+                        return;
+                    }
+
+                    rows += `
+                <tr>
+
+                    <td>${result.id}</td>
+
+                    <td>${result.enrollmentNo}</td>
+
+                    <td>${result.subject}</td>
+
+                    <td>${result.marks}</td>
+
+                    <td>${result.semester}</td>
+
+                    <td>
+
+                        <button
+                            class="edit-btn"
+                            onclick="editResult(
+                                ${result.id},
+                                ${result.marks}
+                            )">
+                            Edit
+                        </button>
+
+                        <button
+                            class="delete-btn"
+                            onclick="deleteResult(
+                                ${result.id}
+                            )">
+                            Delete
+                        </button>
+
+                    </td>
+
+                </tr>
+                `;
+                });
+
+                document.getElementById(
+                    "resultTable"
+                ).innerHTML = rows;
+
+                document.getElementById(
+                    "totalResults"
+                ).innerHTML = totalResults;
+
+                document.getElementById(
+                    "passCount"
+                ).innerHTML = passCount;
+
+                document.getElementById(
+                    "failCount"
+                ).innerHTML = failCount;
+
+            });
+
+    }
+
+    function editResult(id,currentMarks){
+
+        let newMarks =
+            prompt(
+                "Enter New Marks",
+                currentMarks
+            );
+
+        if(
+            newMarks === null ||
+            newMarks === ""
+        ){
+            return;
+        }
+
+        fetch("/results/" + id,{
+
+            method:"PUT",
+
+            headers:{
+                "Content-Type":"application/json"
+            },
+
+            body:JSON.stringify({
+                marks:newMarks
+            })
+
+        })
+
+            .then(res => res.text())
+
+            .then(msg => {
+
+                alert(msg);
+
+                loadResults();
+
+            });
+
+    }
+
+    function deleteResult(id){
+
+        if(
+            !confirm(
+                "Are you sure you want to delete this result?"
+            )
+        ){
+            return;
+        }
+
+        fetch("/results/" + id,{
+
+            method:"DELETE"
+
+        })
+
+            .then(res => res.text())
+
+            .then(msg => {
+
+                alert(msg);
+
+                loadResults();
+
+            });
+
+    }
+
+</script>
+
+</body>
+</html>
