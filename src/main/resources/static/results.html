@@ -439,9 +439,7 @@
 <script>
 
     window.onload = loadResults;
-    document.getElementById("resultDate")
-        .innerHTML =
-        results[0].resultDate;
+
     function getGrade(marks,maxMarks){
 
         let percentage = (marks/maxMarks)*100;
@@ -470,7 +468,7 @@
     function loadResults(){
 
         const enrollmentNo =
-            localStorage.getItem("username");
+            localStorage.getItem("enrollmentNo");
 
         if(!enrollmentNo){
 
@@ -501,16 +499,24 @@
                 data.forEach(result => {
 
                     if(
+                        result.enrollmentNo &&
                         result.enrollmentNo.trim() ===
                         enrollmentNo.trim()
                     ){
+
+                        if(result.resultDate){
+
+                            document.getElementById(
+                                "resultDate"
+                            ).innerHTML =
+                                result.resultDate;
+                        }
 
                         totalSubjects++;
 
                         totalMarks += Number(result.marks);
 
-                        semester =
-                            result.semester;
+                        semester = result.semester;
 
                         let subjectMaxMarks = 100;
                         let passMarks = 40;
@@ -546,30 +552,16 @@
                             getGradePoint(grade);
 
                         rows += `
-                    <tr class="${
-                            status === "FAIL"
-                                ? "fail-row"
-                                : ""
-                        }">
-
-                        <td>${result.subject}</td>
-
-                        <td>${result.marks}</td>
-
-                        <td>${subjectMaxMarks}</td>
-
-                        <td>${grade}</td>
-
-                        <td class="${
-                            status === "PASS"
-                                ? "pass"
-                                : "fail"
-                        }">
-                            ${status}
-                        </td>
-
-                    </tr>
-                    `;
+        <tr class="${status === "FAIL" ? "fail-row" : ""}">
+            <td>${result.subject}</td>
+            <td>${result.marks}</td>
+            <td>${subjectMaxMarks}</td>
+            <td>${grade}</td>
+            <td class="${status === "PASS" ? "pass" : "fail"}">
+                ${status}
+            </td>
+        </tr>
+        `;
                     }
 
                 });
@@ -620,10 +612,6 @@
                 ).innerHTML =
                     sgpa.toFixed(2);
 
-                document.getElementById(
-                    "cgpa"
-                ).innerHTML =
-                    sgpa.toFixed(2);
 
                 let finalResult =
                     document.getElementById(
@@ -678,8 +666,9 @@
                         let student =
                             students.find(
                                 s =>
-                                    s.enrollmentNo ===
-                                    enrollmentNo
+                                    s.enrollmentNo &&
+                                    s.enrollmentNo.trim() ===
+                                    enrollmentNo.trim()
                             );
 
                         if(student){

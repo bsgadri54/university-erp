@@ -11,8 +11,13 @@ public class User {
     private Long id;
 
     private String username;
+
+    private String enrollmentNo;
+
     private String email;
+
     private String password;
+
     private String role;
 
     public User() {
@@ -32,6 +37,14 @@ public class User {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getEnrollmentNo() {
+        return enrollmentNo;
+    }
+
+    public void setEnrollmentNo(String enrollmentNo) {
+        this.enrollmentNo = enrollmentNo;
     }
 
     public String getEmail() {
