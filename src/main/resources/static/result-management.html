@@ -1,10 +1,8 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Result Management</title>
 
     <style>
@@ -19,63 +17,105 @@
         body{
             background:linear-gradient(135deg,#667eea,#764ba2);
             min-height:100vh;
-            padding:30px;
+            padding:25px;
         }
 
         .container{
             max-width:1400px;
             margin:auto;
-            background:white;
-            padding:30px;
-            border-radius:15px;
-            box-shadow:0 10px 25px rgba(0,0,0,.2);
         }
 
-        h1{
+        /* Header */
+
+        .header{
+            background:white;
+            padding:25px;
+            border-radius:15px;
             text-align:center;
             margin-bottom:25px;
-            color:#333;
+            box-shadow:0 10px 25px rgba(0,0,0,.15);
         }
 
+        .header h1{
+            color:#16213e;
+            margin-bottom:8px;
+        }
+
+        .header p{
+            color:#666;
+        }
+
+        /* Statistics */
+
+        .stats{
+            display:grid;
+            grid-template-columns:
+        repeat(auto-fit,minmax(250px,1fr));
+            gap:20px;
+            margin-bottom:25px;
+        }
+
+        .stat-card{
+            background:white;
+            padding:25px;
+            border-radius:15px;
+            text-align:center;
+            box-shadow:0 5px 15px rgba(0,0,0,.1);
+        }
+
+        .stat-card h3{
+            color:#555;
+            margin-bottom:10px;
+        }
+
+        .stat-card h2{
+            font-size:38px;
+            color:#1565c0;
+        }
+
+        .pass-card h2{
+            color:#2e7d32;
+        }
+
+        .fail-card h2{
+            color:#d32f2f;
+        }
+
+        /* Search */
+
         .search-box{
-            margin-bottom:20px;
+            background:white;
+            padding:20px;
+            border-radius:15px;
+            margin-bottom:25px;
+            box-shadow:0 5px 15px rgba(0,0,0,.1);
         }
 
         .search-box input{
             width:100%;
-            padding:12px;
-            border:1px solid #ccc;
+            padding:14px;
+            border:1px solid #ddd;
             border-radius:8px;
+            font-size:15px;
         }
 
-        .summary{
-            display:grid;
-            grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-            gap:15px;
-            margin-bottom:25px;
+        .search-box input:focus{
+            outline:none;
+            border-color:#667eea;
         }
 
-        .card{
-            background:#667eea;
-            color:white;
-            padding:20px;
-            border-radius:12px;
-            text-align:center;
-        }
+        /* Table */
 
-        .card h4{
-            margin-bottom:10px;
-        }
-
-        .card span{
-            font-size:30px;
-            font-weight:bold;
+        .table-container{
+            background:white;
+            border-radius:15px;
+            overflow:hidden;
+            box-shadow:0 5px 15px rgba(0,0,0,.1);
         }
 
         table{
             width:100%;
             border-collapse:collapse;
-            margin-top:15px;
         }
 
         thead{
@@ -83,119 +123,234 @@
             color:white;
         }
 
-        th,td{
+        th{
+            padding:15px;
+            text-align:center;
+        }
+
+        td{
             padding:12px;
             text-align:center;
-            border:1px solid #ddd;
+            border-bottom:1px solid #eee;
         }
 
         tbody tr:hover{
             background:#f5f7ff;
         }
 
+        /* Status */
+
+        .pass{
+            color:#2e7d32;
+            font-weight:bold;
+        }
+
+        .fail{
+            color:#d32f2f;
+            font-weight:bold;
+        }
+
+        /* Buttons */
+
         .edit-btn{
-            background:#28a745;
+            background:#2e7d32;
             color:white;
             border:none;
-            padding:8px 15px;
+            padding:8px 14px;
             border-radius:6px;
             cursor:pointer;
             margin-right:5px;
         }
 
+        .edit-btn:hover{
+            background:#1b5e20;
+        }
+
         .delete-btn{
-            background:#dc3545;
+            background:#d32f2f;
             color:white;
             border:none;
-            padding:8px 15px;
+            padding:8px 14px;
             border-radius:6px;
             cursor:pointer;
         }
 
-        .back-btn{
-            margin-top:20px;
-            padding:12px 20px;
-            background:#667eea;
-            color:white;
+        .delete-btn:hover{
+            background:#b71c1c;
+        }
+
+        /* Bottom Buttons */
+
+        .button-section{
+            margin-top:25px;
+            display:flex;
+            gap:15px;
+            justify-content:center;
+            flex-wrap:wrap;
+        }
+
+        .dashboard-btn,
+        .refresh-btn{
             border:none;
+            color:white;
+            padding:12px 24px;
             border-radius:8px;
             cursor:pointer;
+            font-size:15px;
         }
 
-        .back-btn:hover{
-            background:#5563d8;
+        .dashboard-btn{
+            background:#1565c0;
         }
+
+        .refresh-btn{
+            background:#2e7d32;
+        }
+
+        .dashboard-btn:hover,
+        .refresh-btn:hover{
+            transform:translateY(-2px);
+        }
+
+        /* Mobile */
 
         @media(max-width:768px){
+
+            body{
+                padding:15px;
+            }
 
             table{
                 display:block;
                 overflow-x:auto;
+                white-space:nowrap;
             }
 
+            .stats{
+                grid-template-columns:1fr;
+            }
         }
 
     </style>
 
 </head>
-
 <body>
 
 <div class="container">
 
-    ```
-    <h1>🎓 Result Management Portal</h1>
+    <!-- Header -->
+
+    <div class="header">
+
+        <h1>🎓 Result Management</h1>
+
+        <p>
+            University ERP Examination Module
+        </p>
+
+    </div>
+
+    <!-- Statistics -->
+
+    <div class="stats">
+
+        <div class="stat-card">
+
+            <h3>Total Results</h3>
+
+            <h2 id="totalResults">0</h2>
+
+        </div>
+
+        <div class="stat-card pass-card">
+
+            <h3>Pass Subjects</h3>
+
+            <h2 id="passCount">0</h2>
+
+        </div>
+
+        <div class="stat-card fail-card">
+
+            <h3>Fail Subjects</h3>
+
+            <h2 id="failCount">0</h2>
+
+        </div>
+
+    </div>
+
+    <!-- Search Box -->
 
     <div class="search-box">
+
         <input
                 type="text"
                 id="search"
-                placeholder="Search Enrollment Number..."
+                placeholder="🔍 Search Enrollment Number"
                 onkeyup="loadResults()">
-    </div>
-
-    <div class="summary">
-
-        <div class="card">
-            <h4>Total Results</h4>
-            <span id="totalResults">0</span>
-        </div>
-
-        <div class="card">
-            <h4>Pass Subjects</h4>
-            <span id="passCount">0</span>
-        </div>
-
-        <div class="card">
-            <h4>Fail Subjects</h4>
-            <span id="failCount">0</span>
-        </div>
 
     </div>
 
-    <table>
+    <!-- Results Table -->
 
-        <thead>
-        <tr>
-            <th>ID</th>
-            <th>Enrollment No</th>
-            <th>Subject</th>
-            <th>Marks</th>
-            <th>Semester</th>
-            <th>Actions</th>
-        </tr>
-        </thead>
+    <div class="table-container">
 
-        <tbody id="resultTable"></tbody>
+        <table>
 
-    </table>
+            <thead>
 
-    <button
-            class="back-btn"
-            onclick="window.location.href='dashboard.html'">
-        ⬅ Back To Dashboard
-    </button>
-    ```
+            <tr>
+
+                <th>ID</th>
+
+                <th>Enrollment No</th>
+
+                <th>Subject</th>
+
+                <th>Marks</th>
+
+                <th>Maximum</th>
+
+                <th>Status</th>
+
+                <th>Semester</th>
+
+                <th>Actions</th>
+
+            </tr>
+
+            </thead>
+
+            <tbody id="resultTable">
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    <!-- Buttons -->
+
+    <div class="button-section">
+
+        <button
+                class="dashboard-btn"
+                onclick="window.location.href='dashboard.html'">
+
+            ⬅ Back To Dashboard
+
+        </button>
+
+        <button
+                class="refresh-btn"
+                onclick="loadResults()">
+
+            🔄 Refresh
+
+        </button>
+
+    </div>
 
 </div>
 
@@ -210,32 +365,19 @@
                 .value
                 .toLowerCase();
 
-        fetch("/results")
-            .then(res => res.json())
+        fetch("https://university-erp-1-gac1.onrender.com/results")
+
+            .then(response => response.json())
+
             .then(data => {
 
                 let rows = "";
 
-                let totalResults = data.length;
+                let totalResults = 0;
                 let passCount = 0;
                 let failCount = 0;
 
                 data.forEach(result => {
-
-                    let passMarks = 40;
-
-                    if(
-                        result.subject.includes("LAB") ||
-                        result.subject === "Practical Training 45 Days"
-                    ){
-                        passMarks = 20;
-                    }
-
-                    if(result.marks >= passMarks){
-                        passCount++;
-                    }else{
-                        failCount++;
-                    }
 
                     if(
                         search !== "" &&
@@ -244,6 +386,31 @@
                             .includes(search)
                     ){
                         return;
+                    }
+
+                    totalResults++;
+
+                    let maxMarks = 100;
+                    let passMarks = 40;
+
+                    if(
+                        result.subject.includes("LAB") ||
+                        result.subject ===
+                        "Practical Training 45 Days"
+                    ){
+                        maxMarks = 50;
+                        passMarks = 20;
+                    }
+
+                    let status =
+                        result.marks >= passMarks
+                            ? "PASS"
+                            : "FAIL";
+
+                    if(status === "PASS"){
+                        passCount++;
+                    }else{
+                        failCount++;
                     }
 
                     rows += `
@@ -257,6 +424,16 @@
 
                     <td>${result.marks}</td>
 
+                    <td>${maxMarks}</td>
+
+                    <td class="${
+                        status === "PASS"
+                            ? "pass"
+                            : "fail"
+                    }">
+                        ${status}
+                    </td>
+
                     <td>${result.semester}</td>
 
                     <td>
@@ -267,7 +444,9 @@
                                 ${result.id},
                                 ${result.marks}
                             )">
+
                             Edit
+
                         </button>
 
                         <button
@@ -275,7 +454,9 @@
                             onclick="deleteResult(
                                 ${result.id}
                             )">
+
                             Delete
+
                         </button>
 
                     </td>
@@ -299,12 +480,27 @@
                 document.getElementById(
                     "failCount"
                 ).innerHTML = failCount;
+            })
+
+            .catch(error => {
+
+                console.error(error);
+
+                alert(
+                    "Error Loading Results"
+                );
 
             });
-
     }
 
-    function editResult(id,currentMarks){
+    /* =========================
+       Edit Result
+    ========================= */
+
+    function editResult(
+        id,
+        currentMarks
+    ){
 
         let newMarks =
             prompt(
@@ -319,31 +515,57 @@
             return;
         }
 
-        fetch("/results/" + id,{
+        fetch(
+            "https://university-erp-1-gac1.onrender.com/results/" + id,
+            {
+                method:"PUT",
 
-            method:"PUT",
+                headers:{
+                    "Content-Type":"application/json"
+                },
 
-            headers:{
-                "Content-Type":"application/json"
-            },
+                body:JSON.stringify({
+                    marks:newMarks
+                })
+            }
+        )
 
-            body:JSON.stringify({
-                marks:newMarks
+            .then(response => {
+
+                if(!response.ok){
+                    throw new Error(
+                        "Update Failed"
+                    );
+                }
+
+                return response.text();
             })
 
-        })
+            .then(message => {
 
-            .then(res => res.text())
-
-            .then(msg => {
-
-                alert(msg);
+                alert(
+                    message ||
+                    "Marks Updated Successfully"
+                );
 
                 loadResults();
 
-            });
+            })
 
+            .catch(error => {
+
+                console.error(error);
+
+                alert(
+                    "Unable To Update Marks"
+                );
+
+            });
     }
+
+    /* =========================
+       Delete Result
+    ========================= */
 
     function deleteResult(id){
 
@@ -355,22 +577,44 @@
             return;
         }
 
-        fetch("/results/" + id,{
+        fetch(
+            "https://university-erp-1-gac1.onrender.com/results/" + id,
+            {
+                method:"DELETE"
+            }
+        )
 
-            method:"DELETE"
+            .then(response => {
 
-        })
+                if(!response.ok){
+                    throw new Error(
+                        "Delete Failed"
+                    );
+                }
 
-            .then(res => res.text())
+                return response.text();
+            })
 
-            .then(msg => {
+            .then(message => {
 
-                alert(msg);
+                alert(
+                    message ||
+                    "Result Deleted Successfully"
+                );
 
                 loadResults();
 
-            });
+            })
 
+            .catch(error => {
+
+                console.error(error);
+
+                alert(
+                    "Unable To Delete Result"
+                );
+
+            });
     }
 
 </script>

@@ -1,4 +1,4 @@
-package com.erp.universityerp.entity;
+ package com.erp.universityerp.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -20,6 +20,9 @@ public class Student {
     private String phone;
     private String course;
     private String semester;
+
+    // Student Photo URL
+    private String photo;
 
     public Student() {
     }
@@ -79,4 +82,13 @@ public class Student {
     public void setSemester(String semester) {
         this.semester = semester;
     }
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
+    }
 }
+
