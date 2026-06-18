@@ -13,6 +13,7 @@ public class Result {
     private String subject;
     private Integer marks;
     private String semester;
+    private String resultDate;
 
     public Long getId() {
         return id;

@@ -441,9 +441,7 @@
     window.onload = loadResults;
     document.getElementById("resultDate")
         .innerHTML =
-        new Date().toLocaleDateString(
-            "en-IN"
-        );
+        results[0].resultDate;
     function getGrade(marks,maxMarks){
 
         let percentage = (marks/maxMarks)*100;
