@@ -63,7 +63,8 @@ public class StudentService {
             existingStudent.setSemester(student.getSemester());
             existingStudent.setEnrollmentNo(student.getEnrollmentNo());
 
-            return studentRepository.save(existingStudent);
+            studentRepository.save(existingStudent);
+            return existingStudent;
         }
 
         return null;

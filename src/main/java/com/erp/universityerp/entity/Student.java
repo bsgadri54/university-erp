@@ -21,9 +21,6 @@ public class Student {
     private String course;
     private String semester;
 
-    // Student Photo URL
-    private String photo;
-
     public Student() {
     }
 
@@ -83,12 +80,6 @@ public class Student {
         this.semester = semester;
     }
 
-    public String getPhoto() {
-        return photo;
-    }
 
-    public void setPhoto(String photo) {
-        this.photo = photo;
-    }
 }
 
