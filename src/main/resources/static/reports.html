@@ -1,61 +1,61 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
     <title>Reports Dashboard</title>
 
     <style>
-        body{
-            font-family: Arial, sans-serif;
+
+        *{
             margin:0;
             padding:0;
-            background:linear-gradient(135deg,#5b7cff,#8a5cd8);
+            box-sizing:border-box;
+            font-family:Arial,sans-serif;
+        }
+
+        body{
+            background:#f4f6f9;
         }
 
         .container{
-            width:80%;
+            max-width:1000px;
             margin:50px auto;
-        }
-
-        h1{
-            text-align:center;
-            color:white;
-            margin-bottom:30px;
-        }
-
-        .cards{
-            display:grid;
-            grid-template-columns:repeat(4,1fr);
-            gap:20px;
+            padding:20px;
         }
 
         .card{
             background:white;
-            padding:30px;
-            border-radius:15px;
+            padding:40px;
+            border-radius:12px;
+            box-shadow:0 4px 15px rgba(0,0,0,0.1);
             text-align:center;
-            box-shadow:0 4px 10px rgba(0,0,0,0.2);
         }
 
-        .card h2{
-            margin:10px 0;
-            font-size:35px;
-            color:#4f6ddf;
+        .card h1{
+            color:#16213e;
+            margin-bottom:15px;
         }
 
         .card p{
+            color:#666;
             font-size:18px;
-            font-weight:bold;
+            margin-bottom:30px;
         }
 
-        button{
-            padding:10px 20px;
-            border:none;
-            border-radius:5px;
-            background:#28a745;
+        .btn{
+            background:#1abc9c;
             color:white;
+            border:none;
+            padding:12px 25px;
+            border-radius:6px;
             cursor:pointer;
-            margin-bottom:20px;
+            font-size:16px;
         }
+
+        .btn:hover{
+            background:#16a085;
+        }
+
     </style>
 </head>
 
@@ -63,33 +63,17 @@
 
 <div class="container">
 
-    <button onclick="window.location.href='dashboard.html'">
-        Dashboard
-    </button>
+    <div class="card">
 
-    <h1>ERP Reports Dashboard</h1>
+        <h1>Reports Management</h1>
 
-    <div class="cards">
+        <p>
+            Reports module is currently under development.
+        </p>
 
-        <div class="card">
-            <p>Total Students</p>
-            <h2 id="studentCount">0</h2>
-        </div>
-
-        <div class="card">
-            <p>Total Employees</p>
-            <h2 id="employeeCount">0</h2>
-        </div>
-
-        <div class="card">
-            <p>Total Users</p>
-            <h2 id="userCount">0</h2>
-        </div>
-
-        <div class="card">
-            <p>Total Attendance</p>
-            <h2 id="attendanceCount">0</h2>
-        </div>
+        <button class="btn" onclick="goDashboard()">
+            Back To Dashboard
+        </button>
 
     </div>
 
@@ -97,31 +81,27 @@
 
 <script>
 
-    fetch("http://localhost:8080/students")
-        .then(response => response.json())
-        .then(data => {
-            document.getElementById("studentCount").innerText = data.length;
-        });
+    function goDashboard(){
 
-    fetch("http://localhost:8080/employees")
-        .then(response => response.json())
-        .then(data => {
-            document.getElementById("employeeCount").innerText = data.length;
-        });
+        let role = localStorage.getItem("role");
 
-    fetch("http://localhost:8080/users")
-        .then(response => response.json())
-        .then(data => {
-            document.getElementById("userCount").innerText = data.length;
-        });
-
-    fetch("http://localhost:8080/attendance")
-        .then(response => response.json())
-        .then(data => {
-            document.getElementById("attendanceCount").innerText = data.length;
-        });
+        if(role === "ADMIN"){
+            window.location.href = "dashboard.html";
+        }
+        else if(role === "EMPLOYEE"){
+            window.location.href = "employee-dashboard.html";
+        }
+        else if(role === "STUDENT"){
+            window.location.href = "student-dashboard.html";
+        }
+        else{
+            alert("Please Login Again");
+            window.location.href = "login.html";
+        }
+    }
 
 </script>
 
 </body>
 </html>
+```

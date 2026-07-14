@@ -1,0 +1,99 @@
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+    font-family:Segoe UI,Arial,sans-serif;
+    background:#eef3f9;
+    padding:30px;
+    color:#333;
+}
+.container{max-width:1400px;margin:auto}
+.module-header{
+    background:linear-gradient(135deg,#1565c0,#42a5f5);
+    color:#fff;
+    padding:35px;
+    text-align:center;
+    border-radius:18px;
+    margin-bottom:25px;
+    box-shadow:0 8px 20px rgba(0,0,0,.15);
+}
+.module-header h1{font-size:42px}
+.module-header p{margin-top:8px;font-size:18px}
+.card{
+    background:#fff;
+    padding:25px;
+    border-radius:16px;
+    margin-bottom:25px;
+    box-shadow:0 5px 18px rgba(0,0,0,.08);
+}
+.card h2{
+    color:#1565c0;
+    margin-bottom:20px;
+}
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+    gap:20px;
+}
+.form-group label{
+    display:block;
+    margin-bottom:8px;
+    font-weight:600;
+}
+input,select{
+    width:100%;
+    height:48px;
+    padding:0 14px;
+    border:1px solid #d8d8d8;
+    border-radius:10px;
+    font-size:15px;
+    transition:.3s;
+}
+input:focus,select:focus{
+    outline:none;
+    border-color:#1565c0;
+    box-shadow:0 0 0 3px rgba(21,101,192,.15);
+}
+.button-group{
+    margin-top:25px;
+    display:flex;
+    gap:15px;
+    flex-wrap:wrap;
+}
+.btn-save,.btn-clear,.btn-edit,.btn-delete{
+    border:none;
+    padding:11px 22px;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:600;
+    transition:.3s;
+}
+.btn-save{background:#198754;color:#fff}
+.btn-save:hover{background:#157347}
+.btn-clear{background:#fd7e14;color:#fff}
+.btn-clear:hover{background:#e66b00}
+.btn-edit{background:#ffc107}
+.btn-edit:hover{background:#e0a800}
+.btn-delete{background:#dc3545;color:#fff}
+.btn-delete:hover{background:#bb2d3b}
+.search-box{margin-bottom:20px}
+.table-responsive{overflow-x:auto}
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+thead{
+    background:#1565c0;
+    color:#fff;
+}
+th,td{
+    padding:14px;
+    text-align:center;
+    border-bottom:1px solid #ececec;
+}
+tbody tr:nth-child(even){background:#fafafa}
+tbody tr:hover{background:#eef6ff}
+@media(max-width:768px){
+    body{padding:15px}
+    .module-header h1{font-size:30px}
+    .button-group{flex-direction:column}
+    .btn-save,.btn-clear{width:100%}
+}
