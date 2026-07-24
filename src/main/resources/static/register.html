@@ -2,6 +2,7 @@
 <html>
 <head>
     <title>User Registration</title>
+    <link rel="stylesheet" href="css/register.css">
 </head>
 <body>
 
@@ -13,29 +14,7 @@
 
 <button onclick="register()">Register</button>
 
-<script>
-    function register() {
-
-        let user = {
-            username: document.getElementById("username").value,
-            email: document.getElementById("email").value,
-            password: document.getElementById("password").value
-        };
-
-        fetch("/users/create", {
-            method: "POST",
-            headers: {
-                "Content-Type":"application/json"
-            },
-            body: JSON.stringify(user)
-        })
-            .then(response => response.json())
-            .then(data => {
-                alert("Registration Successful");
-                window.location.href = "login.html";
-            });
-    }
-</script>
+<script src="js/register.js" defer></script>
 
 </body>
 </html>

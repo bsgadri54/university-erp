@@ -1,49 +1,152 @@
-<script>
+// ============================================
+// University ERP Dashboard
+// ============================================
 
-    let role = localStorage.getItem("role");
+// -------------------------------
+// User Role
+// -------------------------------
 
-    if(role === "STUDENT"){
+const role = localStorage.getItem("role");
+
+// Optional username (if stored during login)
+const username = localStorage.getItem("username") || "Administrator";
+
+// Welcome Message
+const welcome = document.getElementById("welcomeText");
+
+if (welcome) {
+    welcome.innerHTML = `Welcome back, ${username} 👋`;
+}
+
+// -------------------------------
+// Role Based Menu
+// -------------------------------
+
+if (role === "STUDENT") {
 
     document.getElementById("studentMenu").style.display = "none";
     document.getElementById("employeeMenu").style.display = "none";
     document.getElementById("userMenu").style.display = "none";
-
     document.getElementById("resultManagementMenu").style.display = "none";
+
 }
 
-    if(role === "EMPLOYEE"){
+if (role === "EMPLOYEE") {
 
     document.getElementById("userMenu").style.display = "none";
-
     document.getElementById("resultManagementMenu").style.display = "none";
+
 }
 
-    fetch("/students")
-    .then(res => res.json())
-    .then(data => {
-    document.getElementById("studentCount").innerHTML = data.length;
-});
+// -------------------------------
+// Student Count
+// -------------------------------
 
-    fetch("/employees")
-    .then(res => res.json())
+fetch("/students")
+    .then(response => response.json())
     .then(data => {
-    document.getElementById("employeeCount").innerHTML = data.length;
-});
 
-    fetch("/users")
-    .then(res => res.json())
+        document.getElementById("studentCount").innerHTML = data.length;
+
+    })
+    .catch(error => {
+
+        console.error("Student Error :", error);
+
+    });
+
+// -------------------------------
+// Employee Count
+// -------------------------------
+
+fetch("/employees")
+    .then(response => response.json())
     .then(data => {
-    document.getElementById("userCount").innerHTML = data.length;
-});
 
-    function logout(){
-    localStorage.clear();
-    window.location.href = "login.html";
+        document.getElementById("employeeCount").innerHTML = data.length;
+
+    })
+    .catch(error => {
+
+        console.error("Employee Error :", error);
+
+    });
+
+// -------------------------------
+// User Count
+// -------------------------------
+
+fetch("/users")
+    .then(response => response.json())
+    .then(data => {
+
+        document.getElementById("userCount").innerHTML = data.length;
+
+    })
+    .catch(error => {
+
+        console.error("User Error :", error);
+
+    });
+
+// -------------------------------
+// Sidebar Toggle
+// -------------------------------
+
+function toggleSidebar() {
+
+    const sidebar = document.getElementById("sidebar");
+    const main = document.getElementById("main");
+
+    if (window.innerWidth <= 768) {
+
+        sidebar.classList.toggle("show");
+
+    } else {
+
+        sidebar.classList.toggle("hide");
+        main.classList.toggle("full");
+
+    }
+
 }
 
-    function toggleSidebar(){
-    document.querySelector(".sidebar").classList.toggle("hide");
-    document.querySelector(".main").classList.toggle("full");
-}
+// -------------------------------
+// Close Sidebar on Mobile
+// -------------------------------
 
-</script>
+document.addEventListener("click", function (event) {
+
+    if (window.innerWidth <= 768) {
+
+        const sidebar = document.getElementById("sidebar");
+        const menuBtn = document.querySelector(".menu-btn");
+
+        if (
+            !sidebar.contains(event.target) &&
+            !menuBtn.contains(event.target)
+        ) {
+
+            sidebar.classList.remove("show");
+
+        }
+
+    }
+
+});
+
+// -------------------------------
+// Logout
+// -------------------------------
+
+function logout() {
+
+    if (confirm("Are you sure you want to logout?")) {
+
+        localStorage.clear();
+
+        window.location.href = "login.html";
+
+    }
+
+}

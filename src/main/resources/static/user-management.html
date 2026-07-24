@@ -1,304 +1,192 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Management System</title>
 
-    <style>
+    <title>User Management | University ERP</title>
 
-        *{
-            margin:0;
-            padding:0;
-            box-sizing:border-box;
-            font-family:Arial,sans-serif;
-        }
+    <link rel="stylesheet" href="css/user-management.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
 
-        body{
-            background:linear-gradient(135deg,#5b7cfa,#7a4fcf);
-            min-height:100vh;
-            padding:50px;
-        }
-
-        .container{
-            max-width:1000px;
-            margin:auto;
-            background:#fff;
-            padding:30px;
-            border-radius:20px;
-            box-shadow:0 10px 30px rgba(0,0,0,0.2);
-        }
-
-        h2{
-            text-align:center;
-            margin-bottom:30px;
-            font-size:45px;
-            color:#222;
-        }
-
-        .top-bar{
-            margin-bottom:20px;
-        }
-
-        .dashboard-btn{
-            background:#16a34a;
-            color:white;
-            border:none;
-            padding:12px 25px;
-            border-radius:8px;
-            cursor:pointer;
-            font-weight:bold;
-        }
-
-        .form{
-            display:grid;
-            grid-template-columns:repeat(4,1fr);
-            gap:15px;
-            margin-bottom:20px;
-        }
-
-        input,select{
-            padding:12px;
-            border:1px solid #ddd;
-            border-radius:8px;
-            font-size:15px;
-        }
-
-        .save-btn{
-            background:#4f6df5;
-            color:white;
-            border:none;
-            padding:12px 25px;
-            border-radius:8px;
-            cursor:pointer;
-            font-weight:bold;
-            margin-bottom:25px;
-        }
-
-        h3{
-            margin-bottom:15px;
-            font-size:35px;
-        }
-
-        table{
-            width:100%;
-            border-collapse:collapse;
-            overflow:hidden;
-            border-radius:12px;
-        }
-
-        th{
-            background:#5c74df;
-            color:white;
-            padding:15px;
-        }
-
-        td{
-            padding:15px;
-            border-bottom:1px solid #eee;
-            text-align:center;
-        }
-
-        .edit{
-            background:#ffc107;
-            border:none;
-            padding:10px 18px;
-            border-radius:8px;
-            cursor:pointer;
-            font-weight:bold;
-        }
-
-        .delete{
-            background:#f44336;
-            color:white;
-            border:none;
-            padding:10px 18px;
-            border-radius:8px;
-            cursor:pointer;
-            font-weight:bold;
-        }
-
-    </style>
 </head>
 
 <body>
 
 <div class="container">
 
-    <div class="top-bar">
-        <button class="dashboard-btn"
-                onclick="window.location.href='dashboard.html'">
-            🏠 Dashboard
-        </button>
-    </div>
+    <!-- ================= HEADER ================= -->
 
-    <h2> 👤  User Management</h2>
+    <div class="page-header">
 
-    <input type="hidden" id="userId">
+        <h1>
+            <i class="fa-solid fa-users"></i>
+            User Management
+        </h1>
 
-    <div class="form">
-
-        <input type="text" id="username" placeholder="Username">
-
-        <input type="email" id="email" placeholder="Email">
-
-        <input type="password" id="password" placeholder="Password">
-
-        <select id="role">
-            <option value="USER">USER</option>
-            <option value="ADMIN">ADMIN</option>
-        </select>
+        <p>University ERP User Module</p>
 
     </div>
 
-    <button class="save-btn" onclick="saveUser()">
-        💾 Save User
-    </button>
 
-    <h3>Users List</h3>
+    <!-- ================= FORM ================= -->
 
-    <table>
+    <div class="card">
 
-        <thead>
-        <tr>
-            <th>ID</th>
-            <th>Username</th>
-            <th>Email</th>
-            <th>Role</th>
-            <th>Action</th>
-        </tr>
-        </thead>
+        <h2>Add / Update User</h2>
 
-        <tbody id="userTable"></tbody>
+        <form onsubmit="event.preventDefault(); saveUser();">
 
-    </table>
+            <input type="hidden" id="userId">
 
-</div>
+            <div class="form-grid">
 
-<script>
+                <div class="form-group">
+                    <label>Username</label>
+                    <input
+                            type="text"
+                            id="username"
+                            placeholder="Enter Username"
+                            required>
+                </div>
 
-    loadUsers();
+                <div class="form-group">
+                    <label>Email</label>
+                    <input
+                            type="email"
+                            id="email"
+                            placeholder="Enter Email">
+                </div>
 
-    function saveUser(){
+                <div class="form-group">
+                    <label>Password</label>
+                    <input
+                            type="password"
+                            id="password"
+                            placeholder="Enter Password"
+                            required>
+                </div>
 
-        let id=document.getElementById("userId").value;
+                <div class="form-group">
+                    <label>Role</label>
 
-        let user={
-            username:document.getElementById("username").value,
-            email:document.getElementById("email").value,
-            password:document.getElementById("password").value,
-            role:document.getElementById("role").value
-        };
+                    <select id="role" required>
 
-        let url=id==""?"/users/create":"/users/"+id;
-        let method=id==""?"POST":"PUT";
+                        <option value="">Select Role</option>
 
-        fetch(url,{
-            method:method,
-            headers:{
-                "Content-Type":"application/json"
-            },
-            body:JSON.stringify(user)
-        })
-            .then(res=>res.json())
-            .then(()=>{
+                        <option>ADMIN</option>
 
-                alert(id==""?"User Created":"User Updated");
+                        <option>DEACTIVATED USER</option>
 
-                clearForm();
-                loadUsers();
+                        <option>EMPLOYEE</option>
 
-            });
+                        <option>STUDENT</option>
 
-    }
+                    </select>
 
-    function loadUsers(){
+                </div>
 
-        fetch("/users")
-            .then(res=>res.json())
-            .then(data=>{
+            </div>
 
-                let rows="";
+            <div class="button-group">
 
-                data.forEach(user=>{
+                <button type="submit" class="btn btn-save">
 
-                    rows+=`
+                    Save User
+
+                </button>
+
+                <button
+                        type="reset"
+                        class="btn btn-clear"
+                        onclick="clearForm()">
+
+                    Clear
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+
+    <!-- ================= USER RECORDS ================= -->
+
+    <div class="card">
+
+        <h2>User Records</h2>
+
+        <div class="search-box">
+
+            <input
+                    type="text"
+                    id="searchUser"
+                    placeholder="🔍 Search by Username or Email">
+
+        </div>
+
+        <div class="table-responsive">
+
+            <table>
+
+                <thead>
+
                 <tr>
 
-                    <td>${user.id}</td>
-                    <td>${user.username}</td>
-                    <td>${user.email}</td>
-                    <td>${user.role}</td>
+                    <th>ID</th>
 
-                    <td>
+                    <th>Username</th>
 
-                        <button class="edit"
-                        onclick="editUser(
-                        '${user.id}',
-                        '${user.username}',
-                        '${user.email}',
-                        '${user.password}',
-                        '${user.role}'
-                        )">
-                        Edit
-                        </button>
+                    <th>Email</th>
 
-                        <button class="delete"
-                        onclick="deleteUser(${user.id})">
-                        Delete
-                        </button>
+                    <th>Role</th>
 
-                    </td>
+                    <th>Actions</th>
 
                 </tr>
-                `;
-                });
 
-                document.getElementById("userTable").innerHTML=rows;
+                </thead>
 
-            });
+                <tbody id="userBody">
 
-    }
+                </tbody>
 
-    function editUser(id,username,email,password,role){
+            </table>
 
-        document.getElementById("userId").value=id;
-        document.getElementById("username").value=username;
-        document.getElementById("email").value=email;
-        document.getElementById("password").value=password;
-        document.getElementById("role").value=role;
+        </div>
 
-    }
+    </div>
 
-    function deleteUser(id){
 
-        if(confirm("Delete User?")){
+    <!-- ================= BACK BUTTON ================= -->
 
-            fetch("/users/"+id,{
-                method:"DELETE"
-            })
-                .then(()=>{
+    <div class="back-section">
 
-                    alert("User Deleted");
-                    loadUsers();
+        <a href="#" class="back-btn" onclick="goDashboard()">
 
-                });
+            ← Back To Dashboard
 
-        }
+        </a>
 
-    }
+    </div>
 
-    function clearForm(){
 
-        document.getElementById("userId").value="";
-        document.getElementById("username").value="";
-        document.getElementById("email").value="";
-        document.getElementById("password").value="";
-        document.getElementById("role").value="USER";
+    <!-- ================= FOOTER ================= -->
 
-    }
+    <footer>
 
-</script>
+        © 2026 University ERP System |
+        Designed & Developed by
+        <strong>Suresh Gadri</strong>
+
+    </footer>
+
+</div>
+<script src="js/common.js"></script>
+<script src="js/user-management.js"></script>
 
 </body>
 </html>

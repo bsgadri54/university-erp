@@ -1,251 +1,173 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
     <meta charset="UTF-8">
-    <title>Marks Entry</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <style>
+    <title>Marks Entry | University ERP</title>
 
-        *{
-            margin:0;
-            padding:0;
-            box-sizing:border-box;
-            font-family:Arial,sans-serif;
-        }
+    <link rel="stylesheet" href="css/marks-entry.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
 
-        body{
-            background:#f4f6f9;
-        }
-
-        .container{
-            width:600px;
-            margin:50px auto;
-        }
-
-        .card{
-            background:white;
-            padding:30px;
-            border-radius:10px;
-            box-shadow:0 2px 10px rgba(0,0,0,.1);
-        }
-
-        h1{
-            text-align:center;
-            margin-bottom:25px;
-            color:#16213e;
-        }
-
-        label{
-            display:block;
-            margin-top:15px;
-            margin-bottom:5px;
-            font-weight:bold;
-        }
-
-        select,
-        input{
-            width:100%;
-            padding:12px;
-            border:1px solid #ccc;
-            border-radius:5px;
-        }
-
-        button{
-            width:100%;
-            margin-top:20px;
-            padding:12px;
-            border:none;
-            background:#1abc9c;
-            color:white;
-            font-size:16px;
-            border-radius:5px;
-            cursor:pointer;
-        }
-
-        button:hover{
-            background:#16a085;
-        }
-
-        .back-btn{
-            background:#1565c0;
-        }
-
-        .back-btn:hover{
-            background:#0d47a1;
-        }
-
-    </style>
 </head>
 
 <body>
 
 <div class="container">
 
-    <div class="card">
+    <!-- ================= HEADER ================= -->
 
-        <h1>Marks Entry</h1>
+    <div class="page-header">
 
-        <label>Select Student</label>
-        <select id="studentSelect">
-            <option value="">Select Student</option>
-        </select>
+        <h1>
 
-        <label>Subject</label>
-        <select id="subject">
-            <option value="">Select Subject</option>
+            <i class="fa-solid fa-graduation-cap"></i>
 
-            <option>Computer Network</option>
-            <option>Data Base Management System</option>
-            <option>Microprocessor and Interfacing</option>
-            <option>Computer System Architecture</option>
-            <option>PC Maintenance and Trouble Shooting</option>
-            <option>Object Oriented Programming through C++</option>
-            <option>Software Engineering</option>
-            <option>Microprocessor and Interfacing LAB</option>
-            <option>Data Base Management System LAB</option>
-            <option>PC Maintenance and Trouble Shooting LAB</option>
-            <option>Object Oriented Programming through C++ LAB</option>
-            <option>English & Communication Skills-4 LAB</option>
-            <option>Practical Training 45 Days</option>
-        </select>
+            Marks Entry
 
-        <label>Marks</label>
-        <input type="number" id="marks" placeholder="Enter Marks">
+        </h1>
 
-        <label>Semester</label>
-        <select id="semester">
-            <option value="SEM 4" selected>SEM 4</option>
-        </select>
-
-        <button onclick="saveMarks()">
-            Save Marks
-        </button>
-
-        <button class="back-btn" onclick="goDashboard()">
-            Back To Dashboard
-        </button>
+        <p>University ERP Examination Module</p>
 
     </div>
 
+    <!-- ================= FORM ================= -->
+
+    <div class="card">
+
+        <h2>Add / Update Marks</h2>
+
+        <div class="form-grid">
+
+            <div class="form-group">
+
+                <label>Select Student</label>
+
+                <select id="studentSelect">
+
+                    <option value="">Select Student</option>
+
+                </select>
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Select Subject</label>
+
+                <select id="subject">
+
+                    <option value="">Select Subject</option>
+
+                    <option>Computer Network</option>
+                    <option>Data Base Management System</option>
+                    <option>Software Engineering</option>
+                    <option>Java Programming</option>
+                    <option>Web Technology</option>
+                    <option>Java Programming LAB</option>
+                    <option>Data Base Management System LAB</option>
+                    <option>Web Technology LAB</option>
+
+
+                </select>
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Marks</label>
+
+                <input
+                        type="number"
+                        id="marks"
+                        placeholder="Enter Marks">
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Semester</label>
+
+                <select id="semester">
+
+                    <option value="SEM 1">SEM 1</option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+        <div class="button-group">
+
+            <button
+                    class="btn btn-save"
+                    onclick="saveMarks()">
+
+                Save Marks
+
+            </button>
+
+            <button
+                    class="btn btn-clear"
+                    onclick="clearFields()">
+
+                Clear
+
+            </button>
+
+        </div>
+
+    </div>
+
+    <!-- ================= INFO CARD ================= -->
+
+    <div class="card">
+
+        <h2>Marks Entry Information</h2>
+
+        <div class="info-box">
+
+            <p>✔ Select the student from the dropdown.</p>
+
+            <p>✔ Select the subject carefully.</p>
+
+            <p>✔ Theory subjects maximum marks: <strong>100</strong>.</p>
+
+            <p>✔ LAB & Practical subjects maximum marks: <strong>50</strong>.</p>
+
+            <p>✔ Click <strong>Save Marks</strong> after entering marks.</p>
+
+        </div>
+
+    </div>
+
+    <!-- ================= BACK BUTTON ================= -->
+
+    <div class="back-section">
+
+        <a href="#" class="back-btn" onclick="goDashboard()">
+
+            ← Back To Dashboard
+
+        </a>
+
+    </div>
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer>
+
+        © 2026 University ERP System |
+        Designed & Developed by
+        <strong>Suresh Gadri</strong>
+
+    </footer>
+
 </div>
 
-<script>
-
-    fetch("/students")
-        .then(res => res.json())
-        .then(data => {
-
-            let select =
-                document.getElementById("studentSelect");
-
-            data.forEach(student => {
-
-                select.innerHTML += `
-            <option value="${student.enrollmentNo}">
-                ${student.name} (${student.enrollmentNo})
-            </option>
-        `;
-            });
-
-        });
-
-    function saveMarks(){
-
-        let enrollmentNo =
-            document.getElementById("studentSelect").value;
-
-        let subject =
-            document.getElementById("subject").value;
-
-        let marks =
-            document.getElementById("marks").value;
-
-        let semester =
-            document.getElementById("semester").value;
-
-        if(
-            enrollmentNo === "" ||
-            subject === "" ||
-            marks === "" ||
-            semester === ""
-        ){
-            alert("Please fill all fields");
-            return;
-        }
-
-        // Maximum Marks Validation
-
-        let maxMarks = 100;
-
-        if(
-            subject.includes("LAB") ||
-            subject === "Practical Training 45 Days"
-        ){
-            maxMarks = 50;
-        }
-
-        if(Number(marks) > maxMarks){
-
-            alert(
-                "Maximum marks allowed for '" +
-                subject +
-                "' is " +
-                maxMarks
-            );
-
-            return;
-        }
-
-        fetch("/results",{
-            method:"POST",
-            headers:{
-                "Content-Type":"application/json"
-            },
-            body:JSON.stringify({
-                enrollmentNo:enrollmentNo,
-                subject:subject,
-                marks:marks,
-                semester:semester
-            })
-        })
-
-            .then(async res => {
-
-                let message = await res.text();
-
-                if(!res.ok){
-
-                    alert(message);
-                    return;
-                }
-
-                alert(message);
-
-                document.getElementById("subject").value = "";
-                document.getElementById("marks").value = "";
-            })
-
-            .catch(error => {
-
-                console.error(error);
-                alert("Error Saving Marks");
-
-            });
-    }
-
-    function goDashboard(){
-
-        let role = localStorage.getItem("role");
-
-        if(role === "ADMIN"){
-            window.location.href = "dashboard.html";
-        }
-        else if(role === "EMPLOYEE"){
-            window.location.href = "employee-dashboard.html";
-        }
-    }
-
-</script>
+<script src="js/marks-entry.js" defer></script>
 
 </body>
 </html>

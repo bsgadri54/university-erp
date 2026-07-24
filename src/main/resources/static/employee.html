@@ -1,382 +1,222 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Employee Management System</title>
 
-    <style>
+    <title>Employee Management | University ERP</title>
 
-        *{
-            margin:0;
-            padding:0;
-            box-sizing:border-box;
-            font-family:'Segoe UI',sans-serif;
-        }
+    <link rel="stylesheet" href="css/employee.css">
 
-        body{
-            background:linear-gradient(135deg,#667eea,#764ba2);
-            min-height:100vh;
-            padding:30px;
-        }
-
-        .container{
-            max-width:1200px;
-            margin:auto;
-            background:white;
-            padding:30px;
-            border-radius:15px;
-            box-shadow:0 10px 25px rgba(0,0,0,0.2);
-        }
-
-        h1{
-            text-align:center;
-            color:#333;
-            margin-bottom:30px;
-        }
-
-        h2{
-            color:#333;
-            margin-top:30px;
-            margin-bottom:15px;
-        }
-
-        .form-group{
-            display:grid;
-            grid-template-columns:repeat(2,1fr);
-            gap:20px;
-            margin-bottom:20px;
-        }
-
-        .field{
-            display:flex;
-            flex-direction:column;
-        }
-
-        .field label{
-            font-weight:600;
-            margin-bottom:8px;
-            color:#333;
-        }
-
-        .field input,
-        .field select{
-            width:100%;
-            padding:12px;
-            border:1px solid #ddd;
-            border-radius:8px;
-            font-size:15px;
-        }
-
-        .field input:focus,
-        .field select:focus{
-            outline:none;
-            border-color:#667eea;
-            box-shadow:0 0 8px rgba(102,126,234,0.4);
-        }
-
-        .button-group{
-            margin-top:10px;
-            margin-bottom:20px;
-        }
-
-        button{
-            padding:12px 20px;
-            border:none;
-            border-radius:8px;
-            cursor:pointer;
-            transition:.3s;
-            font-size:14px;
-            margin-right:10px;
-        }
-
-        button:hover{
-            transform:translateY(-2px);
-        }
-
-        .save-btn{
-            background:#667eea;
-            color:white;
-        }
-
-        .load-btn{
-            background:#28a745;
-            color:white;
-        }
-
-        .edit-btn{
-            background:#ffc107;
-            color:black;
-        }
-
-        .delete-btn{
-            background:#dc3545;
-            color:white;
-        }
-
-        table{
-            width:100%;
-            border-collapse:collapse;
-            margin-top:15px;
-            border-radius:10px;
-            overflow:hidden;
-            box-shadow:0 5px 15px rgba(0,0,0,0.1);
-        }
-
-        thead{
-            background:#667eea;
-            color:white;
-        }
-
-        th,td{
-            padding:12px;
-            text-align:center;
-        }
-
-        tbody tr{
-            border-bottom:1px solid #eee;
-        }
-
-        tbody tr:hover{
-            background:#f5f7ff;
-        }
-
-        .action-buttons{
-            display:flex;
-            justify-content:center;
-            gap:8px;
-        }
-
-        @media(max-width:768px){
-
-            .form-group{
-                grid-template-columns:1fr;
-            }
-
-            table{
-                display:block;
-                overflow-x:auto;
-                white-space:nowrap;
-            }
-        }
-
-    </style>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
 </head>
 
 <body>
 
 <div class="container">
 
-    <h1>👨‍💼 Employee Management</h1>
+    <!-- ================= HEADER ================= -->
 
-    <input type="hidden" id="employeeId">
+    <div class="page-header">
 
-    <div class="form-group">
+        <h1>
+            <i class="fa-solid fa-user-tie"></i>
+            Employee Management
+        </h1>
 
-        <div class="field">
-            <label>Employee Code</label>
-            <input type="text" id="employeeCode" placeholder="EMP001">
+        <p>University ERP Employee Module</p>
+
+    </div>
+
+
+    <!-- ================= FORM CARD ================= -->
+
+    <div class="card">
+
+        <h2>Add / Update Employee</h2>
+
+        <form onsubmit="event.preventDefault(); saveEmployee();">
+
+            <input type="hidden" id="employeeId">
+
+            <div class="form-grid">
+
+                <div class="form-group">
+                    <label>Employee Code</label>
+                    <input type="text" id="employeeCode" placeholder="Enter Employee Code" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Employee Name</label>
+                    <input type="text" id="employeeName" placeholder="Enter Employee Name" required>
+                </div>
+
+                <div class="form-group">
+
+                    <label>Email</label>
+
+                    <input
+                            type="email"
+                            id="email"
+                            placeholder="Enter Email">
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>Mobile Number</label>
+
+                    <input
+                            type="text"
+                            id="mobile"
+                            placeholder="Enter Mobile Number">
+
+                </div>
+
+                <div class="form-group">
+                    <label>Designation</label>
+
+                    <select id="designation">
+
+                        <option value="">Select Designation</option>
+                        <option>Vice Chancellor</option>
+                        <option>Registrar</option>
+                        <option>Head of Department (HOD)</option>
+                        <option>Professor</option>
+                        <option>Associate Professor</option>
+                        <option>Assistant Professor</option>
+                        <option>Lecturer</option>
+                        <option>Teaching Assistant</option>
+                        <option>Lab Assistant</option>
+                        <option>Accountant</option>
+                        <option>HR Manager</option>
+                        <option>HR Executive</option>
+                        <option>Admission Coordinator</option>
+                        <option>Controller of Examinations</option>
+                        <option>ERP Administrator</option>
+                        <option>Office Assistant</option>
+                        <option>Senior System Engineer</option>
+                        <option>Network Engineer</option>
+                        <option>Accountant</option>
+                        <option>Training & Placement Coordinator</option>
+
+                    </select>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>Department</label>
+
+                    <select id="department">
+
+                        <option value="">Select Department</option>
+                        <option>Administration</option>
+                        <option>Admissions</option>
+                        <option>IT Support</option>
+                        <option>Networking</option>
+                        <option>Finance & Accounts</option>
+                        <option>Training & Placement</option>
+                        <option>ERP Development</option>
+                        <option>Examination Cell</option>
+                        <option>Human Resources</option>
+                        <option>Computer Science & Engineering</option>
+                    </select>
+
+                </div>
+
+            </div>
+
+            <div class="button-group">
+
+                <button type="submit" class="btn btn-save">
+                    Save Employee
+                </button>
+
+                <button type="reset" class="btn btn-clear" onclick="clearForm()">
+                    Clear
+                </button>
+
+            </div>
+
+        </form>
+    </div>
+
+
+    <!-- ================= RECORDS ================= -->
+
+    <div class="card">
+
+        <h2>Employee Records</h2>
+
+        <div class="search-box">
+
+            <input
+                    type="text"
+                    id="searchEmployee"
+                    placeholder="🔍 Search by Employee Code or Employee Name">
+
         </div>
 
-        <div class="field">
-            <label>Employee Name</label>
-            <input type="text" id="employeeName" placeholder="Employee Name">
-        </div>
+        <div class="table-responsive">
 
-        <div class="field">
-            <label>Designation</label>
-            <select id="designation">
-                <option value="">Select Designation</option>
-                <option>Manager</option>
-                <option>ERP Developer</option>
-                <option>Office Assistant</option>
-                <option>Senior System Engineer</option>
-                <option>Network Engineer</option>
-                <option>Accountant</option>
-            </select>
-        </div>
+            <table>
 
-        <div class="field">
-            <label>Department</label>
-            <select id="department">
-                <option value="">Select Department</option>
-                <option>Administration</option>
-                <option>ERP Development</option>
-                <option>IT Support</option>
-                <option>Networking</option>
-                <option>Accounts</option>
-                <option>Training & Placement</option>
-            </select>
+                <thead>
+
+                <tr>
+
+                    <th>ID</th>
+                    <th>Employee Code</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Mobile</th>
+                    <th>Department</th>
+                    <th>Designation</th>
+                    <th>Actions</th>
+
+                </tr>
+
+                </thead>
+
+                <tbody id="employeeBody">
+
+                </tbody>
+
+            </table>
+
         </div>
 
     </div>
 
-    <div class="button-group">
-        <button class="save-btn" onclick="saveEmployee()">💾 Save Employee</button>
-        <button class="load-btn" onclick="loadEmployees()">🔄 Refresh</button>
+
+    <!-- ================= BACK BUTTON ================= -->
+
+    <div class="back-section">
+
+        <a href="#" class="back-btn" onclick="goDashboard()">
+
+            ← Back To Dashboard
+
+        </a>
+
     </div>
 
-    <h2>Employees List</h2>
 
-    <table>
+    <!-- ================= FOOTER ================= -->
 
-        <thead>
-        <tr>
-            <th>ID</th>
-            <th>Employee Code</th>
-            <th>Name</th>
-            <th>Designation</th>
-            <th>Department</th>
-            <th>Action</th>
-        </tr>
-        </thead>
+    <footer>
 
-        <tbody id="employeeBody"></tbody>
+        © 2026 University ERP System |
+        Designed & Developed by <strong>Suresh Gadri</strong>
 
-    </table>
+    </footer>
 
 </div>
 
-<script>
-
-    window.onload = function(){
-        loadEmployees();
-    }
-
-    function saveEmployee(){
-
-        let id = document.getElementById("employeeId").value;
-
-        let employee = {
-            employeeCode: document.getElementById("employeeCode").value,
-            name: document.getElementById("employeeName").value,
-            designation: document.getElementById("designation").value,
-            department: document.getElementById("department").value
-        };
-
-        if(id){
-
-            fetch("/employees/" + id,{
-                method:"PUT",
-                headers:{
-                    "Content-Type":"application/json"
-                },
-                body:JSON.stringify(employee)
-            })
-                .then(response=>response.json())
-                .then(data=>{
-
-                    alert("Employee Updated Successfully");
-
-                    clearForm();
-                    loadEmployees();
-                });
-
-        }else{
-
-            fetch("/employees",{
-                method:"POST",
-                headers:{
-                    "Content-Type":"application/json"
-                },
-                body:JSON.stringify(employee)
-            })
-                .then(response=>response.json())
-                .then(data=>{
-
-                    alert("Employee Added Successfully");
-
-                    clearForm();
-                    loadEmployees();
-                });
-        }
-    }
-
-    function loadEmployees(){
-
-        fetch("/employees")
-            .then(response=>response.json())
-            .then(data=>{
-
-                let rows="";
-
-                data.forEach(employee=>{
-
-                    rows += `
-            <tr>
-                <td>${employee.id}</td>
-                <td>${employee.employeeCode}</td>
-                <td>${employee.name}</td>
-                <td>${employee.designation}</td>
-                <td>${employee.department}</td>
-
-                <td>
-                    <div class="action-buttons">
-
-                        <button class="edit-btn"
-                        onclick="editEmployee(
-                        '${employee.id}',
-                        '${employee.employeeCode}',
-                        '${employee.name}',
-                        '${employee.designation}',
-                        '${employee.department}')">
-                        Edit
-                        </button>
-
-                        <button class="delete-btn"
-                        onclick="deleteEmployee(${employee.id})">
-                        Delete
-                        </button>
-
-                    </div>
-                </td>
-
-            </tr>
-            `;
-                });
-
-                document.getElementById("employeeBody").innerHTML = rows;
-            });
-    }
-
-    function editEmployee(id, code, name, designation, department){
-
-        document.getElementById("employeeId").value = id;
-        document.getElementById("employeeCode").value = code;
-        document.getElementById("employeeName").value = name;
-        document.getElementById("designation").value = designation;
-        document.getElementById("department").value = department;
-    }
-
-    function deleteEmployee(id){
-
-        if(!confirm("Are you sure you want to delete this employee?")){
-            return;
-        }
-
-        fetch("/employees/" + id,{
-            method:"DELETE"
-        })
-            .then(response=>response.text())
-            .then(data=>{
-
-                alert(data);
-
-                loadEmployees();
-            });
-    }
-
-    function clearForm(){
-
-        document.getElementById("employeeId").value = "";
-        document.getElementById("employeeCode").value = "";
-        document.getElementById("employeeName").value = "";
-        document.getElementById("designation").value = "";
-        document.getElementById("department").value = "";
-    }
-
-</script>
+<script src="js/common.js"></script>
+<script src="js/employee.js"></script>
 
 </body>
 </html>
-

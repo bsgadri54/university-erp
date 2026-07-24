@@ -25,6 +25,19 @@ public class AttendanceController {
         return attendanceService.getAllAttendance();
     }
 
+    @GetMapping("/student/{userId}")
+    public List<Attendance> getStudentAttendance(@PathVariable Long userId) {
+
+        return attendanceService.getAttendanceByUserId(userId);
+
+    }
+    @GetMapping("/employee/{userId}")
+    public List<Attendance> getEmployeeAttendance(@PathVariable Long userId) {
+
+        return attendanceService.getAttendanceByUserId(userId);
+
+    }
+
     @DeleteMapping("/{id}")
     public String deleteAttendance(@PathVariable Long id){
 

@@ -1,240 +1,22 @@
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Result Management</title>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
-    <style>
+    <title>Result Management | University ERP</title>
 
-        *{
-            margin:0;
-            padding:0;
-            box-sizing:border-box;
-            font-family:'Segoe UI',sans-serif;
-        }
+    <link rel="stylesheet"
+          href="css/result-management.css">
 
-        body{
-            background:linear-gradient(135deg,#667eea,#764ba2);
-            min-height:100vh;
-            padding:25px;
-        }
-
-        .container{
-            max-width:1400px;
-            margin:auto;
-        }
-
-        /* Header */
-
-        .header{
-            background:white;
-            padding:25px;
-            border-radius:15px;
-            text-align:center;
-            margin-bottom:25px;
-            box-shadow:0 10px 25px rgba(0,0,0,.15);
-        }
-
-        .header h1{
-            color:#16213e;
-            margin-bottom:8px;
-        }
-
-        .header p{
-            color:#666;
-        }
-
-        /* Statistics */
-
-        .stats{
-            display:grid;
-            grid-template-columns:
-        repeat(auto-fit,minmax(250px,1fr));
-            gap:20px;
-            margin-bottom:25px;
-        }
-
-        .stat-card{
-            background:white;
-            padding:25px;
-            border-radius:15px;
-            text-align:center;
-            box-shadow:0 5px 15px rgba(0,0,0,.1);
-        }
-
-        .stat-card h3{
-            color:#555;
-            margin-bottom:10px;
-        }
-
-        .stat-card h2{
-            font-size:38px;
-            color:#1565c0;
-        }
-
-        .pass-card h2{
-            color:#2e7d32;
-        }
-
-        .fail-card h2{
-            color:#d32f2f;
-        }
-
-        /* Search */
-
-        .search-box{
-            background:white;
-            padding:20px;
-            border-radius:15px;
-            margin-bottom:25px;
-            box-shadow:0 5px 15px rgba(0,0,0,.1);
-        }
-
-        .search-box input{
-            width:100%;
-            padding:14px;
-            border:1px solid #ddd;
-            border-radius:8px;
-            font-size:15px;
-        }
-
-        .search-box input:focus{
-            outline:none;
-            border-color:#667eea;
-        }
-
-        /* Table */
-
-        .table-container{
-            background:white;
-            border-radius:15px;
-            overflow:hidden;
-            box-shadow:0 5px 15px rgba(0,0,0,.1);
-        }
-
-        table{
-            width:100%;
-            border-collapse:collapse;
-        }
-
-        thead{
-            background:#667eea;
-            color:white;
-        }
-
-        th{
-            padding:15px;
-            text-align:center;
-        }
-
-        td{
-            padding:12px;
-            text-align:center;
-            border-bottom:1px solid #eee;
-        }
-
-        tbody tr:hover{
-            background:#f5f7ff;
-        }
-
-        /* Status */
-
-        .pass{
-            color:#2e7d32;
-            font-weight:bold;
-        }
-
-        .fail{
-            color:#d32f2f;
-            font-weight:bold;
-        }
-
-        /* Buttons */
-
-        .edit-btn{
-            background:#2e7d32;
-            color:white;
-            border:none;
-            padding:8px 14px;
-            border-radius:6px;
-            cursor:pointer;
-            margin-right:5px;
-        }
-
-        .edit-btn:hover{
-            background:#1b5e20;
-        }
-
-        .delete-btn{
-            background:#d32f2f;
-            color:white;
-            border:none;
-            padding:8px 14px;
-            border-radius:6px;
-            cursor:pointer;
-        }
-
-        .delete-btn:hover{
-            background:#b71c1c;
-        }
-
-        /* Bottom Buttons */
-
-        .button-section{
-            margin-top:25px;
-            display:flex;
-            gap:15px;
-            justify-content:center;
-            flex-wrap:wrap;
-        }
-
-        .dashboard-btn,
-        .refresh-btn{
-            border:none;
-            color:white;
-            padding:12px 24px;
-            border-radius:8px;
-            cursor:pointer;
-            font-size:15px;
-        }
-
-        .dashboard-btn{
-            background:#1565c0;
-        }
-
-        .refresh-btn{
-            background:#2e7d32;
-        }
-
-        .dashboard-btn:hover,
-        .refresh-btn:hover{
-            transform:translateY(-2px);
-        }
-
-        /* Mobile */
-
-        @media(max-width:768px){
-
-            body{
-                padding:15px;
-            }
-
-            table{
-                display:block;
-                overflow-x:auto;
-                white-space:nowrap;
-            }
-
-            .stats{
-                grid-template-columns:1fr;
-            }
-        }
-
-    </style>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
 </head>
+
 <body>
 
 <div class="container">
@@ -243,382 +25,277 @@
 
     <div class="header">
 
-        <h1>🎓 Result Management</h1>
+        <h1>
+            <i class="fas fa-graduation-cap"></i>
+            Result Management
+        </h1>
 
-        <p>
-            University ERP Examination Module
-        </p>
-
-    </div>
-
-    <!-- Statistics -->
-
-    <div class="stats">
-
-        <div class="stat-card">
-
-            <h3>Total Results</h3>
-
-            <h2 id="totalResults">0</h2>
-
-        </div>
-
-        <div class="stat-card pass-card">
-
-            <h3>Pass Subjects</h3>
-
-            <h2 id="passCount">0</h2>
-
-        </div>
-
-        <div class="stat-card fail-card">
-
-            <h3>Fail Subjects</h3>
-
-            <h2 id="failCount">0</h2>
-
-        </div>
+        <p>University ERP Examination Module</p>
 
     </div>
 
-    <!-- Search Box -->
+    <!-- Add / Update Result -->
 
-    <div class="search-box">
+    <div class="card">
+
+        <h2>
+            <i class="fas fa-edit"></i>
+            Update Marks
+        </h2>
+
+        <form id="resultForm">
+
+            <input type="hidden" id="resultId">
+
+            <div class="form-grid">
+
+                <div class="form-group">
+
+                    <label>Enrollment Number</label>
+
+                    <input
+                            type="text"
+                            id="enrollmentNo"
+                            placeholder="Enter Enrollment Number">
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>Student Name</label>
+
+                    <input
+                            type="text"
+                            id="studentName"
+                            readonly>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>Course</label>
+
+                    <input
+                            type="text"
+                            id="course"
+                            readonly>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>Subject</label>
+
+                    <select id="subject">
+
+                        <option value="">
+                            Select Subject
+                        </option>
+
+                        <option>Computer Network</option>
+                        <option>Data Base Management System</option>
+                        <option>Software Engineering</option>
+                        <option>Java Programming</option>
+                        <option>Web Technology</option>
+                        <option>Java Programming LAB</option>
+                        <option>Data Base Management System LAB</option>
+                        <option>Web Technology LAB</option>
+
+                    </select>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>Semester</label>
+
+                    <select id="semester">
+
+                        <option value="SEM 1">SEM 1</option>
+
+                    </select>
+
+                    </select>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>Maximum Marks</label>
+
+                    <input
+                            type="number"
+                            id="maxMarks"
+                            value="100"
+                            readonly>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>Marks Obtained</label>
+
+                    <input
+                            type="number"
+                            id="marks">
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>Percentage</label>
+
+                    <input
+                            type="text"
+                            id="percentage"
+                            readonly>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>Grade</label>
+
+                    <input
+                            type="text"
+                            id="grade"
+                            readonly>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>Status</label>
+
+                    <input
+                            type="text"
+                            id="status"
+                            readonly>
+
+                </div>
+
+            </div>
+
+            <div class="button-group">
+
+                <button
+                        type="submit"
+                        class="save-btn">
+
+                    <i class="fas fa-save"></i>
+
+                    Save Result
+
+                </button>
+
+                <button
+                        type="reset"
+                        class="clear-btn">
+
+                    <i class="fas fa-eraser"></i>
+
+                    Clear
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+    <!-- Result Records -->
+
+    <div class="card">
+
+        <h2>
+
+            <i class="fas fa-table"></i>
+
+            Result Records
+
+        </h2>
 
         <input
                 type="text"
                 id="search"
-                placeholder="🔍 Search Enrollment Number"
-                onkeyup="loadResults()">
+                placeholder="Search by Enrollment Number...">
+
+        <div class="table-responsive">
+
+            <table>
+
+                <thead>
+
+                <tr>
+
+                    <th>ID</th>
+
+                    <th>Enrollment No</th>
+
+                    <th>Student Name</th>
+
+                    <th>Subject</th>
+
+                    <th>Marks</th>
+
+                    <th>Maximum</th>
+
+                    <th>Percentage</th>
+
+                    <th>Grade</th>
+
+                    <th>Status</th>
+
+                    <th>Semester</th>
+
+                    <th>Action</th>
+
+                </tr>
+
+                </thead>
+
+                <tbody id="resultTable">
+
+                </tbody>
+
+            </table>
+
+        </div>
 
     </div>
 
-    <!-- Results Table -->
+    <!-- Back Button -->
 
-    <div class="table-container">
-
-        <table>
-
-            <thead>
-
-            <tr>
-
-                <th>ID</th>
-
-                <th>Enrollment No</th>
-
-                <th>Subject</th>
-
-                <th>Marks</th>
-
-                <th>Maximum</th>
-
-                <th>Status</th>
-
-                <th>Semester</th>
-
-                <th>Actions</th>
-
-            </tr>
-
-            </thead>
-
-            <tbody id="resultTable">
-
-            </tbody>
-
-        </table>
-
-    </div>
-
-    <!-- Buttons -->
-
-    <div class="button-section">
+    <div class="back-btn">
 
         <button
-                class="dashboard-btn"
                 onclick="window.location.href='dashboard.html'">
 
-            ⬅ Back To Dashboard
-
-        </button>
-
-        <button
-                class="refresh-btn"
-                onclick="loadResults()">
-
-            🔄 Refresh
+            ← Back To Dashboard
 
         </button>
 
     </div>
+
+    <!-- Footer -->
+
+    <footer>
+
+        © 2026 University ERP System |
+        Designed & Developed by
+        <strong>Suresh Gadri</strong>
+
+    </footer>
 
 </div>
 
-<script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    window.onload = loadResults;
+<script src="js/alerts.js"></script>
 
-    function loadResults(){
-
-        let search =
-            document.getElementById("search")
-                .value
-                .toLowerCase();
-
-        fetch("https://university-erp-1-gac1.onrender.com/results")
-
-            .then(response => response.json())
-
-            .then(data => {
-
-                let rows = "";
-
-                let totalResults = 0;
-                let passCount = 0;
-                let failCount = 0;
-
-                data.forEach(result => {
-
-                    if(
-                        search !== "" &&
-                        !result.enrollmentNo
-                            .toLowerCase()
-                            .includes(search)
-                    ){
-                        return;
-                    }
-
-                    totalResults++;
-
-                    let maxMarks = 100;
-                    let passMarks = 40;
-
-                    if(
-                        result.subject.includes("LAB") ||
-                        result.subject ===
-                        "Practical Training 45 Days"
-                    ){
-                        maxMarks = 50;
-                        passMarks = 20;
-                    }
-
-                    let status =
-                        result.marks >= passMarks
-                            ? "PASS"
-                            : "FAIL";
-
-                    if(status === "PASS"){
-                        passCount++;
-                    }else{
-                        failCount++;
-                    }
-
-                    rows += `
-                <tr>
-
-                    <td>${result.id}</td>
-
-                    <td>${result.enrollmentNo}</td>
-
-                    <td>${result.subject}</td>
-
-                    <td>${result.marks}</td>
-
-                    <td>${maxMarks}</td>
-
-                    <td class="${
-                        status === "PASS"
-                            ? "pass"
-                            : "fail"
-                    }">
-                        ${status}
-                    </td>
-
-                    <td>${result.semester}</td>
-
-                    <td>
-
-                        <button
-                            class="edit-btn"
-                            onclick="editResult(
-                                ${result.id},
-                                ${result.marks}
-                            )">
-
-                            Edit
-
-                        </button>
-
-                        <button
-                            class="delete-btn"
-                            onclick="deleteResult(
-                                ${result.id}
-                            )">
-
-                            Delete
-
-                        </button>
-
-                    </td>
-
-                </tr>
-                `;
-                });
-
-                document.getElementById(
-                    "resultTable"
-                ).innerHTML = rows;
-
-                document.getElementById(
-                    "totalResults"
-                ).innerHTML = totalResults;
-
-                document.getElementById(
-                    "passCount"
-                ).innerHTML = passCount;
-
-                document.getElementById(
-                    "failCount"
-                ).innerHTML = failCount;
-            })
-
-            .catch(error => {
-
-                console.error(error);
-
-                alert(
-                    "Error Loading Results"
-                );
-
-            });
-    }
-
-    /* =========================
-       Edit Result
-    ========================= */
-
-    function editResult(
-        id,
-        currentMarks
-    ){
-
-        let newMarks =
-            prompt(
-                "Enter New Marks",
-                currentMarks
-            );
-
-        if(
-            newMarks === null ||
-            newMarks === ""
-        ){
-            return;
-        }
-
-        fetch(
-            "https://university-erp-1-gac1.onrender.com/results/" + id,
-            {
-                method:"PUT",
-
-                headers:{
-                    "Content-Type":"application/json"
-                },
-
-                body:JSON.stringify({
-                    marks:newMarks
-                })
-            }
-        )
-
-            .then(response => {
-
-                if(!response.ok){
-                    throw new Error(
-                        "Update Failed"
-                    );
-                }
-
-                return response.text();
-            })
-
-            .then(message => {
-
-                alert(
-                    message ||
-                    "Marks Updated Successfully"
-                );
-
-                loadResults();
-
-            })
-
-            .catch(error => {
-
-                console.error(error);
-
-                alert(
-                    "Unable To Update Marks"
-                );
-
-            });
-    }
-
-    /* =========================
-       Delete Result
-    ========================= */
-
-    function deleteResult(id){
-
-        if(
-            !confirm(
-                "Are you sure you want to delete this result?"
-            )
-        ){
-            return;
-        }
-
-        fetch(
-            "https://university-erp-1-gac1.onrender.com/results/" + id,
-            {
-                method:"DELETE"
-            }
-        )
-
-            .then(response => {
-
-                if(!response.ok){
-                    throw new Error(
-                        "Delete Failed"
-                    );
-                }
-
-                return response.text();
-            })
-
-            .then(message => {
-
-                alert(
-                    message ||
-                    "Result Deleted Successfully"
-                );
-
-                loadResults();
-
-            })
-
-            .catch(error => {
-
-                console.error(error);
-
-                alert(
-                    "Unable To Delete Result"
-                );
-
-            });
-    }
-
-</script>
+<script src="js/result-management.js"></script>
 
 </body>
+
 </html>

@@ -1,285 +1,224 @@
-
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-    <title>Attendance Management System</title>
 
-    <style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        *{
-            margin:0;
-            padding:0;
-            box-sizing:border-box;
-            font-family:Arial,sans-serif;
-        }
+    <title>Attendance Management | University ERP</title>
 
-        body{
-            background:linear-gradient(135deg,#667eea,#764ba2);
-            min-height:100vh;
-            padding:40px;
-        }
+    <link rel="stylesheet" href="css/attendance.css">
 
-        .container{
-            max-width:1100px;
-            margin:auto;
-            background:white;
-            padding:30px;
-            border-radius:15px;
-            box-shadow:0 5px 20px rgba(0,0,0,0.2);
-        }
-
-        h1{
-            text-align:center;
-            margin-bottom:30px;
-            color:#222;
-        }
-
-        .top-bar{
-            margin-bottom:20px;
-        }
-
-        .dashboard-btn{
-            background:#28a745;
-            color:white;
-            text-decoration:none;
-            padding:10px 20px;
-            border-radius:5px;
-            font-weight:bold;
-        }
-
-        .form-section{
-            display:grid;
-            grid-template-columns:repeat(4,1fr);
-            gap:15px;
-            margin-bottom:20px;
-        }
-
-        input,select{
-            padding:12px;
-            border:1px solid #ccc;
-            border-radius:5px;
-        }
-
-        button{
-            padding:10px 20px;
-            border:none;
-            cursor:pointer;
-            border-radius:5px;
-            color:white;
-        }
-
-        .save-btn{
-            background:#4e73df;
-        }
-
-        .edit-btn{
-            background:#ffc107;
-            color:black;
-        }
-
-        .delete-btn{
-            background:#dc3545;
-        }
-
-        table{
-            width:100%;
-            border-collapse:collapse;
-            margin-top:20px;
-        }
-
-        th{
-            background:#5d72de;
-            color:white;
-            padding:12px;
-        }
-
-        td{
-            padding:12px;
-            border-bottom:1px solid #ddd;
-            text-align:center;
-        }
-
-    </style>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
 
 </head>
-<body>
+
+<body onload="loadAttendance()">
 
 <div class="container">
 
-    <div class="top-bar">
-        <a href="dashboard.html" class="dashboard-btn">
-            Dashboard
-        </a>
-    </div>
+    <!-- ================= HEADER ================= -->
 
-    <h1>Attendance Management System</h1>
+    <div class="page-header">
 
-    <input type="hidden" id="attendanceId">
+        <h1>
 
-    <div class="form-section">
+            <i class="fa-solid fa-calendar-check"></i>
 
-        <select id="personType">
-            <option value="STUDENT">Student</option>
-            <option value="EMPLOYEE">Employee</option>
-        </select>
+            Attendance Management
 
-        <input type="text"
-               id="personName"
-               placeholder="Person Name">
+        </h1>
 
-        <input type="date"
-               id="attendanceDate">
-
-        <select id="status">
-            <option value="PRESENT">Present</option>
-            <option value="ABSENT">Absent</option>
-        </select>
+        <p>University ERP Attendance Module</p>
 
     </div>
 
-    <button class="save-btn"
-            onclick="saveAttendance()">
-        Save Attendance
-    </button>
+    <!-- ================= TAKE ATTENDANCE ================= -->
 
-    <h2 style="margin-top:30px;">
-        Attendance Records
-    </h2>
+    <div class="card">
 
-    <table>
+        <h2>
 
-        <thead>
-        <tr>
-            <th>ID</th>
-            <th>Type</th>
-            <th>Name</th>
-            <th>Date</th>
-            <th>Status</th>
-            <th>Action</th>
-        </tr>
-        </thead>
+            <i class="fa-solid fa-user-check"></i>
 
-        <tbody id="attendanceTable">
+            Take Attendance
 
-        </tbody>
+        </h2>
 
-    </table>
+        <div class="form-grid">
+
+            <div class="form-group">
+
+                <label>Attendance Type</label>
+
+                <select id="type" onchange="loadNames()">
+
+                    <option value="STUDENT">Student</option>
+
+                    <option value="EMPLOYEE">Employee</option>
+
+                </select>
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Name</label>
+
+                <select id="name">
+
+                    <option value="">Select Name</option>
+
+                </select>
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Date</label>
+
+                <input
+                        type="date"
+                        id="date">
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Status</label>
+
+                <select id="status">
+
+                    <option value="PRESENT">Present</option>
+
+                    <option value="ABSENT">Absent</option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+        <div class="button-group">
+
+            <button
+                    class="btn btn-save"
+                    onclick="saveAttendance()">
+
+                <i class="fa-solid fa-floppy-disk"></i>
+
+                Save Attendance
+
+            </button>
+
+            <button
+                    class="btn btn-clear"
+                    onclick="clearForm()">
+
+                <i class="fa-solid fa-eraser"></i>
+
+                Clear
+
+            </button>
+
+        </div>
+
+    </div>
+    <!-- ================= ATTENDANCE RECORDS ================= -->
+
+    <div class="card">
+
+        <h2>
+
+            <i class="fa-solid fa-table"></i>
+
+            Attendance Records
+
+        </h2>
+
+        <div class="search-box">
+
+            <input
+                    type="text"
+                    id="searchAttendance"
+                    placeholder="🔍 Search by Name or Type"
+                    onkeyup="searchAttendance()">
+
+        </div>
+
+        <div class="table-responsive">
+
+            <table>
+
+                <thead>
+
+                <tr>
+
+                    <th>ID</th>
+
+                    <th>Type</th>
+
+                    <th>Name</th>
+
+                    <th>Date</th>
+
+                    <th>Status</th>
+
+                    <th>Actions</th>
+
+                </tr>
+
+                </thead>
+
+                <tbody id="attendanceTable">
+
+                <!-- JavaScript loads attendance records -->
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= BACK BUTTON ================= -->
+
+    <div class="back-section">
+
+        <button
+                class="back-btn"
+                onclick="goDashboard()">
+
+            <i class="fa-solid fa-arrow-left"></i>
+
+            Back To Dashboard
+
+        </button>
+
+    </div>
+
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer>
+
+        © 2026 University ERP System |
+        Designed & Developed by
+        <strong>Suresh Gadri</strong>
+
+    </footer>
 
 </div>
 
-<script>
 
-    loadAttendance();
+<!-- Common JS -->
+<script src="js/common.js"></script>
 
-    function saveAttendance(){
-
-        let attendance={
-
-            personType:
-            document.getElementById("personType").value,
-
-            personName:
-            document.getElementById("personName").value,
-
-            attendanceDate:
-            document.getElementById("attendanceDate").value,
-
-            status:
-            document.getElementById("status").value
-
-        };
-
-        fetch("/attendance",{
-
-            method:"POST",
-
-            headers:{
-                "Content-Type":"application/json"
-            },
-
-            body:JSON.stringify(attendance)
-
-        })
-            .then(()=>{
-
-                alert("Attendance Saved");
-
-                loadAttendance();
-
-                clearForm();
-
-            });
-
-    }
-
-    function loadAttendance(){
-
-        fetch("/attendance")
-            .then(res=>res.json())
-            .then(data=>{
-
-                let rows="";
-
-                data.forEach(a=>{
-
-                    rows+=`
-            <tr>
-
-                <td>${a.id}</td>
-                <td>${a.personType}</td>
-                <td>${a.personName}</td>
-                <td>${a.attendanceDate}</td>
-                <td>${a.status}</td>
-
-                <td>
-
-                    <button class="delete-btn"
-                    onclick="deleteAttendance(${a.id})">
-                    Delete
-                    </button>
-
-                </td>
-
-            </tr>
-            `;
-
-                });
-
-                document.getElementById("attendanceTable")
-                    .innerHTML=rows;
-
-            });
-
-    }
-
-    function deleteAttendance(id){
-
-        if(confirm("Delete Attendance?")){
-
-            fetch("/attendance/"+id,{
-
-                method:"DELETE"
-
-            })
-                .then(()=>{
-
-                    loadAttendance();
-
-                });
-
-        }
-
-    }
-
-    function clearForm(){
-
-        document.getElementById("personName").value="";
-
-        document.getElementById("attendanceDate").value="";
-
-    }
-
-</script>
+<!-- Attendance JS -->
+<script src="js/attendance.js"></script>
 
 </body>
 </html>

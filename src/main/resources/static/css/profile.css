@@ -1,0 +1,231 @@
+/* ===================================
+   UNIVERSITY ERP - PROFILE CSS
+=================================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;
+}
+
+body{
+    background:#f4f7fc;
+    color:#333;
+}
+
+.container{
+    width:95%;
+    max-width:1500px;
+    margin:30px auto;
+}
+
+/* ================= Header ================= */
+
+.page-header{
+    background:linear-gradient(135deg,#1e3c72,#2a5298);
+    color:#fff;
+    text-align:center;
+    padding:35px 20px;
+    border-radius:15px;
+    margin-bottom:25px;
+    box-shadow:0 10px 25px rgba(0,0,0,.15);
+}
+
+.page-header h1{
+    font-size:34px;
+    font-weight:700;
+    margin-bottom:10px;
+}
+
+.page-header p{
+    font-size:16px;
+    opacity:.95;
+}
+
+/* ================= Card ================= */
+
+.card{
+    background:#fff;
+    border-radius:15px;
+    padding:25px;
+    margin-bottom:25px;
+    box-shadow:0 8px 20px rgba(0,0,0,.08);
+}
+
+.card h2{
+    color:#1e3c72;
+    margin-bottom:20px;
+    border-left:5px solid #2a5298;
+    padding-left:12px;
+    font-size:26px;
+}
+
+/* ================= Form ================= */
+
+.form-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+    gap:20px;
+}
+
+.form-group{
+    display:flex;
+    flex-direction:column;
+}
+
+.form-group label{
+    font-weight:600;
+    margin-bottom:8px;
+    color:#444;
+}
+
+.form-group input{
+    width:100%;
+    padding:12px 15px;
+    border:1px solid #ccc;
+    border-radius:10px;
+    font-size:15px;
+    transition:.3s;
+    background:#fff;
+}
+
+.form-group input:focus{
+    outline:none;
+    border-color:#2a5298;
+    box-shadow:0 0 8px rgba(42,82,152,.20);
+}
+
+.form-group input[readonly]{
+    background:#f8f9fa;
+    color:#555;
+}
+
+/* ================= Buttons ================= */
+
+.button-group{
+    margin-top:25px;
+    display:flex;
+    gap:15px;
+    flex-wrap:wrap;
+}
+
+.btn{
+    border:none;
+    cursor:pointer;
+    padding:12px 28px;
+    border-radius:8px;
+    font-size:15px;
+    font-weight:600;
+    transition:.3s;
+}
+
+.btn-save{
+    background:#28a745;
+    color:#fff;
+}
+
+.btn-save:hover{
+    background:#218838;
+}
+
+.btn-clear{
+    background:#ff9800;
+    color:#fff;
+}
+
+.btn-clear:hover{
+    background:#e68900;
+}
+
+/* ================= Back Button ================= */
+
+.back-section{
+    margin:20px 0;
+}
+
+.back-btn{
+    display:inline-block;
+    text-decoration:none;
+    background:#2a5298;
+    color:#fff;
+    padding:12px 25px;
+    border-radius:8px;
+    font-weight:600;
+    transition:.3s;
+}
+
+.back-btn:hover{
+    background:#1e3c72;
+}
+
+/* ================= Footer ================= */
+
+footer{
+    margin-top:30px;
+    background:#1e3c72;
+    color:#fff;
+    text-align:center;
+    padding:18px;
+    border-radius:12px;
+    font-size:15px;
+}
+
+/* ================= Responsive ================= */
+
+@media(max-width:992px){
+
+    .page-header h1{
+        font-size:28px;
+    }
+
+    .form-grid{
+        grid-template-columns:1fr;
+    }
+
+}
+
+@media(max-width:768px){
+
+    .container{
+        width:96%;
+    }
+
+    .card{
+        padding:18px;
+    }
+
+    .button-group{
+        flex-direction:column;
+    }
+
+    .btn{
+        width:100%;
+    }
+
+    .back-btn{
+        width:100%;
+        text-align:center;
+    }
+
+}
+
+@media(max-width:480px){
+
+    .page-header{
+        padding:25px 15px;
+    }
+
+    .page-header h1{
+        font-size:24px;
+    }
+
+    .page-header p{
+        font-size:14px;
+    }
+
+    .card h2{
+        font-size:20px;
+    }
+
+}

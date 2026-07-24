@@ -1,167 +1,171 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-    <title>My Profile</title>
 
-    <style>
-        body{
-            font-family: Arial, sans-serif;
-            margin:0;
-            padding:0;
-            background:linear-gradient(135deg,#5b7cff,#8a5cd8);
-        }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        .container{
-            width:500px;
-            margin:80px auto;
-            background:white;
-            padding:30px;
-            border-radius:15px;
-            box-shadow:0 5px 15px rgba(0,0,0,0.2);
-        }
+    <title>My Profile | University ERP</title>
 
-        h1{
-            text-align:center;
-            margin-bottom:30px;
-        }
+    <link rel="stylesheet" href="css/profile.css">
 
-        label{
-            font-weight:bold;
-            display:block;
-            margin-top:15px;
-        }
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
 
-        input{
-            width:100%;
-            padding:10px;
-            margin-top:5px;
-            border:1px solid #ccc;
-            border-radius:5px;
-            box-sizing:border-box;
-        }
-
-        button{
-            padding:10px 20px;
-            border:none;
-            border-radius:5px;
-            cursor:pointer;
-        }
-
-        .dashboard-btn{
-            background:#28a745;
-            color:white;
-            margin-bottom:20px;
-        }
-
-        .update-btn{
-            background:#4f6ddf;
-            color:white;
-            margin-top:15px;
-        }
-
-        hr{
-            margin:25px 0;
-        }
-    </style>
 </head>
 
-<body>
+<body onload="loadProfile()">
 
 <div class="container">
 
-    <button class="dashboard-btn"
-            onclick="window.location.href='dashboard.html'">
-        Dashboard
-    </button>
+    <!-- ================= HEADER ================= -->
 
-    <h1>My Profile</h1>
+    <div class="page-header">
 
-    <label>Username</label>
-    <input type="text" id="username" readonly>
+        <h1>
 
-    <label>Email</label>
-    <input type="email" id="email" readonly>
+            <i class="fa-solid fa-user-circle"></i>
 
-    <label>Role</label>
-    <input type="text" id="role" readonly>
+            My Profile
 
-    <hr>
+        </h1>
 
-    <h2>Change Password</h2>
+        <p>University ERP User Profile</p>
 
-    <label>New Password</label>
-    <input type="password" id="newPassword">
+    </div>
 
-    <button class="update-btn"
-            onclick="updatePassword()">
-        Update Password
-    </button>
+    <!-- ================= PROFILE CARD ================= -->
+
+    <div class="card">
+
+        <h2>
+
+            <i class="fa-solid fa-address-card"></i>
+
+            Profile Information
+
+        </h2>
+
+        <div class="form-grid">
+
+            <div class="form-group">
+
+                <label>Username</label>
+
+                <input
+                        type="text"
+                        id="username"
+                        readonly>
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Email</label>
+
+                <input
+                        type="email"
+                        id="email"
+                        readonly>
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Role</label>
+
+                <input
+                        type="text"
+                        id="role"
+                        readonly>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ================= CHANGE PASSWORD ================= -->
+
+    <div class="card">
+
+        <h2>
+
+            <i class="fa-solid fa-lock"></i>
+
+            Change Password
+
+        </h2>
+
+        <div class="form-grid">
+
+            <div class="form-group">
+
+                <label>New Password</label>
+
+                <input
+                        type="password"
+                        id="newPassword"
+                        placeholder="Enter New Password">
+
+            </div>
+
+        </div>
+
+        <div class="button-group">
+
+            <button
+                    class="btn btn-save"
+                    onclick="changePassword()">
+
+                <i class="fa-solid fa-key"></i>
+
+                Update Password
+
+            </button>
+
+            <button
+                    class="btn btn-clear"
+                    onclick="clearPassword()">
+
+                <i class="fa-solid fa-eraser"></i>
+
+                Clear
+
+            </button>
+
+        </div>
+
+    </div>
+    <!-- ================= BACK BUTTON ================= -->
+
+    <div class="back-section">
+
+        <a href="#" class="back-btn" onclick="goDashboard()">
+
+            ← Back To Dashboard
+
+        </a>
+
+    </div>
+
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer>
+
+        © 2026 University ERP System |
+        Designed & Developed by
+        <strong>Suresh Gadri</strong>
+
+    </footer>
 
 </div>
 
-<script>
-
-    let loggedInUser = localStorage.getItem("username");
-
-    fetch("/users")
-        .then(response => response.json())
-        .then(data => {
-
-            let user = data.find(
-                u => u.username === loggedInUser
-            );
-
-            if(user){
-
-                document.getElementById("username").value =
-                    user.username;
-
-                document.getElementById("email").value =
-                    user.email;
-
-                document.getElementById("role").value =
-                    user.role;
-            }
-        });
-
-    function updatePassword(){
-
-        let username = localStorage.getItem("username");
-
-        let password =
-            document.getElementById("newPassword").value;
-
-        if(password==""){
-
-            alert("Enter Password");
-            return;
-        }
-
-        fetch("/users/change-password/" + username, {
-
-            method:"PUT",
-
-            headers:{
-                "Content-Type":"application/json"
-            },
-
-            body:JSON.stringify({
-                password:password
-            })
-
-        })
-            .then(res=>res.json())
-            .then(data=>{
-
-                alert("Password Updated Successfully");
-
-                document.getElementById("newPassword").value="";
-
-            });
-
-    }
-
-</script>
+<!-- ================= JAVASCRIPT ================= -->
+<script src="js/common.js"></script>
+<script src="js/profile.js"></script>
 
 </body>
+
 </html>

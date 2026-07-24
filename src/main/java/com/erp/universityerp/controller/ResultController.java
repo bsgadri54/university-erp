@@ -1,7 +1,7 @@
 package com.erp.universityerp.controller;
 
 import com.erp.universityerp.entity.Result;
-import com.erp.universityerp.repository.ResultRepository;
+import com.erp.universityerp.service.ResultService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,90 +10,107 @@ import java.util.List;
 
 @RestController
 @CrossOrigin("*")
+@RequestMapping("/results")
 public class ResultController {
 
     @Autowired
-    private ResultRepository repository;
+    private ResultService resultService;
 
-    // SAVE MARKS
-    @PostMapping("/results")
-    public ResponseEntity<?> saveResult(
-            @RequestBody Result result){
+    // =============================
+    // Save Result
+    // =============================
+    @PostMapping
+    public ResponseEntity<String> saveResult(@RequestBody Result result) {
 
-        Result existing =
-                repository.findByEnrollmentNoAndSubject(
-                        result.getEnrollmentNo(),
-                        result.getSubject());
+        String message = resultService.saveResult(result);
 
-        if(existing != null){
-            return ResponseEntity.badRequest()
-                    .body("Marks already updated");
+        if (message.equals("Marks already updated")) {
+            return ResponseEntity.badRequest().body(message);
         }
 
-        repository.save(result);
-
-        return ResponseEntity.ok("Marks Saved");
+        return ResponseEntity.ok(message);
     }
 
-    // GET ALL RESULTS
-    @GetMapping("/results")
-    public List<Result> getAllResults(){
+    // =============================
+    // Get All Results
+    // =============================
+    @GetMapping
+    public List<Result> getAllResults() {
 
-        return repository.findAll();
+        return resultService.getAllResults();
+
     }
 
-    // GET STUDENT RESULTS
-    @GetMapping("/results/{enrollmentNo}")
+    // =============================
+    // Get Result By ID
+    // =============================
+    @GetMapping("/{id}")
+    public ResponseEntity<Result> getResultById(@PathVariable Long id) {
+
+        Result result = resultService.getResultById(id);
+
+        if (result == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(result);
+
+    }
+
+    // =============================
+    // Get Student Results
+    // =============================
+    @GetMapping("/student/{enrollmentNo}")
     public List<Result> getStudentResults(
-            @PathVariable String enrollmentNo){
+            @PathVariable String enrollmentNo) {
 
-        return repository.findByEnrollmentNo(
-                enrollmentNo
-        );
+        return resultService.getStudentResults(enrollmentNo);
+
     }
 
-    // UPDATE MARKS
-    @PutMapping("/results/{id}")
-    public ResponseEntity<?> updateResult(
+    // =============================
+    // Update Result
+    // =============================
+    @PutMapping("/{id}")
+    public ResponseEntity<String> updateResult(
             @PathVariable Long id,
-            @RequestBody Result updatedResult){
+            @RequestBody Result result) {
 
-        Result result =
-                repository.findById(id)
-                        .orElse(null);
+        String message = resultService.updateResult(id, result);
 
-        if(result == null){
-            return ResponseEntity
-                    .badRequest()
-                    .body("Result Not Found");
+        if (message.equals("Result Not Found")) {
+            return ResponseEntity.badRequest().body(message);
         }
 
-        result.setMarks(updatedResult.getMarks());
+        return ResponseEntity.ok(message);
 
-        repository.save(result);
-
-        return ResponseEntity.ok("Marks Updated Successfully");
     }
 
-    @DeleteMapping("/results/{id}")
-    public ResponseEntity<?> deleteResult(
-            @PathVariable Long id){
+    // =============================
+    // Delete Result
+    // =============================
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteResult(
+            @PathVariable Long id) {
 
-        if(!repository.existsById(id)){
-            return ResponseEntity
-                    .badRequest()
-                    .body("Result Not Found");
+        String message = resultService.deleteResult(id);
+
+        if (message.equals("Result Not Found")) {
+            return ResponseEntity.badRequest().body(message);
         }
 
-        repository.deleteById(id);
+        return ResponseEntity.ok(message);
 
-        return ResponseEntity.ok("Result Deleted Successfully");
     }
 
-    // TEST API
-    @GetMapping("/test-result")
-    public String testResult(){
+    // =============================
+    // Test API
+    // =============================
+    @GetMapping("/test")
+    public String test() {
 
         return "Result Controller Working";
+
     }
+
 }

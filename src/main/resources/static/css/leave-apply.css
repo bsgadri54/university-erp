@@ -1,0 +1,310 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Segoe UI", sans-serif;
+}
+
+body {
+    background: #f4f7fc;
+    padding: 30px;
+}
+
+.container {
+    max-width: 1200px;
+    margin: auto;
+}
+
+.page-header {
+    background: linear-gradient(135deg,#1e3c72,#2a5298);
+    color: white;
+    text-align: center;
+    padding: 30px;
+    border-radius: 12px;
+    margin-bottom: 25px;
+    box-shadow: 0 5px 15px rgba(0,0,0,.15);
+}
+
+.page-header h1{
+    font-size:38px;
+    margin-bottom:8px;
+}
+
+.page-header p{
+    font-size:15px;
+    opacity:.9;
+}
+
+.card{
+    background:#fff;
+    border-radius:12px;
+    padding:25px;
+    margin-bottom:25px;
+    box-shadow:0 4px 15px rgba(0,0,0,.08);
+}
+
+.card h2{
+    color:#1e3c72;
+    margin-bottom:20px;
+    border-left:5px solid #2a5298;
+    padding-left:10px;
+}
+
+.form-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:20px;
+}
+
+.form-group{
+    display:flex;
+    flex-direction:column;
+}
+
+.form-group label{
+    font-weight:600;
+    margin-bottom:8px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea{
+    padding:12px;
+    border:1px solid #ccc;
+    border-radius:8px;
+    font-size:15px;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus{
+    outline:none;
+    border-color:#2a5298;
+}
+
+.full-width{
+    margin-top:20px;
+}
+
+.button-group{
+    margin-top:25px;
+}
+
+.btn-save{
+    background:#28a745;
+    color:white;
+    border:none;
+    padding:12px 22px;
+    border-radius:8px;
+    cursor:pointer;
+    margin-right:10px;
+    font-size:15px;
+}
+
+.btn-save:hover{
+    background:#218838;
+}
+
+.btn-clear{
+    background:#ff9800;
+    color:white;
+    border:none;
+    padding:12px 22px;
+    border-radius:8px;
+    cursor:pointer;
+    font-size:15px;
+}
+
+.btn-clear:hover{
+    background:#e68900;
+}
+
+#searchLeave{
+    width:100%;
+    padding:12px;
+    margin-bottom:20px;
+    border:1px solid #ccc;
+    border-radius:8px;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+table th{
+    background:#2a5298;
+    color:white;
+    padding:12px;
+}
+
+table td{
+    padding:12px;
+    border-bottom:1px solid #ddd;
+    text-align:center;
+}
+
+table tr:nth-child(even){
+    background:#f8f9fa;
+}
+
+.back-btn{
+    margin-top:20px;
+}
+
+.back-btn a{
+    background:#2a5298;
+    color:white;
+    text-decoration:none;
+    padding:12px 20px;
+    border-radius:8px;
+}
+
+.back-btn a:hover{
+    background:#1e3c72;
+}
+
+.btn-delete{
+    background:#dc3545;
+    color:#fff;
+    border:none;
+    padding:8px 14px;
+    border-radius:6px;
+    cursor:pointer;
+    font-weight:600;
+}
+
+.btn-delete:hover{
+    background:#bb2d3b;
+}
+/* ==========================================
+   Status Badges
+========================================== */
+
+.status {
+    display: inline-block;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #fff;
+    min-width: 95px;
+    text-align: center;
+}
+
+.status.pending {
+    background: #ffc107;
+    color: #212529;
+}
+
+.status.approved {
+    background: #28a745;
+}
+
+.status.rejected {
+    background: #dc3545;
+}
+
+/* ==========================================
+   Locked Badge
+========================================== */
+
+.locked {
+    display: inline-block;
+    background: #6c757d;
+    color: #fff;
+    padding: 8px 14px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+/* ==========================================
+   Table Improvements
+========================================== */
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+    overflow-x: auto;
+}
+
+table th {
+    white-space: nowrap;
+}
+
+table td {
+    vertical-align: middle;
+}
+
+tbody tr:hover {
+    background: #eef5ff;
+}
+
+/* ==========================================
+   Responsive Table
+========================================== */
+
+.card {
+    overflow-x: auto;
+}
+
+/* ==========================================
+   Form Improvements
+========================================== */
+
+textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+input[readonly] {
+    background: #f8f9fa;
+    font-weight: 600;
+    color: #555;
+}
+
+/* ==========================================
+   Mobile Responsive
+========================================== */
+
+@media (max-width: 768px) {
+
+    body {
+        padding: 15px;
+    }
+
+    .page-header h1 {
+        font-size: 28px;
+    }
+
+    .page-header p {
+        font-size: 14px;
+    }
+
+    .card {
+        padding: 18px;
+    }
+
+    table {
+        font-size: 13px;
+    }
+
+    table th,
+    table td {
+        padding: 10px;
+    }
+
+    .btn-save,
+    .btn-clear,
+    .btn-delete {
+        width: 100%;
+        margin-top: 8px;
+    }
+
+    .button-group {
+        display: flex;
+        flex-direction: column;
+    }
+}

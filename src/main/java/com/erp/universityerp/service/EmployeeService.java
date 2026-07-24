@@ -18,54 +18,96 @@ public class EmployeeService {
     @Autowired
     private UserRepository userRepository;
 
+    // ============================================
+    // Save Employee
+    // ============================================
+
     public Employee saveEmployee(Employee employee) {
 
-        Employee savedEmployee =
-                employeeRepository.save(employee);
+        Employee savedEmployee = employeeRepository.save(employee);
 
-        User user =
-                userRepository.findByUsername(employee.getEmployeeCode());
+        User user = userRepository.findByUsername(employee.getEmployeeCode());
 
-        if(user == null) {
+        if (user == null) {
 
             user = new User();
+
             user.setUsername(employee.getEmployeeCode());
+
             user.setPassword("Gadri@#09");
+
             user.setRole("EMPLOYEE");
 
-            userRepository.save(user);
+            user = userRepository.save(user);
+
+            // Link Employee with User
+            savedEmployee.setUserId(user.getId());
+
+            savedEmployee = employeeRepository.save(savedEmployee);
+
         }
 
         return savedEmployee;
     }
 
+    // ============================================
+    // Get All Employees
+    // ============================================
+
     public List<Employee> getAllEmployees() {
+
         return employeeRepository.findAll();
+
     }
+
+    // ============================================
+    // Get Employee By Id
+    // ============================================
 
     public Employee getEmployeeById(Long id) {
+
         return employeeRepository.findById(id).orElse(null);
+
     }
 
-    public void deleteEmployee(Long id) {
-        employeeRepository.deleteById(id);
+    // ============================================
+    // Get Employee By User Id
+    // ============================================
+
+    public Employee getEmployeeByUserId(Long userId) {
+
+        return employeeRepository.findByUserId(userId);
+
     }
+
+    // ============================================
+    // Delete Employee
+    // ============================================
+
+    public void deleteEmployee(Long id) {
+
+        employeeRepository.deleteById(id);
+
+    }
+
+    // ============================================
+    // Update Employee
+    // ============================================
 
     public Employee updateEmployee(Long id, Employee employee) {
 
-        Employee existingEmployee =
-                employeeRepository.findById(id).orElse(null);
+        Employee emp = employeeRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Employee Not Found"));
 
-        if(existingEmployee != null) {
+        emp.setEmployeeCode(employee.getEmployeeCode());
+        emp.setName(employee.getName());
+        emp.setEmail(employee.getEmail());
+        emp.setMobile(employee.getMobile());
+        emp.setDesignation(employee.getDesignation());
+        emp.setDepartment(employee.getDepartment());
 
-            existingEmployee.setEmployeeCode(employee.getEmployeeCode());
-            existingEmployee.setName(employee.getName());
-            existingEmployee.setDesignation(employee.getDesignation());
-            existingEmployee.setDepartment(employee.getDepartment());
+        return employeeRepository.save(emp);
 
-            return employeeRepository.save(existingEmployee);
-        }
-
-        return null;
     }
+
 }

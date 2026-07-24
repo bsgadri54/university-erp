@@ -1,56 +1,28 @@
-function logout() {
-
-    localStorage.clear();
-
-    window.location.href = "login.html";
-
-}
+// ================================
+// Role Based Dashboard Navigation
+// ================================
 
 function goDashboard() {
 
-    window.location.href = "dashboard.html";
+    let role = localStorage.getItem("role");
+
+    switch (role) {
+
+        case "ADMIN":
+            window.location.href = "dashboard.html";
+            break;
+
+        case "EMPLOYEE":
+            window.location.href = "employee-dashboard.html";
+            break;
+
+        case "STUDENT":
+            window.location.href = "student-dashboard.html";
+            break;
+
+        default:
+            window.location.href = "login.html";
+
+    }
 
 }
-
-function confirmDelete() {
-
-    return confirm("Are you sure?");
-
-}
-
-function showSuccess(msg) {
-
-    alert(msg);
-
-}
-
-function showError(msg) {
-
-    alert(msg);
-
-}
-
-function loadComponent(id, file) {
-
-    fetch(file)
-        .then(response => response.text())
-        .then(html => {
-
-            document.getElementById(id).innerHTML = html;
-
-        });
-
-}
-
-window.addEventListener("DOMContentLoaded", () => {
-
-    if(document.getElementById("header"))
-        loadComponent("header","header.html");
-
-    if(document.getElementById("sidebar"))
-        loadComponent("sidebar","sidebar.html");
-
-    if(document.getElementById("footer"))
-        loadComponent("footer","footer.html");
-
-});

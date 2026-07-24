@@ -1,65 +1,204 @@
-<script>
+// ============================================
+// University ERP Login
+// ============================================
 
-    document.getElementById("loginForm")
-    .addEventListener("submit", function(e){
+// Auto Focus
+window.onload = function () {
 
-    e.preventDefault();
+    document.getElementById("username").focus();
 
-    fetch("/users/login",{
-    method:"POST",
-    headers:{
-    "Content-Type":"application/json"
-},
-    body:JSON.stringify({
-    username:document.getElementById("username").value,
-    password:document.getElementById("password").value
-})
-})
+};
 
-    .then(response => response.json())
+// ============================================
+// Show / Hide Password
+// ============================================
 
-    .then(user => {
+const passwordInput = document.getElementById("password");
+const togglePassword = document.getElementById("togglePassword");
 
-    console.log("LOGIN RESPONSE:", user);
+togglePassword.addEventListener("click", function () {
 
-    if(user && user.id){
+    if (passwordInput.type === "password") {
 
-    localStorage.setItem("userId", user.id);
-    localStorage.setItem("username", user.username);
-    localStorage.setItem("role", user.role);
+        passwordInput.type = "text";
 
-    console.log("Saved Username:", localStorage.getItem("username"));
+        togglePassword.innerHTML =
+            '<i class="fas fa-eye-slash"></i>';
 
-    alert("Role = " + user.role);
+    } else {
 
-    if(user.role === "ADMIN"){
-    window.location.href = "dashboard.html";
-}
-    else if(user.role === "STUDENT"){
-    window.location.href = "student-dashboard.html";
-}
-    else if(user.role === "EMPLOYEE"){
-    window.location.href = "employee-dashboard.html";
-}
-    else{
-    alert("Unknown Role: " + user.role);
-}
+        passwordInput.type = "password";
 
-}else{
+        togglePassword.innerHTML =
+            '<i class="fas fa-eye"></i>';
 
-    alert("Invalid Username or Password");
-
-}
-
-})
-
-    .catch(error => {
-
-    console.log(error);
-    alert("Login Failed");
+    }
 
 });
 
-});
+// ============================================
+// Forgot Password
+// ============================================
 
-</script>
+const forgotPassword = document.getElementById("forgotPassword");
+
+if (forgotPassword) {
+
+    forgotPassword.addEventListener("click", function (e) {
+
+        e.preventDefault();
+
+        Swal.fire({
+            icon: "info",
+            title: "Forgot Password",
+            text: "Password reset functionality is under development. Please contact the Administrator.",
+            confirmButtonColor: "#2563eb"
+        });
+
+    });
+
+}
+
+// ============================================
+// Login
+// ============================================
+
+document.getElementById("loginForm")
+    .addEventListener("submit", function (e) {
+
+        e.preventDefault();
+
+        const loginBtn = document.querySelector(".login-btn");
+
+        loginBtn.disabled = true;
+
+        loginBtn.innerHTML =
+            '<i class="fas fa-spinner fa-spin"></i> Signing In...';
+
+        fetch("/users/login", {
+
+            method: "POST",
+
+            headers: {
+                "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify({
+
+                username: document.getElementById("username").value,
+
+                password: document.getElementById("password").value
+
+            })
+
+        })
+
+            .then(response => response.json())
+
+            .then(user => {
+
+                if (user && user.id) {
+
+                    localStorage.setItem("userId", user.id);
+                    localStorage.setItem("username", user.username);
+                    localStorage.setItem("role", user.role);
+
+                    if (user.role === "DEACTIVATED USER") {
+
+                        loginBtn.disabled = false;
+
+                        loginBtn.innerHTML =
+                            '<i class="fas fa-right-to-bracket"></i> Sign In';
+
+                        showWarning(
+                            "Account Deactivated",
+                            "Your account has been deactivated by the Administrator."
+                        );
+
+                        document.getElementById("username").value = "";
+                        document.getElementById("password").value = "";
+
+                        return;
+                    }
+
+                    if (user.role === "ADMIN") {
+
+                        loginSuccess(user.username, function () {
+
+                            window.location.href = "dashboard.html";
+
+                        });
+
+                    }
+
+                    else if (user.role === "STUDENT") {
+
+                        loginSuccess(user.username, function () {
+
+                            window.location.href =
+                                "student-dashboard.html";
+
+                        });
+
+                    }
+
+                    else if (user.role === "EMPLOYEE") {
+
+                        loginSuccess(user.username, function () {
+
+                            window.location.href =
+                                "employee-dashboard.html";
+
+                        });
+
+                    }
+
+                    else {
+
+                        loginBtn.disabled = false;
+
+                        loginBtn.innerHTML =
+                            '<i class="fas fa-right-to-bracket"></i> Sign In';
+
+                        showError(
+                            "Access Denied",
+                            "Your account role is invalid."
+                        );
+
+                    }
+
+                }
+
+                else {
+
+                    loginBtn.disabled = false;
+
+                    loginBtn.innerHTML =
+                        '<i class="fas fa-right-to-bracket"></i> Sign In';
+
+                    showError(
+                        "Login Failed",
+                        "Invalid Username or Password."
+                    );
+
+                }
+
+            })
+
+            .catch(error => {
+
+                console.error(error);
+
+                loginBtn.disabled = false;
+
+                loginBtn.innerHTML =
+                    '<i class="fas fa-right-to-bracket"></i> Sign In';
+
+                showError(
+                    "Server Error",
+                    "Unable to connect to the server. Please try again."
+                );
+
+            });
+
+    });

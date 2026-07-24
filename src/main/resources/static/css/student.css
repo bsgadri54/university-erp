@@ -1,88 +1,92 @@
-<style>
-
 *{
     margin:0;
     padding:0;
     box-sizing:border-box;
-    font-family:'Segoe UI',sans-serif;
+    font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;
 }
 
 body{
-    background:#f4f6f9;
+    background:#f4f7fc;
+    color:#333;
 }
+
+/* Container */
 
 .container{
     width:95%;
-    max-width:1400px;
+    max-width:1500px;
     margin:30px auto;
 }
 
-.header{
-    background:linear-gradient(135deg,#1565c0,#42a5f5);
-    color:white;
+/* Header */
+
+.page-header{
+    background:linear-gradient(135deg,#1e3c72,#2a5298);
+    color:#fff;
     text-align:center;
-    padding:30px;
+    padding:35px 20px;
     border-radius:15px;
-    box-shadow:0 5px 15px rgba(0,0,0,.15);
     margin-bottom:25px;
+    box-shadow:0 10px 25px rgba(0,0,0,.15);
 }
 
-.header h1{
-    font-size:40px;
+.page-header h1{
+    font-size:34px;
+    font-weight:700;
     margin-bottom:10px;
 }
 
-.header p{
-    font-size:18px;
+.page-header p{
+    font-size:16px;
+    opacity:.95;
 }
 
-.card{
+/* Card */
 
-    background:white;
+.card{
+    background:#fff;
     border-radius:15px;
     padding:25px;
-    box-shadow:0 5px 15px rgba(0,0,0,.08);
     margin-bottom:25px;
-
+    box-shadow:0 8px 20px rgba(0,0,0,.08);
 }
 
 .card h2{
-
-    color:#1565c0;
-    margin-bottom:25px;
-
+    color:#1e3c72;
+    margin-bottom:20px;
+    border-left:5px solid #2a5298;
+    padding-left:12px;
 }
 
+/* Form */
+
 .form-grid{
-
     display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-    gap:18px;
-
+    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+    gap:20px;
 }
 
 .form-group{
-
     display:flex;
     flex-direction:column;
-
 }
 
 .form-group label{
-
-    margin-bottom:8px;
     font-weight:600;
-    color:#333;
-
+    margin-bottom:8px;
+    color:#444;
 }
 
 .form-group input,
 .form-group select{
 
-    padding:12px;
+    width:100%;
+    padding:12px 15px;
     border:1px solid #ccc;
-    border-radius:8px;
+    border-radius:10px;
     font-size:15px;
+    transition:.3s;
+    background:#fff;
 
 }
 
@@ -90,9 +94,12 @@ body{
 .form-group select:focus{
 
     outline:none;
-    border-color:#1565c0;
+    border-color:#2a5298;
+    box-shadow:0 0 8px rgba(42,82,152,.25);
 
 }
+
+/* Buttons */
 
 .button-group{
 
@@ -103,55 +110,45 @@ body{
 
 }
 
-button{
+.btn{
 
-    padding:12px 30px;
     border:none;
-    border-radius:8px;
     cursor:pointer;
+    padding:12px 28px;
+    border-radius:8px;
     font-size:15px;
-    font-weight:bold;
+    font-weight:600;
+    transition:.3s;
 
 }
 
-.save-btn{
+.btn-save{
 
-    background:#2e7d32;
-    color:white;
-
-}
-
-.save-btn:hover{
-
-    background:#1b5e20;
+    background:#28a745;
+    color:#fff;
 
 }
 
-.clear-btn{
+.btn-save:hover{
 
-    background:#ef6c00;
-    color:white;
-
-}
-
-.clear-btn:hover{
-
-    background:#e65100;
+    background:#218838;
 
 }
 
-.back-btn{
+.btn-clear{
 
-    background:#1565c0;
-    color:white;
+    background:#ff9800;
+    color:#fff;
+
+}
+
+.btn-clear:hover{
+
+    background:#f57c00;
 
 }
 
-.back-btn:hover{
-
-    background:#0d47a1;
-
-}
+/* Search */
 
 .search-box{
 
@@ -162,14 +159,24 @@ button{
 .search-box input{
 
     width:100%;
-    padding:14px;
+    padding:12px 15px;
+    border-radius:10px;
     border:1px solid #ccc;
-    border-radius:8px;
     font-size:15px;
 
 }
 
-.table-container{
+.search-box input:focus{
+
+    outline:none;
+    border-color:#2a5298;
+    box-shadow:0 0 8px rgba(42,82,152,.20);
+
+}
+
+/* Table */
+
+.table-responsive{
 
     overflow-x:auto;
 
@@ -179,70 +186,129 @@ table{
 
     width:100%;
     border-collapse:collapse;
+    min-width:1100px;
 
 }
 
 thead{
 
-    background:#1565c0;
-    color:white;
+    background:#2a5298;
+    color:#fff;
 
 }
 
-th{
+thead th{
 
     padding:15px;
+    text-align:center;
 
 }
 
-td{
+tbody td{
 
-    padding:12px;
+    padding:14px;
     text-align:center;
     border-bottom:1px solid #eee;
 
 }
 
+tbody tr:nth-child(even){
+
+    background:#f9fbff;
+
+}
+
 tbody tr:hover{
 
-    background:#f5f9ff;
+    background:#eef5ff;
 
 }
 
-.edit-btn{
+/* Action Buttons */
 
-    background:#2e7d32;
-    color:white;
+.btn-edit,
+.btn-delete{
+
+    display:inline-block;
     padding:8px 15px;
-    border:none;
     border-radius:6px;
-    cursor:pointer;
-
-}
-
-.delete-btn{
-
-    background:#d32f2f;
-    color:white;
-    padding:8px 15px;
-    border:none;
-    border-radius:6px;
-    cursor:pointer;
-
-}
-
-.footer{
-
-    text-align:center;
-    margin-top:30px;
-    color:#777;
+    color:#fff;
+    text-decoration:none;
     font-size:14px;
+    transition:.3s;
+    margin:2px;
 
 }
 
-@media(max-width:768px){
+.btn-edit{
 
-    .header h1{
+    background:#28a745;
+
+}
+
+.btn-edit:hover{
+
+    background:#218838;
+
+}
+
+.btn-delete{
+
+    background:#dc3545;
+
+}
+
+.btn-delete:hover{
+
+    background:#bb2d3b;
+
+}
+
+/* Back Button */
+
+.back-section{
+
+    margin-top:20px;
+
+}
+
+.back-btn{
+
+    display:inline-block;
+    background:#2a5298;
+    color:#fff;
+    padding:12px 25px;
+    border-radius:8px;
+    text-decoration:none;
+    font-weight:600;
+    transition:.3s;
+
+}
+
+.back-btn:hover{
+
+    background:#1e3c72;
+
+}
+
+/* Footer */
+
+footer{
+
+    margin-top:30px;
+    background:#1e3c72;
+    color:#fff;
+    text-align:center;
+    padding:18px;
+    border-radius:12px;
+
+}
+
+/* Responsive */
+
+@media(max-width:992px){
+
+    .page-header h1{
 
         font-size:28px;
 
@@ -254,12 +320,67 @@ tbody tr:hover{
 
     }
 
-    button{
+}
+
+@media(max-width:768px){
+
+    .container{
+
+        width:96%;
+
+    }
+
+    .card{
+
+        padding:18px;
+
+    }
+
+    .button-group{
+
+        flex-direction:column;
+
+    }
+
+    .btn{
 
         width:100%;
 
     }
 
+    .back-btn{
+
+        width:100%;
+        text-align:center;
+
+    }
+
 }
 
-</style>
+@media(max-width:480px){
+
+    .page-header{
+
+        padding:25px 15px;
+
+    }
+
+    .page-header h1{
+
+        font-size:24px;
+
+    }
+
+    .page-header p{
+
+        font-size:14px;
+
+    }
+
+    .card h2{
+
+        font-size:20px;
+
+    }
+
+}

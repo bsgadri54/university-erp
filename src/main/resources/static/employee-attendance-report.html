@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Employee Attendance Report</title>
+
+    <link rel="stylesheet" href="css/employee-attendance-report.css">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- Header -->
+
+    <div class="header">
+
+        <h1>
+            <i class="fa-solid fa-user-tie"></i>
+            Employee Attendance Report
+        </h1>
+
+        <p>University ERP - Employee Attendance Details</p>
+
+    </div>
+
+    <!-- Employee Information -->
+
+    <div class="profile-card">
+
+        <div class="profile-item">
+
+            <label>Employee Name</label>
+
+            <span id="employeeName">Loading...</span>
+
+        </div>
+
+        <div class="profile-item">
+
+            <label>Employee Code</label>
+
+            <span id="employeeCode">Loading...</span>
+
+        </div>
+
+    </div>
+
+    <!-- Summary Cards -->
+
+    <div class="cards">
+
+        <div class="card blue">
+
+            <i class="fa-solid fa-calendar-days"></i>
+
+            <h2 id="totalDays">0</h2>
+
+            <p>Total Working Days</p>
+
+        </div>
+
+        <div class="card green">
+
+            <i class="fa-solid fa-circle-check"></i>
+
+            <h2 id="presentCount">0</h2>
+
+            <p>Present</p>
+
+        </div>
+
+        <div class="card red">
+
+            <i class="fa-solid fa-circle-xmark"></i>
+
+            <h2 id="absentCount">0</h2>
+
+            <p>Absent</p>
+
+        </div>
+
+        <div class="card orange">
+
+            <i class="fa-solid fa-chart-line"></i>
+
+            <h2 id="attendancePercentage">0%</h2>
+
+            <p>Attendance %</p>
+
+        </div>
+
+    </div>
+
+    <!-- Filters -->
+
+    <div class="filter-box">
+
+        <input
+                type="text"
+                id="searchDate"
+                placeholder="🔍 Search by Date..."
+                onkeyup="filterAttendance()">
+
+        <input
+                type="month"
+                id="monthFilter"
+                onchange="filterAttendance()">
+
+    </div>
+
+    <!-- Buttons -->
+
+    <div class="button-bar">
+
+        <button onclick="loadAttendance()">
+
+            <i class="fa-solid fa-rotate"></i>
+
+            Refresh
+
+        </button>
+
+        <button onclick="window.print()">
+
+            <i class="fa-solid fa-print"></i>
+
+            Print
+
+        </button>
+
+        <button onclick="exportExcel()">
+
+            <i class="fa-solid fa-file-excel"></i>
+
+            Excel
+
+        </button>
+
+        <button onclick="exportPDF()">
+
+            <i class="fa-solid fa-file-pdf"></i>
+
+            PDF
+
+        </button>
+
+    </div>
+
+    <!-- Attendance Table -->
+
+    <div class="table-box">
+
+        <table>
+
+            <thead>
+
+            <tr>
+
+                <th>S.No.</th>
+
+                <th>Date</th>
+
+                <th>Status</th>
+
+            </tr>
+
+            </thead>
+
+            <tbody id="attendanceTable">
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    <!-- Footer -->
+
+    <div class="footer">
+
+        © 2026 University ERP System |
+        Designed & Developed by <strong>Suresh Gadri</strong>
+
+    </div>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<script src="js/employee-attendance-report.js"></script>
+
+</body>
+</html>

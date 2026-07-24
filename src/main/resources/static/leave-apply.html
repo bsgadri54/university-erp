@@ -1,0 +1,144 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leave Apply | University ERP</title>
+
+    <link rel="stylesheet" href="css/leave-apply.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- Header -->
+    <div class="page-header">
+        <h1><i class="fas fa-calendar-check"></i> Leave Application</h1>
+        <p>University ERP Leave Module</p>
+    </div>
+
+    <!-- Leave Form -->
+    <div class="card">
+
+        <h2>Apply Leave</h2>
+
+        <form id="leaveForm">
+
+            <div class="form-grid">
+
+                <div class="form-group">
+                    <label>Employee ID</label>
+                    <input type="text" id="employeeId" readonly>
+                </div>
+
+                <div class="form-group">
+                    <label>Employee Name</label>
+                    <input type="text" id="employeeName" readonly>
+                </div>
+
+                <div class="form-group">
+                    <label>Department</label>
+                    <input type="text" id="department" readonly>
+                </div>
+
+                <div class="form-group">
+                    <label>Leave Type</label>
+                    <select id="leaveType">
+                        <option value="">Select Leave Type</option>
+                        <option>Casual Leave</option>
+                        <option>Sick Leave</option>
+                        <option>Leave Without Pay</option>
+                        <option>Maternity Leave</option>
+                        <option>Paternity Leave</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>From Date</label>
+                    <input type="date" id="fromDate">
+                </div>
+
+                <div class="form-group">
+                    <label>To Date</label>
+                    <input type="date" id="toDate">
+                </div>
+
+            </div>
+
+            <div class="form-group full-width">
+                <label>Reason</label>
+                <textarea id="reason" rows="4"
+                          placeholder="Enter leave reason..."></textarea>
+            </div>
+
+            <div class="button-group">
+                <button type="submit" class="btn-save">
+                    <i class="fas fa-paper-plane"></i>
+                    Submit Leave
+                </button>
+
+                <button type="reset" class="btn-clear">
+                    Clear
+                </button>
+            </div>
+
+        </form>
+
+    </div>
+
+    <!-- Leave Records -->
+
+    <div class="card">
+
+        <h2>My Leave History</h2>
+
+        <input
+                type="text"
+                id="searchLeave"
+                placeholder="Search Leave..."
+        >
+
+        <table>
+
+            <thead>
+
+            <tr>
+
+                <th>ID</th>
+                <th>Leave Type</th>
+                <th>From Date</th>
+                <th>To Date</th>
+                <th>Total Days</th>
+                <th>Applied Date</th>
+                <th>Approval Date</th>
+                <th>Status</th>
+                <th>Remarks</th>
+                <th>Action</th>
+
+            </tr>
+
+            </thead>
+
+            <tbody id="leaveTableBody">
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    <div class="back-btn">
+        <a href="employee-dashboard.html">
+            ← Back to Dashboard
+        </a>
+    </div>
+
+</div>
+
+<script src="js/leave-apply.js"></script>
+
+</body>
+</html>

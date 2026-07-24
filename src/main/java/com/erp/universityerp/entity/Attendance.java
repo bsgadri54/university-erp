@@ -10,7 +10,11 @@ public class Attendance {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private Long userId;
+
     private String personType;
+
+    private String personId;
 
     private String personName;
 
@@ -26,12 +30,28 @@ public class Attendance {
         this.id = id;
     }
 
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
     public String getPersonType() {
         return personType;
     }
 
     public void setPersonType(String personType) {
         this.personType = personType;
+    }
+
+    public String getPersonId() {
+        return personId;
+    }
+
+    public void setPersonId(String personId) {
+        this.personId = personId;
     }
 
     public String getPersonName() {

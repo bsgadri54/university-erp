@@ -1,328 +1,261 @@
-<script>
-
-    let editId = null;
-
-    window.onload = function(){
-
+window.onload = function () {
     loadStudents();
-
 };
 
-    function loadStudents(){
+    // ================= LOAD STUDENTS =================
 
-    let keyword =
-    document.getElementById("search")
-    .value
-    .toLowerCase();
+    function loadStudents() {
 
-    fetch("https://university-erp-1-gac1.onrender.com/students")
+        let enrollmentNo = localStorage.getItem("username");
 
-    .then(response => response.json())
+        if (!enrollmentNo) {
 
-    .then(data => {
+            alert("Please Login Again");
 
-    let rows = "";
+            window.location.href = "login.html";
 
-    data.forEach(student=>{
+            return;
 
-    if(
+        }
+        fetch("/students")
+            .then(response => response.json())
+            .then(data => {
 
-    keyword !== "" &&
+                let rows = "";
 
-    !student.enrollmentNo
-    .toLowerCase()
-    .includes(keyword)
+                data.forEach(student => {
 
-    &&
-
-    !student.name
-    .toLowerCase()
-    .includes(keyword)
-
-    ){
-    return;
-}
-
-    rows += `
-
+                    rows += `
                 <tr>
-
                     <td>${student.id}</td>
-
                     <td>${student.enrollmentNo}</td>
-
                     <td>${student.name}</td>
-
-                    <td>${student.email}</td>
-
-                    <td>${student.phone}</td>
-
-                    <td>${student.course}</td>
-
-                    <td>${student.semester}</td>
+                    <td>${student.email || ""}</td>
+                    <td>${student.phone || ""}</td>
+                    <td>${student.course || ""}</td>
+                    <td>${student.semester || ""}</td>
 
                     <td>
 
-                        <button
-                            class="edit-btn"
-                            onclick="editStudent(${student.id})">
-
+                        <button class="btn-edit"
+                        onclick="editStudent(
+                            ${student.id},
+                            '${student.enrollmentNo}',
+                            '${student.name}',
+                            '${student.email || ""}',
+                            '${student.phone || ""}',
+                            '${student.course || ""}',
+                            '${student.semester || ""}'
+                        )">
                             Edit
-
                         </button>
 
-                        <button
-                            class="delete-btn"
-                            onclick="deleteStudent(${student.id})">
-
+                        <button class="btn-delete"
+                        onclick="deleteStudent(${student.id})">
                             Delete
-
                         </button>
 
                     </td>
-
                 </tr>
-
                 `;
 
-});
+                });
 
-    document.getElementById("studentTable").innerHTML = rows;
+                document.getElementById("studentBody").innerHTML = rows;
 
-});
+            })
+            .catch(err => console.log(err));
 
-}
+    }
 
-    function saveStudent(){
 
-    let student={
 
-    enrollmentNo:
-    document.getElementById("enrollmentNo").value.trim(),
+    // ================= SAVE / UPDATE =================
 
-    name:
-    document.getElementById("name").value.trim(),
+    function saveStudent() {
 
-    email:
-    document.getElementById("email").value.trim(),
+        const id = document.getElementById("studentId").value;
 
-    phone:
-    document.getElementById("phone").value.trim(),
+        const student = {
 
-    course:
-    document.getElementById("course").value,
+        enrollmentNo: document.getElementById("enrollmentNo").value,
 
-    semester:
-    document.getElementById("semester").value
+        name: document.getElementById("studentName").value,
 
-};
+        email: document.getElementById("email").value,
 
-    if(
+        phone: document.getElementById("phone").value,
 
-    student.enrollmentNo==="" ||
+        course: document.getElementById("course").value,
 
-    student.name==="" ||
+        semester: document.getElementById("semester").value
 
-    student.email==="" ||
+    };
 
-    student.phone==="" ||
+        let url = "/students";
+        let method = "POST";
 
-    student.course==="" ||
+        if (id !== "") {
 
-    student.semester===""
+        url = "/students/" + id;
+        method = "PUT";
 
-    ){
+    }
 
-    alert("Please fill all fields.");
+        fetch(url, {
 
-    return;
+        method: method,
 
-}
+        headers: {
+        "Content-Type": "application/json"
+    },
 
-    let url =
-    "https://university-erp-1-gac1.onrender.com/students";
+        body: JSON.stringify(student)
 
-    let method = "POST";
+    })
 
-    if(editId != null){
+        .then(response => {
 
-    url += "/" + editId;
+        if (!response.ok) {
+        throw new Error("Save Failed");
+    }
 
-    method = "PUT";
-}
+        return response.json();
 
-    fetch(url,{
+    })
 
-    method:method,
+        .then(data => {
 
-    headers:{
-    "Content-Type":"application/json"
-},
+        alert("Student Saved Successfully");
 
-    body:JSON.stringify(student)
+        clearForm();
 
-})
+        loadStudents();
 
-    .then(response=>{
+    })
 
-    if(!response.ok){
+        .catch(error => {
 
-    throw new Error("Unable to save student.");
+        console.error(error);
 
-}
+        alert("Unable to save student.");
 
-    return response.json();
+    });
 
-})
+    }
 
-    .then(data=>{
 
-    alert(
 
-    editId==null ?
 
-    "Student Saved Successfully"
+    // ================= EDIT =================
 
-    :
+    function editStudent(id,
+    enrollmentNo,
+    name,
+    email,
+    phone,
+    course,
+    semester) {
 
-    "Student Updated Successfully"
+        document.getElementById("studentId").value = id;
 
-    );
+        document.getElementById("enrollmentNo").value = enrollmentNo;
 
-    clearForm();
+        document.getElementById("studentName").value = name;
 
-    loadStudents();
+        document.getElementById("email").value = email;
 
-})
+        document.getElementById("phone").value = phone;
 
-    .catch(error=>{
+        document.getElementById("course").value = course;
 
-    console.error(error);
+        document.getElementById("semester").value = semester;
 
-    alert("Save Failed.");
+    }
 
-});
 
-}
 
-    function editStudent(id){
+    // ================= DELETE =================
 
-    fetch("https://university-erp-1-gac1.onrender.com/students/"+id)
+    function deleteStudent(id) {
 
-        .then(response=>response.json())
+        if (!confirm("Delete this student?")) {
+        return;
+    }
 
-        .then(student=>{
+        fetch("/students/" + id, {
 
-            editId=id;
+        method: "DELETE"
 
-            document.getElementById("enrollmentNo").value=
-                student.enrollmentNo;
+    })
 
-            document.getElementById("name").value=
-                student.name;
+        .then(response => response.text())
 
-            document.getElementById("email").value=
-                student.email;
+        .then(msg => {
 
-            document.getElementById("phone").value=
-                student.phone;
+        alert(msg);
 
-            document.getElementById("course").value=
-                student.course;
+        loadStudents();
 
-            document.getElementById("semester").value=
-                student.semester;
 
-            window.scrollTo({
+    })
 
-                top:0,
+        .catch(error => {
 
-                behavior:"smooth"
+        console.log(error);
 
-            });
+        alert("Delete Failed");
 
-        });
+    });
 
-}
+    }
 
-    function clearForm(){
 
-    editId=null;
 
-    document.getElementById("enrollmentNo").value="";
+    // ================= SEARCH =================
 
-    document.getElementById("name").value="";
+    function searchStudent() {
 
-    document.getElementById("email").value="";
+        let filter =
+        document.getElementById("searchStudent")
+        .value
+        .toUpperCase();
 
-    document.getElementById("phone").value="";
+        let tr =
+        document.getElementById("studentBody")
+        .getElementsByTagName("tr");
 
-    document.getElementById("course").selectedIndex=0;
+        for (let i = 0; i < tr.length; i++) {
 
-    document.getElementById("semester").selectedIndex=0;
+        let txt = tr[i].textContent || tr[i].innerText;
 
-}
+        tr[i].style.display =
+        txt.toUpperCase().indexOf(filter) > -1
+        ? ""
+        : "none";
 
-    function deleteStudent(id){
+    }
 
-    if(!confirm("Are you sure you want to delete this student?")){
-    return;
-}
+    }
 
-    fetch("https://university-erp-1-gac1.onrender.com/students/" + id,{
 
-    method:"DELETE"
 
-})
+    // ================= CLEAR =================
 
-    .then(response=>{
+    function clearForm() {
 
-    if(!response.ok){
-    throw new Error("Delete Failed");
-}
+        document.getElementById("studentId").value = "";
 
-    return response.text();
+        document.getElementById("enrollmentNo").value = "";
 
-})
+        document.getElementById("studentName").value = "";
 
-    .then(message=>{
+        document.getElementById("email").value = "";
 
-    alert(message);
+        document.getElementById("phone").value = "";
 
-    loadStudents();
+        document.getElementById("course").selectedIndex = 0;
 
-})
+        document.getElementById("semester").selectedIndex = 0;
 
-    .catch(error=>{
-
-    console.error(error);
-
-    alert("Unable to delete student.");
-
-});
-
-}
-
-    function goDashboard(){
-
-    let role = localStorage.getItem("role");
-
-    if(role === "ADMIN"){
-
-    window.location.href = "dashboard.html";
-
-}
-    else if(role === "EMPLOYEE"){
-
-    window.location.href = "employee-dashboard.html";
-
-}
-    else{
-
-    window.location.href = "login.html";
-
-}
-
-}
-
-</script>
+    }

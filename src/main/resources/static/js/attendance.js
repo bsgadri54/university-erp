@@ -1,113 +1,339 @@
-<script>
+// =========================================
+// Attendance Management
+// =========================================
+
+// Page Load
+
+
+
+window.onload = function () {
 
     loadAttendance();
+    loadNames();
 
-    function saveAttendance(){
 
-    let attendance={
-
-    personType:
-    document.getElementById("personType").value,
-
-    personName:
-    document.getElementById("personName").value,
-
-    attendanceDate:
-    document.getElementById("attendanceDate").value,
-
-    status:
-    document.getElementById("status").value
 
 };
 
-    fetch("/attendance",{
+// =========================================
+// Load Student / Employee Names
+// =========================================
 
-    method:"POST",
+function loadNames() {
 
-    headers:{
-    "Content-Type":"application/json"
-},
+    let type = document.getElementById("type").value;
 
-    body:JSON.stringify(attendance)
+    let url = "";
 
-})
-    .then(()=>{
+    if (type === "STUDENT") {
 
-    alert("Attendance Saved");
+        url = "/students";
 
-    loadAttendance();
+    } else {
 
-    clearForm();
+        url = "/employees";
 
-});
+    }
 
-}
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
 
-    function loadAttendance(){
+            let options = '<option value="">Select Name</option>';
 
-    fetch("/attendance")
-        .then(res=>res.json())
-        .then(data=>{
+            data.forEach(item => {
 
-            let rows="";
+                if (type === "STUDENT") {
 
-            data.forEach(a=>{
+                    options += `
+                <option
+                    value="${item.name}"
+                    data-userid="${item.userId}"
+                    data-personid="${item.enrollmentNo}">
+                    ${item.name}
+                </option>
+                `;
 
-                rows+=`
-            <tr>
+                } else {
 
-                <td>${a.id}</td>
-                <td>${a.personType}</td>
-                <td>${a.personName}</td>
-                <td>${a.attendanceDate}</td>
-                <td>${a.status}</td>
+                    options += `
+                <option
+                    value="${item.name}"
+                    data-userid="${item.userId}"
+                    data-personid="${item.employeeCode}">
+                    ${item.name}
+                </option>
+                `;
 
-                <td>
-
-                    <button class="delete-btn"
-                    onclick="deleteAttendance(${a.id})">
-                    Delete
-                    </button>
-
-                </td>
-
-            </tr>
-            `;
+                }
 
             });
 
-            document.getElementById("attendanceTable")
-                .innerHTML=rows;
+            document.getElementById("name").innerHTML = options;
+
+        })
+        .catch(error => {
+
+            console.error(error);
+
+            alert("Unable to load names");
 
         });
 
 }
 
-    function deleteAttendance(id){
+// =========================================
+// Save Attendance
+// =========================================
 
-    if(confirm("Delete Attendance?")){
+function saveAttendance() {
 
-    fetch("/attendance/"+id,{
+    let selected = document.getElementById("name").selectedOptions[0];
 
-    method:"DELETE"
+    if (!selected || selected.value === "") {
+        alert("Please select a name.");
+        return;
+    }
 
-})
-    .then(()=>{
+    let attendance = {
 
-    loadAttendance();
+        userId: 0,
 
-});
+        personId: selected.dataset.personid,
+
+        personType: document.getElementById("type").value,
+
+        personName: selected.value,
+
+        attendanceDate: document.getElementById("date").value,
+
+        status: document.getElementById("status").value
+
+    };
+
+    if (attendance.personName === "") {
+
+        alert("Please select a name.");
+        return;
+
+    }
+
+    if (attendance.attendanceDate === "") {
+
+        alert("Please select attendance date.");
+        return;
+
+    }
+
+    fetch("/attendance", {
+
+        method: "POST",
+
+        headers: {
+            "Content-Type": "application/json"
+        },
+
+        body: JSON.stringify(attendance)
+
+    })
+
+        .then(response => {
+
+            if (!response.ok) {
+
+                throw new Error("Save Failed");
+
+            }
+
+            return response.text();
+
+        })
+
+        .then(data => {
+            alert("Attendance Saved Successfully");
+            loadAttendance();
+            clearForm();
+        })
+
+        .catch(error => {
+
+            console.error(error);
+
+            alert("Unable To Save Attendance");
+
+        });
 
 }
 
+// =========================================
+// Load Attendance
+// =========================================
+
+function loadAttendance() {
+
+    fetch("/attendance")
+
+        .then(response => response.json())
+
+        .then(data => {
+
+            let rows = "";
+
+            data.forEach(a => {
+
+                rows += `
+
+                <tr>
+
+                    <td>${a.id}</td>
+
+                    <td>${a.personType}</td>
+
+                    <td>${a.personName}</td>
+
+                    <td>${a.attendanceDate}</td>
+
+                    <td class="${a.status === 'PRESENT'
+                    ? 'status-present'
+                    : 'status-absent'}">
+
+                        ${a.status}
+
+                    </td>
+
+                    <td>
+
+                        <button
+                            class="edit-btn"
+                            onclick="alert('Edit feature coming soon')">
+
+                            Edit
+
+                        </button>
+
+                        <button
+                            class="delete-btn"
+                            onclick="deleteAttendance(${a.id})">
+
+                            Delete
+
+                        </button>
+
+                    </td>
+
+                </tr>
+
+                `;
+
+            });
+
+            document.getElementById("attendanceTable").innerHTML = rows;
+
+        })
+
+        .catch(error => {
+
+            console.error(error);
+
+            alert("Unable To Load Attendance");
+
+        });
+
 }
 
-    function clearForm(){
+// =========================================
+// Delete Attendance
+// =========================================
 
-    document.getElementById("personName").value="";
+function deleteAttendance(id) {
 
-    document.getElementById("attendanceDate").value="";
+    if (!confirm("Delete Attendance?")) {
+
+        return;
+
+    }
+
+    fetch("/attendance/" + id, {
+
+        method: "DELETE"
+
+    })
+
+        .then(response => {
+
+            if (!response.ok) {
+
+                throw new Error("Delete Failed");
+
+            }
+
+            return response.text();
+
+        })
+
+        .then(() => {
+
+            alert("Attendance Deleted Successfully");
+
+            loadAttendance();
+
+        })
+
+        .catch(error => {
+
+            console.error(error);
+
+            alert("Unable To Delete Attendance");
+
+        });
 
 }
 
-</script>
+// =========================================
+// Search Attendance
+// =========================================
+
+function searchAttendance() {
+
+    let filter = document
+        .getElementById("searchAttendance")
+        .value
+        .toLowerCase();
+
+    let rows = document.querySelectorAll("#attendanceTable tr");
+
+    rows.forEach(row => {
+
+        let text = row.textContent.toLowerCase();
+
+        if (text.includes(filter)) {
+
+            row.style.display = "";
+
+        } else {
+
+            row.style.display = "none";
+
+        }
+
+    });
+
+}
+
+// =========================================
+// Clear Form
+// =========================================
+
+function clearForm() {
+
+    document.getElementById("type").selectedIndex = 0;
+
+    loadNames();
+
+    document.getElementById("name").selectedIndex = 0;
+
+    document.getElementById("date").value = "";
+
+    document.getElementById("status").selectedIndex = 0;
+
+}

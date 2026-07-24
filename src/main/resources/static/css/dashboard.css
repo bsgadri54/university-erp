@@ -1,190 +1,807 @@
-<style>
+/* ==========================================
+   Google Font
+========================================== */
 
-.menu-toggle{
-    position:fixed;
-    top:15px;
-    left:15px;
-    z-index:9999;
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
-    width:50px;
-    height:40px;
-    border:none;
-    border-radius:4px;
-    background:#555;
-    color:white;
-    font-size:24px;
-    cursor:pointer;
-    box-shadow:0 2px 5px rgba(0,0,0,.3);
-}
+/* ==========================================
+   Reset
+========================================== */
 
-.menu-toggle:hover{
-    background:#444;
-}
-
-.sidebar{
-    width:250px;
-    height:100vh;
-    background:#16213e;
-    position:fixed;
-    left:0;
-    top:0;
-    transition:.3s;
-}
-
-.sidebar.hide{
-    left:-250px;
-}
-
-.main{
-    margin-left:250px;
-    transition:.3s;
-    min-height:100vh;
-    display:flex;
-    flex-direction:column;
-}
-
-.main.full{
-    margin-left:0;
-}
 *{
     margin:0;
     padding:0;
     box-sizing:border-box;
-    font-family:Arial,sans-serif;
+    font-family:'Poppins',sans-serif;
 }
 
 body{
-    background:#f4f6f9;
+    background:#f4f7fc;
+    color:#333;
 }
 
+/* ==========================================
+   Sidebar
+========================================== */
+
 .sidebar{
-    width:250px;
-    height:100vh;
-    background:#16213e;
+
     position:fixed;
+
     left:0;
+
     top:0;
+
+    width:270px;
+
+    height:100vh;
+
+    background:#16213e;
+
+    color:white;
+
+    transition:.3s;
+
+    overflow-y:auto;
+
+    z-index:1000;
+
+}
+
+.sidebar.hide{
+
+    left:-270px;
+
 }
 
 .logo{
-    color:white;
-    text-align:center;
-    padding:25px;
-    font-size:32px;
-    font-weight:bold;
-    border-bottom:1px solid #2d4059;
+
+    height:80px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:12px;
+
+    font-size:30px;
+
+    font-weight:700;
+
+    border-bottom:1px solid rgba(255,255,255,.1);
+
+}
+
+.logo i{
+
+    color:#3b82f6;
+
+    font-size:34px;
+
+}
+
+.logo span{
+
+    letter-spacing:1px;
+
 }
 
 .sidebar ul{
+
     list-style:none;
+
+    padding:20px 0;
+
 }
 
 .sidebar ul li{
-    border-bottom:1px solid #2d4059;
+
+    margin:5px 15px;
+
 }
 
 .sidebar ul li a{
-    display:block;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
     color:white;
-    padding:18px;
+
     text-decoration:none;
+
+    padding:15px 18px;
+
+    border-radius:12px;
+
+    transition:.3s;
+
+    font-size:15px;
+
+}
+
+.sidebar ul li a i{
+
+    width:22px;
+
+    text-align:center;
+
+    font-size:18px;
+
 }
 
 .sidebar ul li a:hover{
-    background:#1abc9c;
+
+    background:#2563eb;
+
 }
+
+.sidebar ul li a.active{
+
+    background:#2563eb;
+
+}
+
+/* ==========================================
+   Main
+========================================== */
 
 .main{
-    margin-left:250px;
+
+    margin-left:270px;
+
+    min-height:100vh;
+
+    transition:.3s;
+
 }
 
-.header{
+.main.full{
+
+    margin-left:0;
+
+}
+
+/* ==========================================
+   Topbar
+========================================== */
+
+.topbar{
+
+    height:75px;
+
     background:white;
-    padding:20px;
+
     display:flex;
-    justify-content:space-between;
+
     align-items:center;
-    box-shadow:0 2px 5px rgba(0,0,0,0.1);
+
+    justify-content:space-between;
+
+    padding:0 30px;
+
+    box-shadow:0 4px 12px rgba(0,0,0,.08);
+
 }
 
-.welcome{
-    color:#555;
-    margin-top:5px;
-}
+.menu-btn{
 
-.logout-btn{
-    background:red;
-    color:white;
+    width:45px;
+
+    height:45px;
+
     border:none;
-    padding:10px 20px;
+
+    border-radius:10px;
+
+    background:#2563eb;
+
+    color:white;
+
+    font-size:18px;
+
     cursor:pointer;
-    border-radius:5px;
+
+    transition:.3s;
+
 }
 
-.cards{
+.menu-btn:hover{
+
+    background:#1d4ed8;
+
+}
+
+.top-title{
+
     display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+}
+
+.top-title h2{
+
+    font-size:28px;
+
+    font-weight:600;
+
+    color:#222;
+
+}
+
+.top-title small{
+
+    margin-top:4px;
+
+    font-size:15px;
+
+    color:#2563eb;
+
+    font-weight:600;
+
+}
+
+.admin-icon{
+
+    width:48px;
+
+    height:48px;
+
+    border-radius:50%;
+
+    background:#2563eb;
+
+    color:white;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-size:22px;
+
+}
+
+/* ==========================================
+   Welcome Banner
+========================================== */
+
+.banner{
+
+    margin:25px;
+
+    padding:35px;
+
+    border-radius:18px;
+
+    color:white;
+
+    background:linear-gradient(135deg,#1e3a8a,#3b82f6);
+
+    box-shadow:0 10px 25px rgba(0,0,0,.15);
+
+}
+
+.banner h2{
+
+    font-size:30px;
+
+    margin-bottom:10px;
+
+}
+
+.banner p{
+
+    opacity:.95;
+
+}
+
+/* ==========================================
+   Dashboard Cards
+========================================== */
+
+.dashboard-cards{
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+
     gap:20px;
-    padding:30px;
-    flex-wrap:wrap;
+
+    margin:25px;
+
 }
 
 .card{
-    width:250px;
-    color:white;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
     padding:25px;
-    border-radius:10px;
-}
 
-.students{
-    background:#2962ff;
-}
+    border-radius:18px;
 
-.employees{
-    background:#00c853;
-}
-
-.users{
-    background:#ff6d00;
-}
-
-.card h2{
-    margin-top:10px;
-    font-size:30px;
-}
-
-.quick-links{
-    padding:0 30px 30px;
-}
-
-.quick-links h2{
-    margin-bottom:20px;
-}
-
-.link-grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-    gap:20px;
-}
-
-.link-card{
-    background:white;
-    padding:20px;
-    border-radius:10px;
-    text-align:center;
-    box-shadow:0 2px 8px rgba(0,0,0,0.1);
-}
-
-.link-card a{
-    text-decoration:none;
-    color:#16213e;
-    font-weight:bold;
-}
-.footer{
-    background:#16213e;
     color:white;
-    text-align:center;
-    padding:7px;
-    font-size:14px;
-    margin-top:auto;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+    box-shadow:0 8px 20px rgba(0,0,0,.12);
+
 }
-</style>
+
+.card:hover{
+
+    transform:translateY(-8px);
+
+}
+
+.card p{
+
+    font-size:15px;
+
+    margin-bottom:8px;
+
+    opacity:.9;
+
+}
+
+.card h3{
+
+    font-size:28px;
+
+    font-weight:600;
+
+}
+
+.card i{
+
+    font-size:48px;
+
+    opacity:.85;
+
+}
+
+/* ==========================================
+   Card Colors
+========================================== */
+
+.blue{
+
+    background:linear-gradient(135deg,#2563eb,#3b82f6);
+
+}
+
+.green{
+
+    background:linear-gradient(135deg,#16a34a,#22c55e);
+
+}
+
+.orange{
+
+    background:linear-gradient(135deg,#ea580c,#fb923c);
+
+}
+
+.purple{
+
+    background:linear-gradient(135deg,#7c3aed,#a855f7);
+
+}
+
+/* ==========================================
+   Quick Access
+========================================== */
+
+.quick-actions{
+
+    margin:25px;
+
+    background:white;
+
+    border-radius:18px;
+
+    padding:25px;
+
+    box-shadow:0 8px 20px rgba(0,0,0,.08);
+
+}
+
+.section-title{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    color:#2563eb;
+
+    font-size:22px;
+
+    font-weight:600;
+
+    margin-bottom:20px;
+
+}
+
+.section-title i{
+
+    font-size:20px;
+
+}
+
+.action-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+
+    gap:20px;
+
+}
+
+.action-card{
+
+    background:#f8f9fd;
+
+    border:1px solid #e5e7eb;
+
+    border-radius:16px;
+
+    padding:25px;
+
+    text-align:center;
+
+    text-decoration:none;
+
+    color:#2563eb;
+
+    transition:.3s;
+
+}
+
+.action-card:hover{
+
+    background:#2563eb;
+
+    color:white;
+
+    transform:translateY(-6px);
+
+    box-shadow:0 12px 25px rgba(37,99,235,.25);
+
+}
+
+.action-card i{
+
+    display:block;
+
+    font-size:34px;
+
+    margin-bottom:12px;
+
+}
+
+.action-card span{
+
+    display:block;
+
+    font-size:15px;
+
+    font-weight:600;
+
+}
+
+/* ==========================================
+   Animation
+========================================== */
+
+.card,
+.action-card{
+
+    animation:fadeUp .5s ease;
+
+}
+
+@keyframes fadeUp{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(20px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}
+/* ==========================================
+   Footer
+========================================== */
+
+footer{
+
+    margin:30px 25px;
+
+    padding:20px;
+
+    background:#ffffff;
+
+    border-radius:15px;
+
+    text-align:center;
+
+    color:#666;
+
+    font-size:14px;
+
+    box-shadow:0 5px 12px rgba(0,0,0,.06);
+
+}
+
+footer b{
+
+    color:#2563eb;
+
+}
+
+/* ==========================================
+   Scrollbar
+========================================== */
+
+::-webkit-scrollbar{
+
+    width:8px;
+
+}
+
+::-webkit-scrollbar-track{
+
+    background:#f1f1f1;
+
+}
+
+::-webkit-scrollbar-thumb{
+
+    background:#2563eb;
+
+    border-radius:10px;
+
+}
+
+::-webkit-scrollbar-thumb:hover{
+
+    background:#1d4ed8;
+
+}
+
+/* ==========================================
+   Tablet
+========================================== */
+
+@media(max-width:991px){
+
+    .dashboard-cards{
+
+        grid-template-columns:repeat(2,1fr);
+
+    }
+
+    .action-grid{
+
+        grid-template-columns:repeat(2,1fr);
+
+    }
+
+}
+
+/* ==========================================
+   Mobile
+========================================== */
+
+@media(max-width:768px){
+
+    .sidebar{
+
+        left:-270px;
+
+    }
+
+    .sidebar.show{
+
+        left:0;
+
+    }
+
+    .main{
+
+        margin-left:0;
+
+    }
+
+    .topbar{
+
+        padding:15px;
+
+    }
+
+    .top-title h2{
+
+        font-size:20px;
+
+    }
+
+    .top-title small{
+
+        font-size:13px;
+
+    }
+
+    .admin-icon{
+
+        width:42px;
+        height:42px;
+        font-size:18px;
+
+    }
+
+    .banner{
+
+        margin:15px;
+
+        padding:25px;
+
+    }
+
+    .banner h2{
+
+        font-size:24px;
+
+    }
+
+    .dashboard-cards{
+
+        margin:15px;
+
+        grid-template-columns:1fr;
+
+    }
+
+    .quick-actions{
+
+        margin:15px;
+
+    }
+
+    .action-grid{
+
+        grid-template-columns:1fr;
+
+    }
+
+}
+
+/* ==========================================
+   Small Mobile
+========================================== */
+
+@media(max-width:500px){
+
+    .topbar{
+
+        height:auto;
+
+        padding:15px;
+
+        flex-wrap:wrap;
+
+        gap:10px;
+
+    }
+
+    .banner{
+
+        padding:20px;
+
+    }
+
+    .banner h2{
+
+        font-size:22px;
+
+    }
+
+    .quick-actions{
+
+        padding:18px;
+
+    }
+
+    .action-card{
+
+        padding:20px;
+
+    }
+
+    .card{
+
+        padding:20px;
+
+    }
+
+    .card h3{
+
+        font-size:22px;
+
+    }
+
+    .card i{
+
+        font-size:38px;
+
+    }
+
+    footer{
+
+        margin:20px 15px;
+
+        font-size:13px;
+
+    }
+
+}
+
+/* ==========================================
+   Animation
+========================================== */
+
+.banner,
+.card,
+.quick-actions,
+.action-card,
+footer{
+
+    animation:fadeUp .5s ease;
+
+}
+
+@keyframes fadeUp{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(20px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}

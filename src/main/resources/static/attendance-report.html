@@ -1,103 +1,205 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Attendance Report</title>
 
-    <style>
+    <link rel="stylesheet" href="css/attendance-report.css">
 
-        *{
-            margin:0;
-            padding:0;
-            box-sizing:border-box;
-            font-family:Arial,sans-serif;
-        }
-
-        body{
-            background:#f4f6f9;
-        }
-
-        .container{
-            max-width:1000px;
-            margin:50px auto;
-            padding:20px;
-        }
-
-        .card{
-            background:white;
-            padding:30px;
-            border-radius:12px;
-            box-shadow:0 4px 15px rgba(0,0,0,0.1);
-            text-align:center;
-        }
-
-        .card h1{
-            color:#16213e;
-            margin-bottom:15px;
-        }
-
-        .card p{
-            color:#666;
-            font-size:18px;
-            margin-bottom:25px;
-        }
-
-        .btn{
-            background:#1abc9c;
-            color:white;
-            border:none;
-            padding:12px 25px;
-            border-radius:6px;
-            cursor:pointer;
-            font-size:16px;
-        }
-
-        .btn:hover{
-            background:#16a085;
-        }
-
-    </style>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
 </head>
+
 <body>
 
 <div class="container">
 
-    <div class="card">
+    <!-- Header -->
 
-        <h1>Attendance Report</h1>
+    <div class="header">
 
-        <p>
-            Attendance report module is currently under development.
-        </p>
+        <h1>
+            <i class="fa-solid fa-chart-column"></i>
+            Attendance Report
+        </h1>
 
-        <button type="button" class="btn" onclick="goDashboard()">
-            Back to Dashboard
+        <p>University ERP Attendance Analytics</p>
+
+    </div>
+
+    <!-- Summary Cards -->
+
+    <div class="cards">
+
+        <div class="card blue">
+
+            <i class="fa-solid fa-users"></i>
+
+            <h2 id="totalAttendance">0</h2>
+
+            <p>Total Records</p>
+
+        </div>
+
+        <div class="card green">
+
+            <i class="fa-solid fa-circle-check"></i>
+
+            <h2 id="presentCount">0</h2>
+
+            <p>Present</p>
+
+        </div>
+
+        <div class="card red">
+
+            <i class="fa-solid fa-circle-xmark"></i>
+
+            <h2 id="absentCount">0</h2>
+
+            <p>Absent</p>
+
+        </div>
+
+        <div class="card purple">
+
+            <i class="fa-solid fa-user-graduate"></i>
+
+            <h2 id="studentCount">0</h2>
+
+            <p>Students</p>
+
+        </div>
+
+        <div class="card orange">
+
+            <i class="fa-solid fa-user-tie"></i>
+
+            <h2 id="employeeCount">0</h2>
+
+            <p>Employees</p>
+
+        </div>
+
+    </div>
+
+    <!-- Filters -->
+
+    <div class="filter-box">
+
+        <input
+                type="text"
+                id="search"
+                placeholder="🔍 Search by Name or Person ID..."
+                onkeyup="searchAttendance()">
+
+        <select id="typeFilter" onchange="filterAttendance()">
+
+            <option value="ALL">All Types</option>
+
+            <option value="STUDENT">Student</option>
+
+            <option value="EMPLOYEE">Employee</option>
+
+        </select>
+
+        <input
+                type="date"
+                id="dateFilter"
+                onchange="filterAttendance()">
+
+    </div>
+
+    <!-- Buttons -->
+
+    <div class="button-bar">
+
+        <button onclick="loadAttendance()">
+
+            <i class="fa-solid fa-rotate"></i>
+
+            Refresh
+
         </button>
 
-        <script>
-            function goDashboard() {
+        <button onclick="window.print()">
 
-                let role = localStorage.getItem("role");
+            <i class="fa-solid fa-print"></i>
 
-                if(role === "ADMIN"){
-                    window.location.href = "dashboard.html";
-                }
-                else if(role === "EMPLOYEE"){
-                    window.location.href = "employee-dashboard.html";
-                }
-                else if(role === "STUDENT"){
-                    window.location.href = "student-dashboard.html";
-                }
-                else{
-                    alert("Role not found. Please login again.");
-                }
-            }
-        </script>
+            Print
+
+        </button>
+
+        <button onclick="exportExcel()">
+
+            <i class="fa-solid fa-file-excel"></i>
+
+            Excel
+
+        </button>
+
+        <button onclick="exportPDF()">
+
+            <i class="fa-solid fa-file-pdf"></i>
+
+            PDF
+
+        </button>
+
+    </div>
+
+    <!-- Table -->
+
+    <div class="table-box">
+
+        <table>
+
+            <thead>
+
+            <tr>
+
+                <th>ID</th>
+
+                <th>Type</th>
+
+                <th>Person ID</th>
+
+                <th>Name</th>
+
+                <th>Date</th>
+
+                <th>Status</th>
+
+            </tr>
+
+            </thead>
+
+            <tbody id="attendanceReportTable">
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    <!-- Footer -->
+
+    <div class="footer">
+
+        © 2026 University ERP System |
+        Designed & Developed by <b>Suresh Gadri</b>
 
     </div>
 
 </div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<script src="js/attendance-report.js"></script>
 
 </body>
 </html>

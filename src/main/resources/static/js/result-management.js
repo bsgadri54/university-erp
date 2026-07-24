@@ -1,264 +1,405 @@
-<script>
+// =============================================
+// Result Management
+// =============================================
 
-    window.onload = loadResults;
+window.onload = function () {
 
-    function loadResults(){
+    loadResults();
 
-    let search =
+    document.getElementById("marks")
+        .addEventListener("input", calculateResult);
+
+    document.getElementById("subject")
+        .addEventListener("change", calculateMaximumMarks);
+
     document.getElementById("search")
-    .value
-    .toLowerCase();
+        .addEventListener("keyup", loadResults);
 
-    fetch("https://university-erp-1-gac1.onrender.com/results")
+    document.getElementById("resultForm")
+        .addEventListener("submit", saveResult);
 
-    .then(response => response.json())
+};
 
-    .then(data => {
+// =============================================
+// Maximum Marks
+// =============================================
 
-    let rows = "";
+function calculateMaximumMarks() {
 
-    let totalResults = 0;
-    let passCount = 0;
-    let failCount = 0;
+    let subject = document.getElementById("subject").value;
 
-    data.forEach(result => {
+    let max = 100;
 
-    if(
-    search !== "" &&
-    !result.enrollmentNo
-    .toLowerCase()
-    .includes(search)
-    ){
-    return;
+    if (subject.toUpperCase().includes("LAB") ||
+        subject.toUpperCase().includes("PRACTICAL")) {
+
+        max = 50;
+
+    }
+
+    document.getElementById("maxMarks").value = max;
+
+    calculateResult();
+
 }
 
-    totalResults++;
+// =============================================
+// Percentage / Grade / Status
+// =============================================
 
-    let maxMarks = 100;
-    let passMarks = 40;
+function calculateResult() {
 
-    if(
-    result.subject.includes("LAB") ||
-    result.subject ===
-    "Practical Training 45 Days"
-    ){
-    maxMarks = 50;
-    passMarks = 20;
+    let marks = Number(document.getElementById("marks").value);
+
+    let max = Number(document.getElementById("maxMarks").value);
+
+    if (!marks) {
+
+        document.getElementById("percentage").value = "";
+        document.getElementById("grade").value = "";
+        document.getElementById("status").value = "";
+
+        return;
+
+    }
+
+    let percentage = (marks / max) * 100;
+
+    document.getElementById("percentage").value =
+        percentage.toFixed(2) + "%";
+
+    let grade = "";
+
+    if (percentage >= 90)
+        grade = "A+";
+    else if (percentage >= 80)
+        grade = "A";
+    else if (percentage >= 70)
+        grade = "B";
+    else if (percentage >= 60)
+        grade = "C";
+    else if (percentage >= 40)
+        grade = "D";
+    else
+        grade = "F";
+
+    document.getElementById("grade").value = grade;
+
+    document.getElementById("status").value =
+        percentage >= 40 ? "PASS" : "FAIL";
+
 }
 
-    let status =
-    result.marks >= passMarks
-    ? "PASS"
-    : "FAIL";
+// =============================================
+// Load Results
+// =============================================
 
-    if(status === "PASS"){
-    passCount++;
-}else{
-    failCount++;
+function loadResults() {
+
+    let keyword = document.getElementById("search").value.toLowerCase();
+
+    fetch("/results")
+        .then(res => res.json())
+        .then(results => {
+
+            let rows = "";
+
+            results.forEach(result => {
+
+                if (keyword !== "" &&
+                    !result.enrollmentNo.toLowerCase().includes(keyword))
+                    return;
+
+                let badge =
+                    result.status === "PASS"
+                        ? "pass"
+                        : "fail";
+
+                rows += `
+<tr>
+
+<td>${result.id}</td>
+
+<td>${result.enrollmentNo}</td>
+
+<td>${result.studentName}</td>
+
+<td>${result.subject}</td>
+
+<td>${result.marks}</td>
+
+<td>${result.maxMarks}</td>
+
+<td>${result.percentage}%</td>
+
+<td>${result.grade}</td>
+
+<td>
+<span class="${badge}">
+${result.status}
+</span>
+</td>
+
+<td>${result.semester}</td>
+
+<td>
+
+<button
+class="edit-btn"
+onclick="editResult(${result.id})">
+
+<i class="fas fa-edit"></i>
+
+</button>
+
+<button
+class="delete-btn"
+onclick="deleteResult(${result.id})">
+
+<i class="fas fa-trash"></i>
+
+</button>
+
+</td>
+
+</tr>`;
+
+            });
+
+            document.getElementById("resultTable").innerHTML = rows;
+
+        });
+
 }
 
-    rows += `
-                <tr>
+// =============================================
+// Save / Update
+// =============================================
 
-                    <td>${result.id}</td>
+function saveResult(e) {
 
-                    <td>${result.enrollmentNo}</td>
+    e.preventDefault();
 
-                    <td>${result.subject}</td>
+    let id = document.getElementById("resultId").value;
 
-                    <td>${result.marks}</td>
+    let result = {
 
-                    <td>${maxMarks}</td>
+        enrollmentNo:
+        document.getElementById("enrollmentNo").value,
 
-                    <td class="${
-    status === "PASS"
-    ? "pass"
-    : "fail"
-}">
-                        ${status}
-                    </td>
+        studentName:
+        document.getElementById("studentName").value,
 
-                    <td>${result.semester}</td>
+        course:
+        document.getElementById("course").value,
 
-                    <td>
+        subject:
+        document.getElementById("subject").value,
 
-                        <button
-                            class="edit-btn"
-                            onclick="editResult(
-                                ${result.id},
-                                ${result.marks}
-                            )">
+        semester:
+        document.getElementById("semester").value,
 
-                            Edit
+        marks:
+        document.getElementById("marks").value,
 
-                        </button>
+        maxMarks:
+        document.getElementById("maxMarks").value,
 
-                        <button
-                            class="delete-btn"
-                            onclick="deleteResult(
-                                ${result.id}
-                            )">
+        percentage:
+            document.getElementById("percentage").value.replace("%",""),
 
-                            Delete
+        grade:
+        document.getElementById("grade").value,
 
-                        </button>
+        status:
+        document.getElementById("status").value
 
-                    </td>
+    };
 
-                </tr>
-                `;
-});
+    let url = "/results";
 
-    document.getElementById(
-    "resultTable"
-    ).innerHTML = rows;
+    let method = "POST";
 
-    document.getElementById(
-    "totalResults"
-    ).innerHTML = totalResults;
+    if(id!=""){
 
-    document.getElementById(
-    "passCount"
-    ).innerHTML = passCount;
+        url="/results/"+id;
 
-    document.getElementById(
-    "failCount"
-    ).innerHTML = failCount;
-})
+        method="PUT";
 
-    .catch(error => {
+    }
 
-    console.error(error);
+    fetch(url,{
 
-    alert(
-    "Error Loading Results"
-    );
+        method:method,
 
-});
+        headers:{
+            "Content-Type":"application/json"
+        },
+
+        body:JSON.stringify(result)
+
+    })
+
+        .then(res=>{
+
+            if(!res.ok)
+                throw new Error();
+
+            return res.text();
+
+        })
+
+        .then(msg=>{
+
+            Swal.fire({
+
+                icon:"success",
+
+                title:"Success",
+
+                text:msg
+
+            });
+
+            document.getElementById("resultForm").reset();
+
+            document.getElementById("resultId").value="";
+
+            loadResults();
+
+        })
+
+        .catch(()=>{
+
+            Swal.fire(
+
+                "Error",
+
+                "Unable to save result",
+
+                "error"
+
+            );
+
+        });
+
 }
 
-    /* =========================
-    Edit Result
-    ========================= */
+// =============================================
+// Edit
+// =============================================
 
-    function editResult(
-    id,
-    currentMarks
-    ){
+function editResult(id){
 
-    let newMarks =
-    prompt(
-    "Enter New Marks",
-    currentMarks
-    );
+    fetch("/results/"+id)
 
-    if(
-    newMarks === null ||
-    newMarks === ""
-    ){
-    return;
+        .then(res=>res.json())
+
+        .then(result=>{
+
+            document.getElementById("resultId").value=result.id;
+
+            document.getElementById("enrollmentNo").value=result.enrollmentNo;
+
+            document.getElementById("studentName").value=result.studentName;
+
+            document.getElementById("course").value=result.course;
+
+            document.getElementById("subject").value=result.subject;
+
+            document.getElementById("semester").value=result.semester;
+
+            document.getElementById("marks").value=result.marks;
+
+            document.getElementById("maxMarks").value=result.maxMarks;
+
+            calculateResult();
+
+            window.scrollTo({
+
+                top:0,
+
+                behavior:"smooth"
+
+            });
+
+        });
+
 }
 
-    fetch(
-    "https://university-erp-1-gac1.onrender.com/results/" + id,
-{
-    method:"PUT",
+// =============================================
+// Delete
+// =============================================
 
-    headers:{
-    "Content-Type":"application/json"
-},
+function deleteResult(id){
 
-    body:JSON.stringify({
-    marks:newMarks
-})
+    Swal.fire({
+
+        title:"Delete Result?",
+
+        text:"This action cannot be undone.",
+
+        icon:"warning",
+
+        showCancelButton:true,
+
+        confirmButtonColor:"#d33",
+
+        confirmButtonText:"Delete"
+
+    })
+
+        .then((result)=>{
+
+            if(result.isConfirmed){
+
+                fetch("/results/"+id,{
+
+                    method:"DELETE"
+
+                })
+
+                    .then(res=>{
+
+                        if(!res.ok)
+                            throw new Error();
+
+                        return res.text();
+
+                    })
+
+                    .then(msg=>{
+
+                        Swal.fire(
+
+                            "Deleted",
+
+                            msg,
+
+                            "success"
+
+                        );
+
+                        loadResults();
+
+                    })
+
+                    .catch(()=>{
+
+                        Swal.fire(
+
+                            "Error",
+
+                            "Unable to delete result",
+
+                            "error"
+
+                        );
+
+                    });
+
+            }
+
+        });
+
 }
-    )
-
-    .then(response => {
-
-    if(!response.ok){
-    throw new Error(
-    "Update Failed"
-    );
-}
-
-    return response.text();
-})
-
-    .then(message => {
-
-    alert(
-    message ||
-    "Marks Updated Successfully"
-    );
-
-    loadResults();
-
-})
-
-    .catch(error => {
-
-    console.error(error);
-
-    alert(
-    "Unable To Update Marks"
-    );
-
-});
-}
-
-    /* =========================
-    Delete Result
-    ========================= */
-
-    function deleteResult(id){
-
-    if(
-    !confirm(
-    "Are you sure you want to delete this result?"
-    )
-    ){
-    return;
-}
-
-    fetch(
-    "https://university-erp-1-gac1.onrender.com/results/" + id,
-{
-    method:"DELETE"
-}
-    )
-
-    .then(response => {
-
-    if(!response.ok){
-    throw new Error(
-    "Delete Failed"
-    );
-}
-
-    return response.text();
-})
-
-    .then(message => {
-
-    alert(
-    message ||
-    "Result Deleted Successfully"
-    );
-
-    loadResults();
-
-})
-
-    .catch(error => {
-
-    console.error(error);
-
-    alert(
-    "Unable To Delete Result"
-    );
-
-});
-}
-
-</script>

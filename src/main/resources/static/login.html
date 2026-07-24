@@ -1,123 +1,19 @@
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
     <title>University ERP Login</title>
 
-    <style>
+    <link rel="stylesheet" href="css/login.css">
 
-        *{
-            margin:0;
-            padding:0;
-            box-sizing:border-box;
-            font-family:Arial,sans-serif;
-        }
-
-        body{
-            background:#f4f6f9;
-            height:100vh;
-        }
-
-        .container{
-            display:flex;
-            height:100vh;
-        }
-
-        .left-panel{
-            width:70%;
-            padding:40px;
-            background:white;
-        }
-
-        .logo{
-            text-align:center;
-            margin-bottom:20px;
-        }
-
-        .logo img{
-            width:280px;
-        }
-
-        .left-panel h1{
-            margin-top:20px;
-            color:#222;
-        }
-
-        .left-panel p{
-            margin-top:15px;
-            line-height:1.8;
-            color:#555;
-        }
-
-        .modules{
-            margin-top:40px;
-            display:grid;
-            grid-template-columns:repeat(2,1fr);
-            gap:15px;
-        }
-
-        .module{
-            background:#eef3ff;
-            padding:15px;
-            border-radius:8px;
-            font-weight:bold;
-        }
-
-        .right-panel{
-            width:30%;
-            display:flex;
-            justify-content:center;
-            align-items:center;
-            background:#f8fafc;
-        }
-
-        .login-box{
-            width:350px;
-            background:white;
-            padding:30px;
-            border-radius:10px;
-            box-shadow:0 0 15px rgba(0,0,0,0.15);
-        }
-
-        .login-box h2{
-            text-align:center;
-            margin-bottom:25px;
-        }
-
-        .form-group{
-            margin-bottom:15px;
-        }
-
-        .form-group label{
-            display:block;
-            margin-bottom:5px;
-        }
-
-        .form-group input{
-            width:100%;
-            padding:12px;
-            border:1px solid #ccc;
-            border-radius:5px;
-        }
-
-        .btn{
-            width:100%;
-            background:#007bff;
-            color:white;
-            border:none;
-            padding:12px;
-            border-radius:5px;
-            cursor:pointer;
-            font-size:16px;
-        }
-
-        .btn:hover{
-            background:#0056b3;
-        }
-
-    </style>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
 </head>
 
@@ -125,54 +21,199 @@
 
 <div class="container">
 
+    <!-- ================= Left Panel ================= -->
+
     <div class="left-panel">
 
-        <div class="logo">
-            <img src="8a472d5a-8f62-46b9-bca2-a7bee3feb65d.png" alt="University ERP Logo">
-        </div>
+        <div class="overlay">
 
-        <h1>Welcome To University ERP System</h1>
+            <div class="branding">
 
-        <p>
-            An integrated University Management System that automates
-            student, employee, attendance, examination, fee,
-            hostel and academic management processes.
-        </p>
+                <img src="8a472d5a-8f62-46b9-bca2-a7bee3feb65d.png"
+                     alt="University ERP Logo">
 
-        <div class="modules">
-            <div class="module">Student Management</div>
-            <div class="module">Employee Management</div>
-            <div class="module">Attendance Management</div>
-            <div class="module">Examination Management</div>
-            <div class="module">Fee Management</div>
-            <div class="module">Reports & Analytics</div>
+                <h1>University ERP System</h1>
+
+                <p>
+
+                    Smart Academic Management Platform
+
+                </p>
+
+            </div>
+
+            <div class="features">
+
+                <div class="feature">
+
+                    <i class="fas fa-user-graduate"></i>
+
+                    <span>Student Management</span>
+
+                </div>
+
+                <div class="feature">
+
+                    <i class="fas fa-users"></i>
+
+                    <span>Employee Management</span>
+
+                </div>
+
+                <div class="feature">
+
+                    <i class="fas fa-calendar-check"></i>
+
+                    <span>Attendance Management</span>
+
+                </div>
+
+                <div class="feature">
+
+                    <i class="fas fa-chart-line"></i>
+
+                    <span>Result Management</span>
+
+                </div>
+
+                <div class="feature">
+
+                    <i class="fas fa-wallet"></i>
+
+                    <span>Fee Management</span>
+
+                </div>
+
+                <div class="feature">
+
+                    <i class="fas fa-file-alt"></i>
+
+                    <span>Reports & Analytics</span>
+
+                </div>
+
+            </div>
+
         </div>
 
     </div>
 
+    <!-- ================= Right Panel ================= -->
+
     <div class="right-panel">
 
-        <div class="login-box">
+        <div class="login-card">
 
-            <h2>User Login</h2>
+            <div class="login-header">
+
+                <div class="login-icon">
+
+                    <i class="fas fa-user-circle"></i>
+
+                </div>
+
+                <h2>Welcome Back</h2>
+
+                <p>
+
+                    Sign in to continue to University ERP
+
+                </p>
+
+            </div>
 
             <form id="loginForm">
 
-                <div class="form-group">
-                    <label>Username</label>
-                    <input type="text" id="username" required>
+                <!-- Username -->
+
+                <div class="input-box">
+
+                    <label>
+
+                        Username
+
+                    </label>
+
+                    <div class="input-field">
+
+                        <i class="fas fa-user"></i>
+
+                        <input type="text"
+                               id="username"
+                               placeholder="Enter Username"
+                               required>
+
+                    </div>
+
                 </div>
 
-                <div class="form-group">
-                    <label>Password</label>
-                    <input type="password" id="password" required>
+                <!-- Password -->
+
+                <div class="input-box">
+
+                    <label>
+
+                        Password
+
+                    </label>
+
+                    <div class="input-field">
+
+                        <i class="fas fa-lock"></i>
+
+                        <input type="password"
+                               id="password"
+                               placeholder="Enter Password"
+                               required>
+
+                        <span id="togglePassword">
+
+                            <i class="fas fa-eye"></i>
+
+                        </span>
+
+                    </div>
+
                 </div>
 
-                <button type="submit" class="btn">
-                    Login
+                <div class="options">
+
+                    <label>
+
+                        <input type="checkbox">
+
+                        Remember Me
+
+                    </label>
+
+                    <a href="#" id="forgotPassword">
+                        Forgot Password?
+                    </a>
+
+                </div>
+
+                <button type="submit"
+                        class="login-btn">
+
+                    <i class="fas fa-right-to-bracket"></i>
+
+                    Sign In
+
                 </button>
 
             </form>
+
+            <div class="login-footer">
+
+                © 2026 University ERP System
+
+                <br>
+
+                Designed & Developed by
+
+                <strong>Suresh Gadri</strong>
+
+            </div>
 
         </div>
 
@@ -180,71 +221,12 @@
 
 </div>
 
-<script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    document.getElementById("loginForm")
-        .addEventListener("submit", function(e){
+<script src="js/alerts.js"></script>
 
-            e.preventDefault();
-
-            fetch("/users/login",{
-                method:"POST",
-                headers:{
-                    "Content-Type":"application/json"
-                },
-                body:JSON.stringify({
-                    username:document.getElementById("username").value,
-                    password:document.getElementById("password").value
-                })
-            })
-
-                .then(response => response.json())
-
-                .then(user => {
-
-                    console.log("LOGIN RESPONSE:", user);
-
-                    if(user && user.id){
-
-                        localStorage.setItem("userId", user.id);
-                        localStorage.setItem("username", user.username);
-                        localStorage.setItem("role", user.role);
-
-                        console.log("Saved Username:", localStorage.getItem("username"));
-
-                        alert("Role = " + user.role);
-
-                        if(user.role === "ADMIN"){
-                            window.location.href = "dashboard.html";
-                        }
-                        else if(user.role === "STUDENT"){
-                            window.location.href = "student-dashboard.html";
-                        }
-                        else if(user.role === "EMPLOYEE"){
-                            window.location.href = "employee-dashboard.html";
-                        }
-                        else{
-                            alert("Unknown Role: " + user.role);
-                        }
-
-                    }else{
-
-                        alert("Invalid Username or Password");
-
-                    }
-
-                })
-
-                .catch(error => {
-
-                    console.log(error);
-                    alert("Login Failed");
-
-                });
-
-        });
-
-</script>
+<script src="js/login.js"></script>
 
 </body>
+
 </html>
