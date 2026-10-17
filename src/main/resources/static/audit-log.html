@@ -1,0 +1,412 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audit Log | University ERP</title>
+
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <style>
+        .audit-container {
+            padding: 25px;
+        }
+
+        .audit-heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 22px;
+        }
+
+        .audit-heading h2 {
+            color: #16213e;
+            margin-bottom: 6px;
+        }
+
+        .audit-heading p {
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        .audit-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .audit-actions button {
+            border: none;
+            padding: 11px 16px;
+            border-radius: 8px;
+            background: #2563eb;
+            color: white;
+            cursor: pointer;
+        }
+
+        .audit-actions button:hover {
+            background: #1d4ed8;
+        }
+
+        .audit-filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .audit-filters input,
+        .audit-filters select {
+            padding: 11px;
+            border: 1px solid #dbe2ea;
+            border-radius: 8px;
+            background: white;
+            min-width: 170px;
+        }
+
+        .audit-table-wrap {
+            background: white;
+            border-radius: 14px;
+            padding: 15px;
+            overflow-x: auto;
+            box-shadow: 0 5px 18px rgba(0,0,0,.06);
+        }
+
+        .audit-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 850px;
+        }
+
+        .audit-table th,
+        .audit-table td {
+            padding: 14px 12px;
+            text-align: left;
+            border-bottom: 1px solid #edf0f5;
+            font-size: 13px;
+        }
+
+        .audit-table th {
+            background: #f3f6fb;
+            color: #16213e;
+        }
+
+        .audit-table tr:hover td {
+            background: #f8faff;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 5px 9px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 11px;
+        }
+
+        .status-success {
+            color: #166534;
+            background: #dcfce7;
+        }
+
+        .status-failed {
+            color: #991b1b;
+            background: #fee2e2;
+        }
+
+        #message {
+            padding: 14px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            background: #eff6ff;
+            color: #1d4ed8;
+        }
+
+        .muted {
+            color: #64748b;
+        }
+
+        @media(max-width: 768px) {
+            .audit-container {
+                padding: 15px;
+            }
+
+            .audit-filters input,
+            .audit-filters select {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="sidebar" id="sidebar">
+    <div class="logo">
+        <i class="fas fa-user-shield"></i>
+        <span>ERP</span>
+    </div>
+
+    <ul>
+        <li><a href="dashboard.html">
+            <i class="fas fa-house"></i> Dashboard
+        </a></li>
+
+        <li><a href="student.html">
+            <i class="fas fa-user-graduate"></i> Student Management
+        </a></li>
+
+        <li><a href="employee.html">
+            <i class="fas fa-users"></i> Employee Management
+        </a></li>
+
+        <li><a href="user-management.html">
+            <i class="fas fa-user"></i> User Management
+        </a></li>
+
+        <li><a href="audit-log.html" class="active">
+            <i class="fas fa-history"></i> Audit Log
+        </a></li>
+
+        <li><a href="profile.html">
+            <i class="fas fa-user-circle"></i> My Profile
+        </a></li>
+
+        <li><a href="#" onclick="logout(event)">
+            <i class="fas fa-right-from-bracket"></i> Logout
+        </a></li>
+    </ul>
+</div>
+
+<div class="main" id="main">
+
+    <div class="topbar">
+        <button class="menu-btn" onclick="toggleSidebar()"
+                aria-label="Toggle sidebar">
+            <i class="fas fa-bars"></i>
+        </button>
+
+        <div class="top-title">
+            <h2>Audit Log</h2>
+            <small>University ERP Security & Activity History</small>
+        </div>
+
+        <div class="admin-icon">
+            <i class="fas fa-user-shield"></i>
+        </div>
+    </div>
+
+    <div class="audit-container">
+
+        <div class="audit-heading">
+            <div>
+                <h2><i class="fas fa-clock-rotate-left"></i> System Activity</h2>
+                <p>Review recorded activities and system events.</p>
+            </div>
+
+            <div class="audit-actions">
+                <button onclick="loadLogs()">
+                    <i class="fas fa-rotate"></i> Refresh
+                </button>
+            </div>
+        </div>
+
+        <div id="message" role="status">
+            Loading audit records...
+        </div>
+
+        <div class="audit-filters">
+            <input id="searchInput"
+                   type="search"
+                   placeholder="Search username, action or module"
+                   aria-label="Search audit records">
+
+            <select id="statusFilter" aria-label="Filter by status">
+                <option value="">All statuses</option>
+                <option value="SUCCESS">Success</option>
+                <option value="FAILED">Failed</option>
+            </select>
+        </div>
+
+        <div class="audit-table-wrap">
+            <table class="audit-table">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Date & Time</th>
+                    <th>Username</th>
+                    <th>Role</th>
+                    <th>Action</th>
+                    <th>Module</th>
+                    <th>Description</th>
+                    <th>Status</th>
+                    <th>IP Address</th>
+                </tr>
+                </thead>
+
+                <tbody id="auditTableBody">
+                <tr>
+                    <td colspan="9" class="muted">Loading...</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+    <footer>
+        © 2026 University ERP System |
+        Designed & Developed by <b>Suresh Gadri</b>
+    </footer>
+</div>
+
+<script>
+    const role = localStorage.getItem("role");
+    const username = localStorage.getItem("username") || "Administrator";
+
+    // This is only a user-interface check, not backend authorization.
+    if (role !== "ADMIN") {
+        document.getElementById("message").textContent =
+            "Access requires an administrator account. Backend authorization must also be enabled.";
+    } else {
+        loadLogs();
+    }
+
+    let auditLogs = [];
+
+    async function loadLogs() {
+        const message = document.getElementById("message");
+        const tbody = document.getElementById("auditTableBody");
+
+        message.textContent = "Loading audit records...";
+
+        try {
+            const response = await fetch("/api/audit-logs", {
+                method: "GET",
+                credentials: "same-origin",
+                headers: { "Accept": "application/json" }
+            });
+
+            if (response.status === 401 || response.status === 403) {
+                throw new Error("Access denied. Sign in with an authorized administrator account.");
+            }
+
+            if (!response.ok) {
+                throw new Error("Could not load audit records (HTTP " +
+                    response.status + ").");
+            }
+
+            const data = await response.json();
+            auditLogs = Array.isArray(data) ? data : [];
+
+            message.textContent = auditLogs.length
+                ? "Loaded " + auditLogs.length + " audit record(s)."
+                : "No audit records have been recorded yet.";
+
+            renderLogs();
+        } catch (error) {
+            tbody.replaceChildren();
+            const row = tbody.insertRow();
+            const cell = row.insertCell();
+            cell.colSpan = 9;
+            cell.textContent = error.message;
+            message.textContent = "Unable to load audit logs.";
+        }
+    }
+
+    function renderLogs() {
+        const tbody = document.getElementById("auditTableBody");
+        const search = document.getElementById("searchInput")
+            .value.trim().toLowerCase();
+        const status = document.getElementById("statusFilter").value;
+
+        tbody.replaceChildren();
+
+        const filtered = auditLogs.filter(log => {
+            const searchable = [
+                log.username, log.action, log.module, log.description
+            ].filter(Boolean).join(" ").toLowerCase();
+
+            return searchable.includes(search) &&
+                (!status || String(log.status || "").toUpperCase() === status);
+        });
+
+        if (!filtered.length) {
+            const row = tbody.insertRow();
+            const cell = row.insertCell();
+            cell.colSpan = 9;
+            cell.textContent = "No matching audit records.";
+            return;
+        }
+
+        filtered.forEach(log => {
+            const row = tbody.insertRow();
+
+            const values = [
+                log.id,
+                log.createdAt ? new Date(log.createdAt).toLocaleString() : "—",
+                log.username,
+                log.role,
+                log.action,
+                log.module,
+                log.description,
+                log.status,
+                log.ipAddress
+            ];
+
+            values.forEach((value, index) => {
+                const cell = row.insertCell();
+
+                if (index === 7) {
+                    const badge = document.createElement("span");
+                    const isSuccess =
+                        String(value || "").toUpperCase() === "SUCCESS";
+
+                    badge.className = "status " +
+                        (isSuccess ? "status-success" : "status-failed");
+                    badge.textContent = value || "UNKNOWN";
+                    cell.appendChild(badge);
+                } else {
+                    // Text rendering avoids injecting HTML from log data.
+                    cell.textContent = value == null || value === ""
+                        ? "—"
+                        : String(value);
+                }
+            });
+        });
+    }
+
+    document.getElementById("searchInput")
+        .addEventListener("input", renderLogs);
+
+    document.getElementById("statusFilter")
+        .addEventListener("change", renderLogs);
+
+    function toggleSidebar() {
+        const sidebar = document.getElementById("sidebar");
+        const main = document.getElementById("main");
+
+        if (window.innerWidth <= 768) {
+            sidebar.classList.toggle("show");
+        } else {
+            sidebar.classList.toggle("hide");
+            main.classList.toggle("full");
+        }
+    }
+
+    function logout(event) {
+        event.preventDefault();
+
+        if (confirm("Are you sure you want to logout?")) {
+            localStorage.clear();
+            window.location.href = "login.html";
+        }
+    }
+</script>
+
+</body>
+</html>

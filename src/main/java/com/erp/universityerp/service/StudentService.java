@@ -34,7 +34,6 @@ public class StudentService {
     // =========================================================
     // SAVE STUDENT
     // =========================================================
-
     public Student saveStudent(Student student) {
 
         Student savedStudent =
@@ -312,7 +311,6 @@ public class StudentService {
     // =========================================================
     // DELETE STUDENT
     // =========================================================
-
     public void deleteStudent(Long id) {
 
         studentRepository.deleteById(id);
@@ -322,7 +320,6 @@ public class StudentService {
     // =========================================================
     // UPDATE STUDENT
     // =========================================================
-
     public Student updateStudent(
             Long id,
             Student student) {
