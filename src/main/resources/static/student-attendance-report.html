@@ -1,13 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Student Attendance Report</title>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="css/student-attendance-report.css">
+    <title>My Attendance | University ERP</title>
+
+    <link rel="stylesheet"
+          href="css/student-attendance-report.css">
 
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
@@ -16,148 +20,317 @@
 
 <body>
 
-<div class="container">
+<div class="page-container">
 
-    <!-- Header -->
+    <!-- ================= HEADER ================= -->
 
-    <div class="header">
+    <div class="page-header">
 
-        <h1>
-            <i class="fa-solid fa-user-graduate"></i>
-            Student Attendance Report
-        </h1>
+        <div class="header-left">
 
-        <p>University ERP - Student Attendance Details</p>
+            <button class="back-btn"
+                    onclick="goDashboard()">
 
-    </div>
+                <i class="fa-solid fa-arrow-left"></i>
 
-    <!-- Student Information -->
+            </button>
 
-    <div class="profile-card">
+            <div>
 
-        <div class="profile-item">
-            <label>Name</label>
-            <span id="studentName">Loading...</span>
-        </div>
+                <h1>My Attendance</h1>
 
-        <div class="profile-item">
-            <label>Enrollment No</label>
-            <span id="enrollmentNo">Loading...</span>
+                <p>View your attendance records and attendance percentage</p>
+
+            </div>
+
         </div>
 
     </div>
 
-    <!-- Summary Cards -->
 
-    <div class="cards">
+    <!-- ================= STUDENT BANNER ================= -->
 
-        <div class="card blue">
-            <i class="fa-solid fa-book"></i>
-            <h2 id="totalClasses">0</h2>
-            <p>Total Classes</p>
+    <section class="student-banner">
+
+        <div class="student-info">
+
+            <div class="student-icon">
+
+                <i class="fa-solid fa-user-graduate"></i>
+
+            </div>
+
+            <div>
+
+                <h2 id="studentName">
+                    Loading...
+                </h2>
+
+                <p>
+                    Enrollment:
+                    <strong id="enrollmentNo">
+                        -
+                    </strong>
+                </p>
+
+            </div>
+
         </div>
 
-        <div class="card green">
+        <div class="student-status">
+
             <i class="fa-solid fa-circle-check"></i>
-            <h2 id="presentCount">0</h2>
-            <p>Present</p>
+
+            <span>Active Student</span>
+
         </div>
 
-        <div class="card red">
+    </section>
+
+
+    <!-- ================= ATTENDANCE STATISTICS ================= -->
+
+    <section class="stats-grid">
+
+        <div class="stat-card blue">
+
+            <div>
+
+                <span>Total Classes</span>
+
+                <strong id="totalClasses">
+                    0
+                </strong>
+
+            </div>
+
+            <i class="fa-solid fa-book"></i>
+
+        </div>
+
+
+        <div class="stat-card green">
+
+            <div>
+
+                <span>Present</span>
+
+                <strong id="presentCount">
+                    0
+                </strong>
+
+            </div>
+
+            <i class="fa-solid fa-circle-check"></i>
+
+        </div>
+
+
+        <div class="stat-card red">
+
+            <div>
+
+                <span>Absent</span>
+
+                <strong id="absentCount">
+                    0
+                </strong>
+
+            </div>
+
             <i class="fa-solid fa-circle-xmark"></i>
-            <h2 id="absentCount">0</h2>
-            <p>Absent</p>
+
         </div>
 
-        <div class="card orange">
+
+        <div class="stat-card orange">
+
+            <div>
+
+                <span>Attendance %</span>
+
+                <strong id="attendancePercentage">
+                    0%
+                </strong>
+
+            </div>
+
             <i class="fa-solid fa-chart-line"></i>
-            <h2 id="attendancePercentage">0%</h2>
-            <p>Attendance %</p>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= ATTENDANCE RECORDS ================= -->
+
+    <section class="content-card">
+
+        <div class="section-heading">
+
+            <div>
+
+                <h2>
+
+                    <i class="fa-solid fa-calendar-check"></i>
+
+                    Attendance Records
+
+                </h2>
+
+                <p>
+                    View your daily attendance details
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- FILTERS -->
+
+        <div class="filter-box">
+
+            <input
+                    type="text"
+                    id="searchDate"
+                    placeholder="🔍 Search by Date..."
+                    onkeyup="filterAttendance()">
+
+
+            <input
+                    type="month"
+                    id="monthFilter"
+                    onchange="filterAttendance()">
+
+        </div>
+
+
+        <!-- BUTTONS -->
+
+        <div class="button-bar">
+
+            <button class="refresh-btn"
+                    onclick="loadAttendance()">
+
+                <i class="fa-solid fa-rotate"></i>
+
+                Refresh
+
+            </button>
+
+
+            <button class="print-btn"
+                    onclick="window.print()">
+
+                <i class="fa-solid fa-print"></i>
+
+                Print
+
+            </button>
+
+
+            <button class="excel-btn"
+                    onclick="exportExcel()">
+
+                <i class="fa-solid fa-file-excel"></i>
+
+                Excel
+
+            </button>
+
+
+            <button class="pdf-btn"
+                    onclick="exportPDF()">
+
+                <i class="fa-solid fa-file-pdf"></i>
+
+                PDF
+
+            </button>
+
+        </div>
+
+
+        <!-- TABLE -->
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+
+                <tr>
+
+                    <th>S.No.</th>
+
+                    <th>Date</th>
+
+                    <th>Status</th>
+
+                </tr>
+
+                </thead>
+
+                <tbody id="attendanceTable">
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= INFORMATION ================= -->
+
+    <div class="information-box">
+
+        <div class="info-icon">
+
+            <i class="fa-solid fa-circle-info"></i>
+
+        </div>
+
+        <div>
+
+            <h3>
+                Attendance Information
+            </h3>
+
+            <p>
+                Your attendance records are maintained by the
+                University ERP system. The attendance percentage
+                is calculated from your recorded classes.
+            </p>
+
         </div>
 
     </div>
 
-    <!-- Filters -->
 
-    <div class="filter-box">
 
-        <input
-                type="text"
-                id="searchDate"
-                placeholder="🔍 Search by Date..."
-                onkeyup="filterAttendance()">
 
-        <input
-                type="month"
-                id="monthFilter"
-                onchange="filterAttendance()">
+    <!-- ================= FOOTER ================= -->
 
-    </div>
-
-    <!-- Buttons -->
-
-    <div class="button-bar">
-
-        <button onclick="loadAttendance()">
-            <i class="fa-solid fa-rotate"></i>
-            Refresh
-        </button>
-
-        <button onclick="window.print()">
-            <i class="fa-solid fa-print"></i>
-            Print
-        </button>
-
-        <button onclick="exportExcel()">
-            <i class="fa-solid fa-file-excel"></i>
-            Excel
-        </button>
-
-        <button onclick="exportPDF()">
-            <i class="fa-solid fa-file-pdf"></i>
-            PDF
-        </button>
-
-    </div>
-
-    <!-- Attendance Table -->
-
-    <div class="table-box">
-
-        <table>
-
-            <thead>
-
-            <tr>
-                <th>S.No.</th>
-                <th>Date</th>
-                <th>Status</th>
-            </tr>
-
-            </thead>
-
-            <tbody id="attendanceTable">
-
-            </tbody>
-
-        </table>
-
-    </div>
-
-    <!-- Footer -->
-
-    <div class="footer">
+    <footer>
 
         © 2026 University ERP System |
-        Designed & Developed by <b>Suresh Gadri</b>
+        Designed & Developed by
+        <strong>Suresh Gadri</strong>
 
-    </div>
+    </footer>
 
 </div>
 
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<script src="js/common.js"></script>
 
 <script src="js/student-attendance-report.js"></script>
 
 </body>
+
 </html>

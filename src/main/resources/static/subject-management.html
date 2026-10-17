@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Subject Management | University ERP</title>
+
+    <link rel="stylesheet"
+          href="css/subject-management.css">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+</head>
+
+<body>
+
+<div class="page">
+
+    <!-- Header -->
+
+    <div class="header">
+
+        <div class="header-left">
+
+            <a href="dashboard.html"
+               class="back-btn">
+
+                <i class="fas fa-arrow-left"></i>
+
+            </a>
+
+            <div>
+
+                <h1>Subject Management</h1>
+
+                <p>Manage university subjects</p>
+
+            </div>
+
+        </div>
+
+        <button class="add-btn"
+                onclick="openSubjectModal()">
+
+            <i class="fas fa-plus"></i>
+
+            Add Subject
+
+        </button>
+
+    </div>
+
+
+    <!-- Statistics -->
+
+    <div class="stats">
+
+        <div class="stat-card blue">
+
+            <div>
+
+                <span>Total Subjects</span>
+
+                <strong id="totalSubjects">0</strong>
+
+            </div>
+
+            <i class="fas fa-book"></i>
+
+        </div>
+
+
+        <div class="stat-card green">
+
+            <div>
+
+                <span>Active Subjects</span>
+
+                <strong id="activeSubjects">0</strong>
+
+            </div>
+
+            <i class="fas fa-circle-check"></i>
+
+        </div>
+
+
+        <div class="stat-card orange">
+
+            <div>
+
+                <span>Core Subjects</span>
+
+                <strong id="coreSubjects">0</strong>
+
+            </div>
+
+            <i class="fas fa-star"></i>
+
+        </div>
+
+
+        <div class="stat-card purple">
+
+            <div>
+
+                <span>Total Credits</span>
+
+                <strong id="totalCredits">0</strong>
+
+            </div>
+
+            <i class="fas fa-graduation-cap"></i>
+
+        </div>
+
+    </div>
+
+
+    <!-- Subject List -->
+
+    <div class="table-card">
+
+        <div class="table-header">
+
+            <div>
+
+                <h2>
+
+                    <i class="fas fa-book-open"></i>
+
+                    Subjects
+
+                </h2>
+
+                <p>View and manage all university subjects</p>
+
+            </div>
+
+            <input
+                    type="text"
+                    id="searchInput"
+                    placeholder="Search subject..."
+                    onkeyup="searchSubjects()">
+
+        </div>
+
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+
+                <tr>
+
+                    <th>#</th>
+
+                    <th>Subject Code</th>
+
+                    <th>Subject Name</th>
+
+                    <th>Type</th>
+
+                    <th>Credits</th>
+
+                    <th>Department</th>
+
+                    <th>Status</th>
+
+                    <th>Action</th>
+
+                </tr>
+
+                </thead>
+
+                <tbody id="subjectTable">
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+
+    <!-- Modal -->
+
+    <div class="modal"
+         id="subjectModal">
+
+        <div class="modal-box">
+
+            <div class="modal-header">
+
+                <div>
+
+                    <h2 id="modalTitle">
+
+                        Add Subject
+
+                    </h2>
+
+                    <p>Create a new university subject</p>
+
+                </div>
+
+                <button onclick="closeSubjectModal()">
+
+                    <i class="fas fa-times"></i>
+
+                </button>
+
+            </div>
+
+
+            <form id="subjectForm">
+
+                <input
+                        type="hidden"
+                        id="subjectId">
+
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+
+                        <label>
+
+                            Subject Code
+
+                        </label>
+
+                        <input
+                                type="text"
+                                id="subjectCode"
+                                placeholder="Example: CS101"
+                                required>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+
+                            Subject Name
+
+                        </label>
+
+                        <input
+                                type="text"
+                                id="subjectName"
+                                placeholder="Example: Programming Fundamentals"
+                                required>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+
+                            Subject Type
+
+                        </label>
+
+                        <select id="subjectType">
+
+                            <option value="Theory">
+
+                                Theory
+
+                            </option>
+
+                            <option value="Elective">
+
+                                Elective
+
+                            </option>
+
+                            <option value="Practical">
+
+                                Practical
+
+                            </option>
+
+                            <option value="Lab">
+
+                                Lab
+
+                            </option>
+
+                            <option value="Other">
+
+                                Other
+
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+
+                            Credits
+
+                        </label>
+
+                        <input
+                                type="number"
+                                id="credits"
+                                min="0"
+                                placeholder="Example: 4"
+                                required>
+
+                    </div>
+
+
+                    <div class="form-group full">
+
+                        <label>
+
+                            Department
+
+                        </label>
+
+                        <input
+                                type="text"
+                                id="department"
+                                placeholder="Example: Computer Science & Engineering">
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+
+                            Status
+
+                        </label>
+
+                        <select id="status">
+
+                            <option value="Active">
+
+                                Active
+
+                            </option>
+
+                            <option value="Inactive">
+
+                                Inactive
+
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-actions">
+
+                    <button
+                            type="button"
+                            class="cancel-btn"
+                            onclick="closeSubjectModal()">
+
+                        Cancel
+
+                    </button>
+
+                    <button
+                            type="submit"
+                            class="save-btn">
+
+                        <i class="fas fa-save"></i>
+
+                        Save Subject
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <footer>
+
+        © 2026 University ERP System |
+        Designed & Developed by
+        <b>Suresh Gadri</b>
+
+    </footer>
+
+</div>
+
+
+<script src="js/subject-management.js"></script>
+
+</body>
+
+</html>

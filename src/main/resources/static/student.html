@@ -2,198 +2,232 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
     <title>Student Management | University ERP</title>
 
-    <link rel="stylesheet" href="css/student.css">
+    <link rel="stylesheet"
+          href="css/student.css">
+
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
 </head>
 
 <body>
 
-<div class="container">
+<div class="page-container">
 
-    <!-- ================= HEADER ================= -->
+    <!-- =====================================================
+         HEADER
+    ====================================================== -->
 
-    <div class="page-header">
+    <div class="top-header">
 
-        <h1>
+        <div class="header-left">
 
-            <i class="fas fa-graduation-cap"></i>
+            <button class="back-btn"
+                    onclick="goDashboard()"
+                    type="button">
 
-            Student Management
+                <i class="fa-solid fa-arrow-left"></i>
 
-        </h1>
+            </button>
 
-        <p>University ERP Student Module</p>
+            <div>
 
-    </div>
+                <h1>
+                    <i class="fa-solid fa-user-graduate"></i>
+                    Student Management
+                </h1>
 
-    <!-- ================= STUDENT FORM ================= -->
-
-    <div class="card">
-
-        <h2>Add / Update Student</h2>
-
-        <form onsubmit="event.preventDefault(); saveStudent();">
-
-            <input type="hidden" id="studentId">
-
-            <div class="form-grid">
-
-                <!-- Enrollment -->
-
-                <div class="form-group">
-
-                    <label>Enrollment Number</label>
-
-                    <input
-                            type="text"
-                            id="enrollmentNo"
-                            placeholder="Enter Enrollment Number"
-                            required>
-
-                </div>
-
-                <!-- Student Name -->
-
-                <div class="form-group">
-
-                    <label>Student Name</label>
-
-                    <input
-                            type="text"
-                            id="studentName"
-                            placeholder="Enter Student Name"
-                            required>
-
-                </div>
-
-                <!-- Email -->
-
-                <div class="form-group">
-
-                    <label>Email</label>
-
-                    <input
-                            type="email"
-                            id="email"
-                            placeholder="Enter Email">
-
-                </div>
-
-                <!-- Mobile -->
-
-                <div class="form-group">
-
-                    <label>Mobile Number</label>
-
-                    <input
-                            type="text"
-                            id="phone"
-                            placeholder="Enter Mobile Number">
-
-                </div>
-
-                <!-- Course -->
-
-                <div class="form-group">
-
-                    <label>Course</label>
-
-                    <select id="course">
-
-                        <option value="">Select Course</option>
-
-                        <option>
-                            Diploma In Engineering - Computer Science and Engineering
-                        </option>
-                        <option>B.Tech - Computer Science & Engineering</option>
-                        <option>B.Tech - Computer Science & Engineering (Artificial Intelligence)</option>
-                        <option>B.Tech - Computer Science & Engineering (Data Science)</option>
-                        <option>B.Tech - Information Technology</option>
-                        <option>M.Tech - Computer Science & Engineering</option>
-                        <option>M.Tech - Computer Science & Engineering (Artificial Intelligence)</option>
-                        <option>M.Tech - Computer Science & Engineering (Data Science)</option>
-                        <option>M.Tech - Information Technology</option>
-                    </select>
-
-                </div>
-
-                <!-- Semester -->
-
-                <div class="form-group">
-
-                    <label>Semester</label>
-
-                    <select id="semester">
-
-                        <option value="">Select Semester</option>
-
-                        <option>SEM 1</option>
-                        <option>SEM 2</option>
-                        <option>SEM 3</option>
-                        <option>SEM 4</option>
-                        <option>SEM 5</option>
-                        <option>SEM 6</option>
-                        <option>SEM 7</option>
-                        <option>SEM 8</option>
-
-                    </select>
-
-                </div>
+                <p>
+                    Manage university students
+                </p>
 
             </div>
-
-            <!-- Buttons -->
-
-            <div class="button-group">
-
-                <button
-                        type="submit"
-                        class="btn btn-save">
-
-                    <i class="save"></i>
-
-                    Save Student
-
-                </button>
-
-                <button
-                        type="reset"
-                        class="btn btn-clear"
-                        onclick="clearForm()">
-
-                    Clear
-
-                </button>
-
-            </div>
-
-        </form>
-
-
-    </div>
-    <!-- ================= STUDENT RECORDS ================= -->
-
-    <div class="card">
-
-        <h2>Student Records</h2>
-
-        <div class="search-box">
-
-            <input
-                    type="text"
-                    id="searchStudent"
-                    placeholder="🔍 Search by Enrollment No or Student Name"
-                    onkeyup="searchStudent()">
 
         </div>
 
-        <div class="table-responsive">
+
+        <div class="header-actions">
+
+            <button class="primary-btn"
+                    onclick="openAddStudentModal()"
+                    type="button">
+
+                <i class="fa-solid fa-plus"></i>
+
+                Add Student
+
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         STATISTICS
+    ====================================================== -->
+
+    <div class="stats-grid">
+
+        <!-- TOTAL STUDENTS -->
+
+        <div class="stat-card blue">
+
+            <div>
+
+                <span>Total Students</span>
+
+                <strong id="totalStudents">
+                    0
+                </strong>
+
+            </div>
+
+            <i class="fa-solid fa-user-graduate"></i>
+
+        </div>
+
+
+        <!-- ACTIVE STUDENTS -->
+
+        <div class="stat-card green">
+
+            <div>
+
+                <span>Active Students</span>
+
+                <strong id="activeStudents">
+                    0
+                </strong>
+
+            </div>
+
+            <i class="fa-solid fa-circle-check"></i>
+
+        </div>
+
+
+        <!-- TOTAL COURSES -->
+
+        <div class="stat-card orange">
+
+            <div>
+
+                <span>Total Courses</span>
+
+                <strong id="totalCourses">
+                    0
+                </strong>
+
+            </div>
+
+            <i class="fa-solid fa-book"></i>
+
+        </div>
+
+
+        <!-- SEMESTERS -->
+
+        <div class="stat-card purple">
+
+            <div>
+
+                <span>Semesters</span>
+
+                <strong id="totalSemesters">
+                    0
+                </strong>
+
+            </div>
+
+            <i class="fa-solid fa-layer-group"></i>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         STUDENT RECORDS
+    ====================================================== -->
+
+    <div class="content-card">
+
+        <div class="content-header">
+
+            <div>
+
+                <h2>
+
+                    <i class="fa-solid fa-list"></i>
+
+                    Student Records
+
+                </h2>
+
+                <p>
+                    View and manage university student records
+                </p>
+
+            </div>
+
+
+            <!-- =================================================
+                 SEARCH + FILTERS
+            ================================================== -->
+
+            <div class="record-controls">
+
+                <div class="search-box">
+
+                    <i class="fa-solid fa-magnifying-glass"></i>
+
+                    <input
+                            type="text"
+                            id="searchInput"
+                            placeholder="Search student, enrollment or email..."
+                            oninput="filterStudents()">
+
+                </div>
+
+
+                <select id="courseFilter"
+                        onchange="filterStudents()">
+
+                    <option value="">
+                        All Courses
+                    </option>
+
+                </select>
+
+
+                <select id="semesterFilter"
+                        onchange="filterStudents()">
+
+                    <option value="">
+                        All Semesters
+                    </option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             TABLE
+        ================================================== -->
+
+        <div class="table-container">
 
             <table>
 
@@ -201,20 +235,30 @@
 
                 <tr>
 
-                    <th>ID</th>
-                    <th>Enrollment No</th>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Mobile</th>
+                    <th>#</th>
+
+                    <th>Student</th>
+
+                    <th>Enrollment No.</th>
+
                     <th>Course</th>
+
                     <th>Semester</th>
-                    <th>Actions</th>
+
+                    <th>Email</th>
+
+                    <th>Mobile</th>
+
+                    <th>Status</th>
+
+                    <th>Action</th>
 
                 </tr>
 
                 </thead>
 
-                <tbody id="studentBody">
+
+                <tbody id="studentTable">
 
                 </tbody>
 
@@ -222,33 +266,326 @@
 
         </div>
 
+
+        <!-- =================================================
+             EMPTY STATE
+        ================================================== -->
+
+        <div id="emptyState"
+             class="empty"
+             style="display:none;">
+
+            <i class="fa-solid fa-user-slash"></i>
+
+            <h3>
+                No Students Found
+            </h3>
+
+            <p>
+                Try changing your search or filter.
+            </p>
+
+        </div>
+
     </div>
 
-    <!-- ================= BACK BUTTON ================= -->
 
-    <div class="back-section">
-
-        <a href="#" class="back-btn" onclick="goDashboard()">
-
-            ← Back To Dashboard
-
-        </a>
-
-    </div>
-
-    <!-- ================= FOOTER ================= -->
+    <!-- =====================================================
+         FOOTER
+    ====================================================== -->
 
     <footer>
 
         © 2026 University ERP System |
-        Designed & Developed by <strong>Suresh Gadri</strong>
+        Designed & Developed by
+        <strong>Suresh Gadri</strong>
 
     </footer>
 
 </div>
 
-<script src="js/common.js"></script>
+
+<!-- =====================================================
+     ADD / EDIT STUDENT MODAL
+====================================================== -->
+
+<div id="studentModal"
+     class="modal-overlay">
+
+    <div class="modal">
+
+        <!-- =================================================
+             MODAL HEADER
+        ================================================== -->
+
+        <div class="modal-header">
+
+            <div>
+
+                <h2 id="modalTitle">
+
+                    <i class="fa-solid fa-user-graduate"></i>
+
+                    Add Student
+
+                </h2>
+
+                <p>
+                    Enter student academic information
+                </p>
+
+            </div>
+
+
+            <button class="close-btn"
+                    type="button"
+                    onclick="closeStudentModal()">
+
+                <i class="fa-solid fa-xmark"></i>
+
+            </button>
+
+        </div>
+
+
+        <!-- =================================================
+             FORM
+        ================================================== -->
+
+        <form id="studentForm"
+              onsubmit="saveStudent(event)">
+
+            <input type="hidden"
+                   id="studentId">
+
+
+            <div class="form-section">
+
+                <h3>
+
+                    <i class="fa-solid fa-user"></i>
+
+                    Student Information
+
+                </h3>
+
+
+                <div class="form-grid">
+
+                    <!-- ENROLLMENT -->
+
+                    <div class="form-group">
+
+                        <label for="enrollmentNo">
+                            Enrollment Number
+                        </label>
+
+                        <input
+                                type="text"
+                                id="enrollmentNo"
+                                placeholder="Enter Enrollment Number"
+                                required>
+
+                    </div>
+
+
+                    <!-- NAME -->
+
+                    <div class="form-group">
+
+                        <label for="studentName">
+                            Student Name
+                        </label>
+
+                        <input
+                                type="text"
+                                id="studentName"
+                                placeholder="Enter Student Name"
+                                required>
+
+                    </div>
+
+
+                    <!-- EMAIL -->
+
+                    <div class="form-group">
+
+                        <label for="studentEmail">
+                            Email
+                        </label>
+
+                        <input
+                                type="email"
+                                id="studentEmail"
+                                placeholder="Enter Email"
+                                required>
+
+                    </div>
+
+
+                    <!-- MOBILE -->
+
+                    <div class="form-group">
+
+                        <label for="studentMobile">
+                            Mobile Number
+                        </label>
+
+                        <input
+                                type="text"
+                                id="studentMobile"
+                                placeholder="Enter Mobile Number"
+                                maxlength="10"
+                                required>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 ACADEMIC INFORMATION
+            ================================================== -->
+
+            <div class="form-section">
+
+                <h3>
+
+                    <i class="fa-solid fa-graduation-cap"></i>
+
+                    Academic Information
+
+                </h3>
+
+
+                <div class="form-grid">
+
+                    <!-- COURSE -->
+
+                    <div class="form-group full">
+
+                        <label for="studentCourse">
+                            Course
+                        </label>
+
+                        <select id="studentCourse"
+                                required>
+
+                            <option value="">
+                                Select Course
+                            </option>
+
+                            <option value="B.Tech - Computer Science & Engineering">
+                                B.Tech - Computer Science & Engineering
+                            </option>
+
+                            <option value="B.Tech - Information Technology">
+                                B.Tech - Information Technology
+                            </option>
+
+                            <option value="Diploma In Engineering - Computer Science and Engineering">
+                                Diploma In Engineering - Computer Science and Engineering
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- SEMESTER -->
+
+                    <div class="form-group full">
+
+                        <label for="studentSemester">
+                            Semester
+                        </label>
+
+                        <select id="studentSemester"
+                                required>
+
+                            <option value="">
+                                Select Semester
+                            </option>
+
+                            <option value="SEM 1">
+                                SEM 1
+                            </option>
+
+                            <option value="SEM 2">
+                                SEM 2
+                            </option>
+
+                            <option value="SEM 3">
+                                SEM 3
+                            </option>
+
+                            <option value="SEM 4">
+                                SEM 4
+                            </option>
+
+                            <option value="SEM 5">
+                                SEM 5
+                            </option>
+
+                            <option value="SEM 6">
+                                SEM 6
+                            </option>
+
+                            <option value="SEM 7">
+                                SEM 7
+                            </option>
+
+                            <option value="SEM 8">
+                                SEM 8
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 MODAL FOOTER
+            ================================================== -->
+
+            <div class="modal-footer">
+
+                <button type="button"
+                        class="cancel-btn"
+                        onclick="closeStudentModal()">
+
+                    Cancel
+
+                </button>
+
+
+                <button type="submit"
+                        class="save-btn"
+                        id="saveButton">
+
+                    <i class="fa-solid fa-floppy-disk"></i>
+
+                    Save Student
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
 <script src="js/student.js"></script>
 
 </body>
+
 </html>

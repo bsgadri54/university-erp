@@ -1,27 +1,53 @@
-// =========================================
-// Attendance Management
-// =========================================
+// =========================================================
+// UNIVERSITY ERP - ATTENDANCE MANAGEMENT
+// =========================================================
 
-// Page Load
+let attendanceData = [];
 
 
+// =========================================================
+// PAGE LOAD
+// =========================================================
 
 window.onload = function () {
 
     loadAttendance();
+
     loadNames();
-
-
 
 };
 
-// =========================================
-// Load Student / Employee Names
-// =========================================
+
+// =========================================================
+// FOCUS ATTENDANCE FORM
+// =========================================================
+
+function focusAttendanceForm() {
+
+    const form = document.getElementById("attendanceFormCard");
+
+    form.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+    });
+
+    setTimeout(() => {
+
+        document.getElementById("name").focus();
+
+    }, 500);
+
+}
+
+
+// =========================================================
+// LOAD STUDENT / EMPLOYEE NAMES
+// =========================================================
 
 function loadNames() {
 
-    let type = document.getElementById("type").value;
+    const type =
+        document.getElementById("type").value;
 
     let url = "";
 
@@ -35,105 +61,147 @@ function loadNames() {
 
     }
 
+
     fetch(url)
-        .then(response => response.json())
+
+        .then(response => {
+
+            if (!response.ok) {
+
+                throw new Error("Unable to load names");
+
+            }
+
+            return response.json();
+
+        })
+
         .then(data => {
 
-            let options = '<option value="">Select Name</option>';
+            let options =
+                '<option value="">Select Name</option>';
+
 
             data.forEach(item => {
 
                 if (type === "STUDENT") {
 
                     options += `
-                <option
-                    value="${item.name}"
-                    data-userid="${item.userId}"
-                    data-personid="${item.enrollmentNo}">
-                    ${item.name}
-                </option>
-                `;
+
+                        <option
+                            value="${item.name}"
+                            data-userid="${item.userId ?? 0}"
+                            data-personid="${item.enrollmentNo ?? ""}">
+
+                            ${item.name}
+
+                        </option>
+
+                    `;
 
                 } else {
 
                     options += `
-                <option
-                    value="${item.name}"
-                    data-userid="${item.userId}"
-                    data-personid="${item.employeeCode}">
-                    ${item.name}
-                </option>
-                `;
+
+                        <option
+                            value="${item.name}"
+                            data-userid="${item.userId ?? 0}"
+                            data-personid="${item.employeeCode ?? ""}">
+
+                            ${item.name}
+
+                        </option>
+
+                    `;
 
                 }
 
             });
 
-            document.getElementById("name").innerHTML = options;
+
+            document.getElementById("name")
+                .innerHTML = options;
 
         })
+
         .catch(error => {
 
             console.error(error);
 
-            alert("Unable to load names");
+            document.getElementById("name").innerHTML =
+                '<option value="">Unable to load names</option>';
 
         });
 
 }
 
-// =========================================
-// Save Attendance
-// =========================================
+
+// =========================================================
+// SAVE ATTENDANCE
+// =========================================================
 
 function saveAttendance() {
 
-    let selected = document.getElementById("name").selectedOptions[0];
+    const selected =
+        document.getElementById("name")
+            .selectedOptions[0];
 
-    if (!selected || selected.value === "") {
+
+    if (!selected ||
+        selected.value === "") {
+
         alert("Please select a name.");
+
         return;
+
     }
 
-    let attendance = {
 
-        userId: 0,
+    const attendance = {
 
-        personId: selected.dataset.personid,
+        userId:
+            selected.dataset.userid || 0,
 
-        personType: document.getElementById("type").value,
+        personId:
+            selected.dataset.personid || "",
 
-        personName: selected.value,
+        personType:
+        document.getElementById("type").value,
 
-        attendanceDate: document.getElementById("date").value,
+        personName:
+        selected.value,
 
-        status: document.getElementById("status").value
+        attendanceDate:
+        document.getElementById("date").value,
+
+        status:
+        document.getElementById("status").value
 
     };
 
-    if (attendance.personName === "") {
 
-        alert("Please select a name.");
-        return;
-
-    }
-
-    if (attendance.attendanceDate === "") {
+    if (!attendance.attendanceDate) {
 
         alert("Please select attendance date.");
+
         return;
 
     }
+
 
     fetch("/attendance", {
 
         method: "POST",
 
         headers: {
-            "Content-Type": "application/json"
+
+            "Content-Type":
+                "application/json"
+
         },
 
-        body: JSON.stringify(attendance)
+        body:
+            JSON.stringify(attendance)
 
     })
 
@@ -149,85 +217,60 @@ function saveAttendance() {
 
         })
 
-        .then(data => {
-            alert("Attendance Saved Successfully");
-            loadAttendance();
+        .then(() => {
+
+            alert(
+                "Attendance Saved Successfully"
+            );
+
             clearForm();
+
+            loadAttendance();
+
         })
 
         .catch(error => {
 
             console.error(error);
 
-            alert("Unable To Save Attendance");
+            alert(
+                "Unable To Save Attendance"
+            );
 
         });
 
 }
 
-// =========================================
-// Load Attendance
-// =========================================
+
+// =========================================================
+// LOAD ATTENDANCE
+// =========================================================
 
 function loadAttendance() {
 
     fetch("/attendance")
 
-        .then(response => response.json())
+        .then(response => {
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "Unable to load attendance"
+                );
+
+            }
+
+            return response.json();
+
+        })
 
         .then(data => {
 
-            let rows = "";
+            attendanceData = data || [];
 
-            data.forEach(a => {
+            updateStatistics();
 
-                rows += `
-
-                <tr>
-
-                    <td>${a.id}</td>
-
-                    <td>${a.personType}</td>
-
-                    <td>${a.personName}</td>
-
-                    <td>${a.attendanceDate}</td>
-
-                    <td class="${a.status === 'PRESENT'
-                    ? 'status-present'
-                    : 'status-absent'}">
-
-                        ${a.status}
-
-                    </td>
-
-                    <td>
-
-                        <button
-                            class="edit-btn"
-                            onclick="alert('Edit feature coming soon')">
-
-                            Edit
-
-                        </button>
-
-                        <button
-                            class="delete-btn"
-                            onclick="deleteAttendance(${a.id})">
-
-                            Delete
-
-                        </button>
-
-                    </td>
-
-                </tr>
-
-                `;
-
-            });
-
-            document.getElementById("attendanceTable").innerHTML = rows;
+            renderAttendance(attendanceData);
 
         })
 
@@ -235,23 +278,297 @@ function loadAttendance() {
 
             console.error(error);
 
-            alert("Unable To Load Attendance");
+            document.getElementById(
+                "attendanceTable"
+            ).innerHTML = "";
+
+            document.getElementById(
+                "emptyState"
+            ).style.display = "block";
+
+            updateStatistics();
 
         });
 
 }
 
-// =========================================
-// Delete Attendance
-// =========================================
 
-function deleteAttendance(id) {
+// =========================================================
+// UPDATE STATISTICS
+// =========================================================
 
-    if (!confirm("Delete Attendance?")) {
+function updateStatistics() {
+
+    const total =
+        attendanceData.length;
+
+
+    const present =
+        attendanceData.filter(
+            a => a.status === "PRESENT"
+        ).length;
+
+
+    const absent =
+        attendanceData.filter(
+            a => a.status === "ABSENT"
+        ).length;
+
+
+    const students =
+        attendanceData.filter(
+            a => a.personType === "STUDENT"
+        ).length;
+
+
+    document.getElementById(
+        "totalAttendance"
+    ).textContent = total;
+
+
+    document.getElementById(
+        "presentAttendance"
+    ).textContent = present;
+
+
+    document.getElementById(
+        "absentAttendance"
+    ).textContent = absent;
+
+
+    document.getElementById(
+        "studentAttendance"
+    ).textContent = students;
+
+}
+
+
+// =========================================================
+// RENDER ATTENDANCE
+// =========================================================
+
+function renderAttendance(data) {
+
+    const table =
+        document.getElementById(
+            "attendanceTable"
+        );
+
+
+    const emptyState =
+        document.getElementById(
+            "emptyState"
+        );
+
+
+    if (!data || data.length === 0) {
+
+        table.innerHTML = "";
+
+        emptyState.style.display = "block";
 
         return;
 
     }
+
+
+    emptyState.style.display = "none";
+
+
+    let rows = "";
+
+
+    data.forEach((a, index) => {
+
+        const typeClass =
+            a.personType === "STUDENT"
+                ? "type-student"
+                : "type-employee";
+
+
+        const statusClass =
+            a.status === "PRESENT"
+                ? "status-present"
+                : "status-absent";
+
+
+        const statusIcon =
+            a.status === "PRESENT"
+                ? "fa-circle"
+                : "fa-circle";
+
+
+        rows += `
+
+            <tr>
+
+                <td>
+                    ${index + 1}
+                </td>
+
+
+                <td>
+
+                    <span class="${typeClass}">
+
+                        ${a.personType ?? ""}
+
+                    </span>
+
+                </td>
+
+
+                <td>
+
+                    <span class="person-name">
+
+                        ${a.personName ?? ""}
+
+                    </span>
+
+                </td>
+
+
+                <td>
+
+                    ${a.attendanceDate ?? ""}
+
+                </td>
+
+
+                <td>
+
+                    <span class="status-badge ${statusClass}">
+
+                        <i class="fa-solid ${statusIcon}"></i>
+
+                        ${a.status ?? ""}
+
+                    </span>
+
+                </td>
+
+
+                <td>
+
+                    <div class="action-buttons">
+
+
+                        <button
+
+                            class="edit-btn"
+
+                            title="Edit Attendance"
+
+                            onclick="editAttendance(${a.id})">
+
+                            <i class="fa-solid fa-pen"></i>
+
+                        </button>
+
+
+                        <button
+
+                            class="delete-btn"
+
+                            title="Delete Attendance"
+
+                            onclick="deleteAttendance(${a.id})">
+
+                            <i class="fa-solid fa-trash"></i>
+
+                        </button>
+
+
+                    </div>
+
+                </td>
+
+            </tr>
+
+        `;
+
+    });
+
+
+    table.innerHTML = rows;
+
+}
+
+
+// =========================================================
+// EDIT ATTENDANCE
+// =========================================================
+
+function editAttendance(id) {
+
+    const attendance =
+        attendanceData.find(
+            a => a.id === id
+        );
+
+
+    if (!attendance) {
+
+        alert("Attendance record not found.");
+
+        return;
+
+    }
+
+
+    document.getElementById("type").value =
+        attendance.personType;
+
+
+    loadNames();
+
+
+    setTimeout(() => {
+
+        const nameSelect =
+            document.getElementById("name");
+
+
+        nameSelect.value =
+            attendance.personName;
+
+
+        document.getElementById("date").value =
+            attendance.attendanceDate;
+
+
+        document.getElementById("status").value =
+            attendance.status;
+
+
+        focusAttendanceForm();
+
+
+    }, 500);
+
+
+    alert(
+        "Edit form loaded. Save will create an updated attendance record only if your backend supports update."
+    );
+
+}
+
+
+// =========================================================
+// DELETE ATTENDANCE
+// =========================================================
+
+function deleteAttendance(id) {
+
+    if (!confirm(
+        "Are you sure you want to delete this attendance record?"
+    )) {
+
+        return;
+
+    }
+
 
     fetch("/attendance/" + id, {
 
@@ -263,7 +580,9 @@ function deleteAttendance(id) {
 
             if (!response.ok) {
 
-                throw new Error("Delete Failed");
+                throw new Error(
+                    "Delete Failed"
+                );
 
             }
 
@@ -273,7 +592,9 @@ function deleteAttendance(id) {
 
         .then(() => {
 
-            alert("Attendance Deleted Successfully");
+            alert(
+                "Attendance Deleted Successfully"
+            );
 
             loadAttendance();
 
@@ -283,57 +604,112 @@ function deleteAttendance(id) {
 
             console.error(error);
 
-            alert("Unable To Delete Attendance");
+            alert(
+                "Unable To Delete Attendance"
+            );
 
         });
 
 }
 
-// =========================================
-// Search Attendance
-// =========================================
+
+// =========================================================
+// SEARCH ATTENDANCE
+// =========================================================
 
 function searchAttendance() {
 
-    let filter = document
-        .getElementById("searchAttendance")
-        .value
-        .toLowerCase();
-
-    let rows = document.querySelectorAll("#attendanceTable tr");
-
-    rows.forEach(row => {
-
-        let text = row.textContent.toLowerCase();
-
-        if (text.includes(filter)) {
-
-            row.style.display = "";
-
-        } else {
-
-            row.style.display = "none";
-
-        }
-
-    });
+    filterAttendance();
 
 }
 
-// =========================================
-// Clear Form
-// =========================================
+
+// =========================================================
+// FILTER ATTENDANCE
+// =========================================================
+
+function filterAttendance() {
+
+    const search =
+        document.getElementById(
+            "searchAttendance"
+        ).value.toLowerCase();
+
+
+    const type =
+        document.getElementById(
+            "typeFilter"
+        ).value;
+
+
+    const status =
+        document.getElementById(
+            "statusFilter"
+        ).value;
+
+
+    const filtered =
+        attendanceData.filter(a => {
+
+            const searchText = `
+
+                ${a.personName ?? ""}
+
+                ${a.personType ?? ""}
+
+                ${a.attendanceDate ?? ""}
+
+                ${a.status ?? ""}
+
+            `.toLowerCase();
+
+
+            const matchesSearch =
+                searchText.includes(search);
+
+
+            const matchesType =
+                type === "" ||
+                a.personType === type;
+
+
+            const matchesStatus =
+                status === "" ||
+                a.status === status;
+
+
+            return (
+                matchesSearch &&
+                matchesType &&
+                matchesStatus
+            );
+
+        });
+
+
+    renderAttendance(filtered);
+
+}
+
+
+// =========================================================
+// CLEAR FORM
+// =========================================================
 
 function clearForm() {
 
-    document.getElementById("type").selectedIndex = 0;
+    document.getElementById("type")
+        .selectedIndex = 0;
+
 
     loadNames();
 
-    document.getElementById("name").selectedIndex = 0;
 
-    document.getElementById("date").value = "";
+    document.getElementById("date")
+        .value = "";
 
-    document.getElementById("status").selectedIndex = 0;
+
+    document.getElementById("status")
+        .selectedIndex = 0;
 
 }

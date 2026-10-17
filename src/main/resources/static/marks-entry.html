@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
     <meta charset="UTF-8">
@@ -8,7 +9,10 @@
     <title>Marks Entry | University ERP</title>
 
     <link rel="stylesheet" href="css/marks-entry.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
+
+    <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
 </head>
 
@@ -20,63 +24,100 @@
 
     <div class="page-header">
 
-        <h1>
+        <div class="header-left">
 
-            <i class="fa-solid fa-graduation-cap"></i>
+            <a href="#" class="back-icon" onclick="goDashboard()">
+                <i class="fa-solid fa-arrow-left"></i>
+            </a>
 
-            Marks Entry
+            <div>
+                <h1>
+                    <i class="fa-solid fa-graduation-cap"></i>
+                    Marks Entry
+                </h1>
 
-        </h1>
+                <p>Manage student examination marks</p>
+            </div>
 
-        <p>University ERP Examination Module</p>
+        </div>
+
+
+        </button>
 
     </div>
 
-    <!-- ================= FORM ================= -->
+
+
+    <!-- ================= MARKS ENTRY ================= -->
 
     <div class="card">
 
-        <h2>Add / Update Marks</h2>
+        <div class="section-heading">
+
+            <div>
+
+                <h2>
+                    <i class="fa-solid fa-pen-to-square"></i>
+                    Add / Update Marks
+                </h2>
+
+                <p>Enter and manage student examination marks</p>
+
+            </div>
+
+        </div>
+
 
         <div class="form-grid">
 
+            <!-- STUDENT -->
+
             <div class="form-group">
 
-                <label>Select Student</label>
+                <label>
+                    <i class="fa-solid fa-user-graduate"></i>
+                    Select Student
+                </label>
 
                 <select id="studentSelect">
 
-                    <option value="">Select Student</option>
+                    <option value="">
+                        Select Student
+                    </option>
 
                 </select>
 
             </div>
 
+
+            <!-- SUBJECT -->
+
             <div class="form-group">
 
-                <label>Select Subject</label>
+                <label>
+                    <i class="fa-solid fa-book"></i>
+                    Select Subject
+                </label>
 
                 <select id="subject">
 
-                    <option value="">Select Subject</option>
-
-                    <option>Computer Network</option>
-                    <option>Data Base Management System</option>
-                    <option>Software Engineering</option>
-                    <option>Java Programming</option>
-                    <option>Web Technology</option>
-                    <option>Java Programming LAB</option>
-                    <option>Data Base Management System LAB</option>
-                    <option>Web Technology LAB</option>
-
+                    <option value="">
+                        Select Subject
+                    </option>
 
                 </select>
 
             </div>
 
+
+            <!-- MARKS -->
+
             <div class="form-group">
 
-                <label>Marks</label>
+                <label>
+                    <i class="fa-solid fa-marker"></i>
+                    Marks
+                </label>
 
                 <input
                         type="number"
@@ -85,13 +126,21 @@
 
             </div>
 
+
+            <!-- SEMESTER -->
+
             <div class="form-group">
 
-                <label>Semester</label>
+                <label>
+                    <i class="fa-solid fa-layer-group"></i>
+                    Semester
+                </label>
 
                 <select id="semester">
 
-                    <option value="SEM 1">SEM 1</option>
+                    <option value="SEM 1">
+                        SEM 1
+                    </option>
 
                 </select>
 
@@ -99,20 +148,26 @@
 
         </div>
 
+
+        <!-- BUTTONS -->
+
         <div class="button-group">
 
             <button
                     class="btn btn-save"
                     onclick="saveMarks()">
 
+                <i class="fa-solid fa-floppy-disk"></i>
                 Save Marks
 
             </button>
+
 
             <button
                     class="btn btn-clear"
                     onclick="clearFields()">
 
+                <i class="fa-solid fa-eraser"></i>
                 Clear
 
             </button>
@@ -121,39 +176,89 @@
 
     </div>
 
-    <!-- ================= INFO CARD ================= -->
 
-    <div class="card">
+    <!-- ================= MARKS INFORMATION ================= -->
 
-        <h2>Marks Entry Information</h2>
+    <div class="card information-card">
 
-        <div class="info-box">
+        <div class="section-heading">
 
-            <p>✔ Select the student from the dropdown.</p>
+            <div>
 
-            <p>✔ Select the subject carefully.</p>
+                <h2>
+                    <i class="fa-solid fa-circle-info"></i>
+                    Marks Entry Information
+                </h2>
 
-            <p>✔ Theory subjects maximum marks: <strong>100</strong>.</p>
+                <p>Important information for marks entry</p>
 
-            <p>✔ LAB & Practical subjects maximum marks: <strong>50</strong>.</p>
+            </div>
 
-            <p>✔ Click <strong>Save Marks</strong> after entering marks.</p>
+        </div>
+
+
+        <div class="info-grid">
+
+            <div class="info-item">
+
+                <i class="fa-solid fa-user-graduate"></i>
+
+                <span>
+                    Select the student from the dropdown.
+                </span>
+
+            </div>
+
+
+            <div class="info-item">
+
+                <i class="fa-solid fa-book"></i>
+
+                <span>
+                    Select the subject carefully.
+                </span>
+
+            </div>
+
+
+            <div class="info-item">
+
+                <i class="fa-solid fa-file-lines"></i>
+
+                <span>
+                    Theory subjects maximum marks:
+                    <strong>100</strong>
+                </span>
+
+            </div>
+
+
+            <div class="info-item">
+
+                <i class="fa-solid fa-flask"></i>
+
+                <span>
+                    LAB & Practical subjects maximum marks:
+                    <strong>50</strong>
+                </span>
+
+            </div>
+
+
+            <div class="info-item">
+
+                <i class="fa-solid fa-floppy-disk"></i>
+
+                <span>
+                    Click <strong>Save Marks</strong> after entering marks.
+                </span>
+
+            </div>
 
         </div>
 
     </div>
 
-    <!-- ================= BACK BUTTON ================= -->
-
-    <div class="back-section">
-
-        <a href="#" class="back-btn" onclick="goDashboard()">
-
-            ← Back To Dashboard
-
-        </a>
-
-    </div>
 
     <!-- ================= FOOTER ================= -->
 
@@ -167,7 +272,11 @@
 
 </div>
 
+
+<!-- ================= EXISTING JS ================= -->
+
 <script src="js/marks-entry.js" defer></script>
 
 </body>
+
 </html>

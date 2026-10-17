@@ -5,6 +5,16 @@ window.onload = function () {
     loadAttendance();
 };
 
+// =====================================================
+// DASHBOARD
+// =====================================================
+
+function goDashboard() {
+
+    window.location.href = "dashboard.html";
+
+}
+
 // ================================
 // Load Attendance
 // ================================
@@ -20,6 +30,7 @@ function loadAttendance() {
 
             updateCards();
             displayAttendance(filteredAttendance);
+
 
         })
         .catch(error => {
@@ -37,27 +48,106 @@ function loadAttendance() {
 
 function displayAttendance(list) {
 
-    let table = document.getElementById("attendanceReportTable");
+    const table = document.getElementById("attendanceReportTable");
+    const recordCount = document.getElementById("recordCount");
 
     table.innerHTML = "";
 
+    // Update record counter
+    if (recordCount) {
+        recordCount.innerText =
+            list.length + (list.length === 1 ? " Record" : " Records");
+    }
+
+    // Empty state
+    if (list.length === 0) {
+
+        table.innerHTML = `
+            <tr>
+                <td colspan="6" class="empty-state">
+                    <div class="empty-icon">
+                        <i class="fa-solid fa-calendar-xmark"></i>
+                    </div>
+
+                    <strong>No Attendance Records Found</strong>
+
+                    <span>
+                        No attendance records match your current filters.
+                    </span>
+                </td>
+            </tr>
+        `;
+
+        return;
+    }
+
+    // Display records
     list.forEach(a => {
+
+        const statusClass =
+            a.status === "PRESENT"
+                ? "present"
+                : "absent";
+
+        const typeClass =
+            a.personType === "STUDENT"
+                ? "student-type"
+                : "employee-type";
 
         table.innerHTML += `
             <tr>
+
                 <td>${a.id}</td>
-                <td>${a.personType}</td>
-                <td>${a.personId}</td>
-                <td>${a.personName}</td>
-                <td>${a.attendanceDate}</td>
-                <td class="${a.status === 'PRESENT' ? 'present' : 'absent'}">
-                    ${a.status}
+
+                <td>
+                    <span class="type-badge ${typeClass}">
+                        <i class="fa-solid ${
+            a.personType === "STUDENT"
+                ? "fa-user-graduate"
+                : "fa-user-tie"
+        }"></i>
+
+                        ${a.personType}
+                    </span>
                 </td>
+
+                <td>
+                    <strong class="person-id">
+                        ${a.personId}
+                    </strong>
+                </td>
+
+                <td class="person-name">
+                    ${a.personName}
+                </td>
+
+                <td>
+                    ${a.attendanceDate}
+                </td>
+
+                <td>
+                    <span class="${statusClass}">
+                        <i class="fa-solid ${
+            a.status === "PRESENT"
+                ? "fa-check"
+                : "fa-xmark"
+        }"></i>
+
+                        ${a.status}
+                    </span>
+                </td>
+
             </tr>
         `;
 
     });
 
+}
+const recordCount = document.getElementById("recordCount");
+
+if (recordCount) {
+    recordCount.innerText =
+        list.length + (list.length === 1 ? " Record" : " Records");
 }
 
 // ================================

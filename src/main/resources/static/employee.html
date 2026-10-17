@@ -1,60 +1,373 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
     <title>Employee Management | University ERP</title>
 
-    <link rel="stylesheet" href="css/employee.css">
+    <link rel="stylesheet"
+          href="css/employee.css">
 
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
 </head>
 
 <body>
 
-<div class="container">
+<div class="page-container">
 
     <!-- ================= HEADER ================= -->
 
     <div class="page-header">
 
-        <h1>
-            <i class="fa-solid fa-user-tie"></i>
-            Employee Management
-        </h1>
+        <div class="header-left">
 
-        <p>University ERP Employee Module</p>
+            <button class="back-icon"
+                    onclick="goDashboard()">
+
+                <i class="fa-solid fa-arrow-left"></i>
+
+            </button>
+
+            <div>
+
+                <h1>
+                    <i class="fa-solid fa-user-tie"></i>
+                    Employee Management
+                </h1>
+
+                <p>Manage university employees</p>
+
+            </div>
+
+        </div>
+
+        <button class="add-btn"
+                onclick="openAddEmployee()">
+
+            <i class="fa-solid fa-plus"></i>
+            Add Employee
+
+        </button>
 
     </div>
 
 
-    <!-- ================= FORM CARD ================= -->
+    <!-- ================= STATISTICS ================= -->
 
-    <div class="card">
+    <div class="stats-grid">
 
-        <h2>Add / Update Employee</h2>
+        <div class="stat-card blue">
 
-        <form onsubmit="event.preventDefault(); saveEmployee();">
+            <div>
 
-            <input type="hidden" id="employeeId">
+                <span>Total Employees</span>
 
-            <div class="form-grid">
+                <strong id="totalEmployees">
+                    0
+                </strong>
 
-                <div class="form-group">
-                    <label>Employee Code</label>
-                    <input type="text" id="employeeCode" placeholder="Enter Employee Code" required>
+            </div>
+
+            <i class="fa-solid fa-users"></i>
+
+        </div>
+
+
+        <div class="stat-card green">
+
+            <div>
+
+                <span>Departments</span>
+
+                <strong id="totalDepartments">
+                    0
+                </strong>
+
+            </div>
+
+            <i class="fa-solid fa-building"></i>
+
+        </div>
+
+
+        <div class="stat-card orange">
+
+            <div>
+
+                <span>Designations</span>
+
+                <strong id="totalDesignations">
+                    0
+                </strong>
+
+            </div>
+
+            <i class="fa-solid fa-id-badge"></i>
+
+        </div>
+
+
+        <div class="stat-card purple">
+
+            <div>
+
+                <span>Active Employees</span>
+
+                <strong id="activeEmployees">
+                    0
+                </strong>
+
+            </div>
+
+            <i class="fa-solid fa-circle-check"></i>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= EMPLOYEE RECORDS ================= -->
+
+    <div class="records-card">
+
+        <div class="records-header">
+
+            <div>
+
+                <h2>
+
+                    <i class="fa-solid fa-users"></i>
+
+                    Employee Records
+
+                </h2>
+
+                <p>
+                    View and manage university employee records
+                </p>
+
+            </div>
+
+
+            <div class="filters">
+
+                <div class="search-box">
+
+                    <i class="fa-solid fa-magnifying-glass"></i>
+
+                    <input
+                            type="text"
+                            id="searchEmployee"
+                            placeholder="Search employee, code or email...">
+
                 </div>
 
+
+                <select id="departmentFilter">
+
+                    <option value="">
+                        All Departments
+                    </option>
+
+                    <option>Administration</option>
+                    <option>Admissions</option>
+                    <option>IT Support</option>
+                    <option>Networking</option>
+                    <option>Finance & Accounts</option>
+                    <option>Training & Placement</option>
+                    <option>ERP Development</option>
+                    <option>Examination Cell</option>
+                    <option>Human Resources</option>
+                    <option>Computer Science & Engineering</option>
+
+                </select>
+
+
+                <select id="designationFilter">
+
+                    <option value="">
+                        All Designations
+                    </option>
+
+                    <option>Vice Chancellor</option>
+                    <option>Registrar</option>
+                    <option>Head of Department (HOD)</option>
+                    <option>Professor</option>
+                    <option>Associate Professor</option>
+                    <option>Assistant Professor</option>
+                    <option>Lecturer</option>
+                    <option>Teaching Assistant</option>
+                    <option>Lab Assistant</option>
+                    <option>Accountant</option>
+                    <option>HR Manager</option>
+                    <option>HR Executive</option>
+                    <option>Admission Coordinator</option>
+                    <option>Controller of Examinations</option>
+                    <option>ERP Administrator</option>
+                    <option>Office Assistant</option>
+                    <option>Senior System Engineer</option>
+                    <option>Network Engineer</option>
+                    <option>Training & Placement Coordinator</option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================= TABLE ================= -->
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+
+                <tr>
+
+                    <th>#</th>
+
+                    <th>Employee</th>
+
+                    <th>Employee Code</th>
+
+                    <th>Email</th>
+
+                    <th>Mobile</th>
+
+                    <th>Department</th>
+
+                    <th>Designation</th>
+
+                    <th>Status</th>
+
+                    <th>Action</th>
+
+                </tr>
+
+                </thead>
+
+                <tbody id="employeeBody">
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer>
+
+        © 2026 University ERP System |
+        Designed & Developed by
+        <strong>Suresh Gadri</strong>
+
+    </footer>
+
+</div>
+
+
+<!-- ===================================================== -->
+<!-- ADD / EDIT EMPLOYEE MODAL -->
+<!-- ===================================================== -->
+
+<div id="employeeModal"
+     class="modal">
+
+    <div class="modal-content">
+
+        <!-- MODAL HEADER -->
+
+        <div class="modal-header">
+
+            <div>
+
+                <h2 id="modalTitle">
+
+                    <i class="fa-solid fa-user-plus"></i>
+                    Add Employee
+
+                </h2>
+
+                <p>
+                    Enter employee information
+                </p>
+
+            </div>
+
+            <button class="close-btn"
+                    onclick="closeEmployeeModal()">
+
+                <i class="fa-solid fa-xmark"></i>
+
+            </button>
+
+        </div>
+
+
+        <!-- FORM -->
+
+        <form id="employeeForm">
+
+            <input type="hidden"
+                   id="employeeId">
+
+
+            <div class="modal-grid">
+
+
+                <!-- Employee Code -->
+
                 <div class="form-group">
-                    <label>Employee Name</label>
-                    <input type="text" id="employeeName" placeholder="Enter Employee Name" required>
+
+                    <label>
+                        Employee Code
+                    </label>
+
+                    <input
+                            type="text"
+                            id="employeeCode"
+                            placeholder="Enter Employee Code"
+                            required>
+
                 </div>
 
+
+                <!-- Employee Name -->
+
                 <div class="form-group">
 
-                    <label>Email</label>
+                    <label>
+                        Employee Name
+                    </label>
+
+                    <input
+                            type="text"
+                            id="employeeName"
+                            placeholder="Enter Employee Name"
+                            required>
+
+                </div>
+
+
+                <!-- Email -->
+
+                <div class="form-group">
+
+                    <label>
+                        Email
+                    </label>
 
                     <input
                             type="email"
@@ -63,23 +376,39 @@
 
                 </div>
 
+
+                <!-- Mobile -->
+
                 <div class="form-group">
 
-                    <label>Mobile Number</label>
+                    <label>
+                        Mobile Number
+                    </label>
 
                     <input
-                            type="text"
+                            type="tel"
                             id="mobile"
-                            placeholder="Enter Mobile Number">
+                            placeholder="Enter Mobile Number"
+                            maxlength="10">
 
                 </div>
 
+
+                <!-- Designation -->
+
                 <div class="form-group">
-                    <label>Designation</label>
 
-                    <select id="designation">
+                    <label>
+                        Designation
+                    </label>
 
-                        <option value="">Select Designation</option>
+                    <select id="designation"
+                            required>
+
+                        <option value="">
+                            Select Designation
+                        </option>
+
                         <option>Vice Chancellor</option>
                         <option>Registrar</option>
                         <option>Head of Department (HOD)</option>
@@ -98,20 +427,28 @@
                         <option>Office Assistant</option>
                         <option>Senior System Engineer</option>
                         <option>Network Engineer</option>
-                        <option>Accountant</option>
                         <option>Training & Placement Coordinator</option>
 
                     </select>
 
                 </div>
 
+
+                <!-- Department -->
+
                 <div class="form-group">
 
-                    <label>Department</label>
+                    <label>
+                        Department
+                    </label>
 
-                    <select id="department">
+                    <select id="department"
+                            required>
 
-                        <option value="">Select Department</option>
+                        <option value="">
+                            Select Department
+                        </option>
+
                         <option>Administration</option>
                         <option>Admissions</option>
                         <option>IT Support</option>
@@ -122,101 +459,51 @@
                         <option>Examination Cell</option>
                         <option>Human Resources</option>
                         <option>Computer Science & Engineering</option>
+
                     </select>
 
                 </div>
 
             </div>
 
-            <div class="button-group">
 
-                <button type="submit" class="btn btn-save">
-                    Save Employee
+            <!-- BUTTONS -->
+
+            <div class="modal-buttons">
+
+                <button type="button"
+                        class="cancel-btn"
+                        onclick="closeEmployeeModal()">
+
+                    Cancel
+
                 </button>
 
-                <button type="reset" class="btn btn-clear" onclick="clearForm()">
-                    Clear
+
+                <button type="submit"
+                        class="save-btn">
+
+                    <i class="fa-solid fa-floppy-disk"></i>
+
+                    <span id="saveButtonText">
+                        Save Employee
+                    </span>
+
                 </button>
 
             </div>
 
         </form>
-    </div>
-
-
-    <!-- ================= RECORDS ================= -->
-
-    <div class="card">
-
-        <h2>Employee Records</h2>
-
-        <div class="search-box">
-
-            <input
-                    type="text"
-                    id="searchEmployee"
-                    placeholder="🔍 Search by Employee Code or Employee Name">
-
-        </div>
-
-        <div class="table-responsive">
-
-            <table>
-
-                <thead>
-
-                <tr>
-
-                    <th>ID</th>
-                    <th>Employee Code</th>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Mobile</th>
-                    <th>Department</th>
-                    <th>Designation</th>
-                    <th>Actions</th>
-
-                </tr>
-
-                </thead>
-
-                <tbody id="employeeBody">
-
-                </tbody>
-
-            </table>
-
-        </div>
 
     </div>
-
-
-    <!-- ================= BACK BUTTON ================= -->
-
-    <div class="back-section">
-
-        <a href="#" class="back-btn" onclick="goDashboard()">
-
-            ← Back To Dashboard
-
-        </a>
-
-    </div>
-
-
-    <!-- ================= FOOTER ================= -->
-
-    <footer>
-
-        © 2026 University ERP System |
-        Designed & Developed by <strong>Suresh Gadri</strong>
-
-    </footer>
 
 </div>
 
+
 <script src="js/common.js"></script>
+
 <script src="js/employee.js"></script>
 
 </body>
+
 </html>

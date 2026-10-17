@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Fee Payment | University ERP</title>
+
+    <link rel="stylesheet"
+          href="css/student-fee-payment.css">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- =====================================================
+         PAGE HEADER
+    ====================================================== -->
+
+    <div class="page-header">
+
+        <div class="header-left">
+
+            <button
+                    type="button"
+                    class="header-back"
+                    onclick="goBack()">
+
+                <i class="fa-solid fa-arrow-left"></i>
+
+            </button>
+
+            <div>
+
+                <h1>
+                    Fee Payment
+                </h1>
+
+                <p>
+                    Complete your fee payment securely
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         STUDENT BANNER
+    ====================================================== -->
+
+    <div class="student-banner">
+
+        <div class="student-banner-left">
+
+            <div class="student-avatar">
+
+                <i class="fa-solid fa-graduation-cap"></i>
+
+            </div>
+
+            <div>
+
+                <h2 id="bannerStudentName">
+                    Loading...
+                </h2>
+
+                <p>
+                    Enrollment:
+                    <strong id="bannerEnrollmentNo">
+                        Loading...
+                    </strong>
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="active-badge">
+
+            <i class="fa-solid fa-circle-check"></i>
+
+            Active Student
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         PAYMENT SUMMARY CARDS
+    ====================================================== -->
+
+    <div class="summary-cards">
+
+        <!-- Amount -->
+
+        <div class="summary-card blue">
+
+            <div>
+
+                <span>
+                    Payment Due
+                </span>
+
+                <h2 id="topAmount">
+                    ₹0.00
+                </h2>
+
+            </div>
+
+            <i class="fa-solid fa-indian-rupee-sign"></i>
+
+        </div>
+
+
+        <!-- Semester -->
+
+        <div class="summary-card green">
+
+            <div>
+
+                <span>
+                    Semester
+                </span>
+
+                <h2 id="topSemester">
+                    -
+                </h2>
+
+            </div>
+
+            <i class="fa-solid fa-layer-group"></i>
+
+        </div>
+
+
+        <!-- Payment -->
+
+        <div class="summary-card orange">
+
+            <div>
+
+                <span>
+                    Payment Type
+                </span>
+
+                <h2>
+                    Semester Fee
+                </h2>
+
+            </div>
+
+            <i class="fa-solid fa-file-invoice"></i>
+
+        </div>
+
+
+        <!-- Status -->
+
+        <div class="summary-card purple">
+
+            <div>
+
+                <span>
+                    Payment Status
+                </span>
+
+                <h2>
+                    PENDING
+                </h2>
+
+            </div>
+
+            <i class="fa-solid fa-clock"></i>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         MAIN PAYMENT CARD
+    ====================================================== -->
+
+    <div class="payment-card">
+
+
+        <!-- =================================================
+             CARD HEADER
+        ================================================== -->
+
+        <div class="card-header">
+
+            <div class="card-header-icon">
+
+                <i class="fa-solid fa-credit-card"></i>
+
+            </div>
+
+            <div>
+
+                <h2>
+                    Confirm Fee Payment
+                </h2>
+
+                <p>
+                    Verify your information before proceeding
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             STUDENT INFORMATION
+        ================================================== -->
+
+        <div class="section-title">
+
+            <i class="fa-solid fa-user-graduate"></i>
+
+            Student Information
+
+        </div>
+
+
+        <div class="student-details">
+
+
+            <div class="info-box">
+
+                <label>
+                    Student Name
+                </label>
+
+                <strong id="studentName">
+                    Loading...
+                </strong>
+
+            </div>
+
+
+            <div class="info-box">
+
+                <label>
+                    Enrollment No
+                </label>
+
+                <strong id="enrollmentNo">
+                    Loading...
+                </strong>
+
+            </div>
+
+
+            <div class="info-box">
+
+                <label>
+                    Semester
+                </label>
+
+                <strong id="semester">
+                    Loading...
+                </strong>
+
+            </div>
+
+
+            <div class="info-box">
+
+                <label>
+                    Academic Year
+                </label>
+
+                <strong>
+                    2026-27
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             PAYMENT SUMMARY
+        ================================================== -->
+
+        <div class="section-title">
+
+            <i class="fa-solid fa-receipt"></i>
+
+            Payment Summary
+
+        </div>
+
+
+        <div class="payment-summary">
+
+
+            <div class="summary-row">
+
+                <div class="summary-label">
+
+                    <div class="mini-icon">
+
+                        <i class="fa-solid fa-graduation-cap"></i>
+
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            Semester Fee
+                        </strong>
+
+                        <small>
+                             Current semester fee
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+                <strong id="summaryAmount">
+                    ₹0.00
+                </strong>
+
+            </div>
+
+
+            <div class="divider"></div>
+
+
+            <div class="total-row">
+
+                <div>
+
+                    <span>
+                        Total Payable
+                    </span>
+
+                    <small>
+                        Amount to be paid
+                    </small>
+
+                </div>
+
+
+                <strong id="amount">
+                    ₹0.00
+                </strong>
+
+            </div>
+
+        </div>
+
+
+              <!-- ================= PAYMENT METHOD ================= -->
+
+        <div class="section-title payment-method-title">
+
+            <i class="fa-solid fa-wallet"></i>
+
+            Select Payment Method
+
+        </div>
+
+
+        <div class="payment-method-wrapper">
+
+            <select id="paymentMethod">
+
+                <option value="">
+                    Select Payment Method
+                </option>
+
+                <option value="UPI">
+                    UPI
+                </option>
+
+                <option value="CARD">
+                    Debit / Credit Card
+                </option>
+
+                <option value="NETBANKING">
+                    Net Banking
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <!-- ================= CLICKABLE PAYMENT OPTIONS ================= -->
+
+        <div class="payment-options">
+
+            <div
+                    class="payment-option"
+                    data-method="UPI"
+                    onclick="selectPaymentMethod('UPI')">
+
+                <i class="fa-solid fa-mobile-screen-button"></i>
+
+                <div>
+
+                    <strong>UPI</strong>
+
+                    <span>
+                Fast & convenient
+            </span>
+
+                </div>
+
+            </div>
+
+
+            <div
+                    class="payment-option"
+                    data-method="CARD"
+                    onclick="selectPaymentMethod('CARD')">
+
+                <i class="fa-solid fa-credit-card"></i>
+
+                <div>
+
+                    <strong>Card</strong>
+
+                    <span>
+                Debit / Credit Card
+            </span>
+
+                </div>
+
+            </div>
+
+
+            <div
+                    class="payment-option"
+                    data-method="NETBANKING"
+                    onclick="selectPaymentMethod('NETBANKING')">
+
+                <i class="fa-solid fa-building-columns"></i>
+
+                <div>
+
+                    <strong>Net Banking</strong>
+
+                    <span>
+                Secure bank payment
+            </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+              <!-- =================================================
+             BUTTONS
+        ================================================== -->
+
+        <div class="button-group">
+
+
+
+
+            <button
+                    type="button"
+                    class="pay-btn"
+                    onclick="proceedPayment()">
+
+                <i class="fa-solid fa-lock"></i>
+
+                Proceed to Secure Payment
+
+                <i class="fa-solid fa-arrow-right"></i>
+
+            </button>
+
+        </div>
+
+
+        <!-- =================================================
+             SECURITY INFORMATION
+        ================================================== -->
+
+        <div class="secure-box">
+
+            <div class="secure-icon">
+
+                <i class="fa-solid fa-shield-halved"></i>
+
+            </div>
+
+
+            <div>
+
+                <strong>
+                    Secure Payment
+                </strong>
+
+                <span>
+                    Your payment is processed securely through the university payment gateway.
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         INFORMATION BOX
+    ====================================================== -->
+
+    <div class="information-box">
+
+        <div class="information-icon">
+
+            <i class="fa-solid fa-circle-info"></i>
+
+        </div>
+
+        <div>
+
+            <strong>
+                Payment Information
+            </strong>
+
+            <p>
+                Please verify your payment amount and select a payment
+                method before continuing. Do not refresh or close the
+                page during payment processing.
+            </p>
+
+        </div>
+
+    </div>
+
+
+        <!-- =====================================================
+         FOOTER
+    ====================================================== -->
+
+    <footer>
+
+        © 2026 University ERP System |
+        Designed & Developed by
+        <strong>Suresh Gadri</strong>
+
+    </footer>
+
+</div>
+
+
+<!-- =====================================================
+     RAZORPAY
+====================================================== -->
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+
+<!-- =====================================================
+     FEE PAYMENT JAVASCRIPT
+====================================================== -->
+
+<script src="js/student-fee-payment.js"></script>
+
+<script>
+
+    /*
+     * These extra elements are only for the new UI.
+     * Your existing payment JavaScript remains unchanged.
+     */
+
+    document.addEventListener("DOMContentLoaded", function () {
+
+        const studentName =
+            document.getElementById("studentName");
+
+        const enrollmentNo =
+            document.getElementById("enrollmentNo");
+
+        const semester =
+            document.getElementById("semester");
+
+
+        function syncHeader() {
+
+            const bannerName =
+                document.getElementById("bannerStudentName");
+
+            const bannerEnrollment =
+                document.getElementById("bannerEnrollmentNo");
+
+            const topSemester =
+                document.getElementById("topSemester");
+
+            const topAmount =
+                document.getElementById("topAmount");
+
+            const amount =
+                document.getElementById("amount");
+
+
+            if (studentName && bannerName) {
+
+                bannerName.textContent =
+                    studentName.textContent;
+
+            }
+
+
+            if (enrollmentNo && bannerEnrollment) {
+
+                bannerEnrollment.textContent =
+                    enrollmentNo.textContent;
+
+            }
+
+
+            if (semester && topSemester) {
+
+                topSemester.textContent =
+                    semester.textContent;
+
+            }
+
+
+            if (amount && topAmount) {
+
+                topAmount.textContent =
+                    amount.textContent;
+
+            }
+
+        }
+
+
+        setTimeout(syncHeader, 500);
+
+        setTimeout(syncHeader, 1200);
+
+    });
+
+</script>
+
+</body>
+
+</html>

@@ -4,17 +4,21 @@
 <head>
 
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
     <title>Attendance Management | University ERP</title>
 
-    <link rel="stylesheet" href="css/attendance.css">
+    <link rel="stylesheet"
+          href="css/attendance.css">
 
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
 </head>
 
-<body onload="loadAttendance()">
+<body>
 
 <div class="container">
 
@@ -22,77 +26,246 @@
 
     <div class="page-header">
 
-        <h1>
+        <div class="header-left">
 
-            <i class="fa-solid fa-calendar-check"></i>
+            <button class="back-icon"
+                    onclick="goDashboard()">
 
-            Attendance Management
+                <i class="fa-solid fa-arrow-left"></i>
 
-        </h1>
+            </button>
 
-        <p>University ERP Attendance Module</p>
+            <div>
+
+                <h1>
+
+                    <i class="fa-solid fa-calendar-check"></i>
+
+                    Attendance Management
+
+                </h1>
+
+                <p>
+                    Manage university attendance records
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <button class="add-btn"
+                onclick="focusAttendanceForm()">
+
+            <i class="fa-solid fa-plus"></i>
+
+            Mark Attendance
+
+        </button>
 
     </div>
 
+
+    <!-- ================= STATISTICS ================= -->
+
+    <div class="stats-grid">
+
+        <!-- TOTAL RECORDS -->
+
+        <div class="stat-card blue">
+
+            <div>
+
+                <span>Total Records</span>
+
+                <h2 id="totalAttendance">
+                    0
+                </h2>
+
+            </div>
+
+            <div class="stat-icon">
+
+                <i class="fa-solid fa-calendar-days"></i>
+
+            </div>
+
+        </div>
+
+
+        <!-- PRESENT -->
+
+        <div class="stat-card green">
+
+            <div>
+
+                <span>Present</span>
+
+                <h2 id="presentAttendance">
+                    0
+                </h2>
+
+            </div>
+
+            <div class="stat-icon">
+
+                <i class="fa-solid fa-circle-check"></i>
+
+            </div>
+
+        </div>
+
+
+        <!-- ABSENT -->
+
+        <div class="stat-card orange">
+
+            <div>
+
+                <span>Absent</span>
+
+                <h2 id="absentAttendance">
+                    0
+                </h2>
+
+            </div>
+
+            <div class="stat-icon">
+
+                <i class="fa-solid fa-circle-xmark"></i>
+
+            </div>
+
+        </div>
+
+
+        <!-- STUDENT / EMPLOYEE -->
+
+        <div class="stat-card purple">
+
+            <div>
+
+                <span>Students</span>
+
+                <h2 id="studentAttendance">
+                    0
+                </h2>
+
+            </div>
+
+            <div class="stat-icon">
+
+                <i class="fa-solid fa-user-graduate"></i>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
     <!-- ================= TAKE ATTENDANCE ================= -->
 
-    <div class="card">
+    <div class="attendance-form-card"
+         id="attendanceFormCard">
 
-        <h2>
+        <div class="section-header">
 
-            <i class="fa-solid fa-user-check"></i>
+            <div>
 
-            Take Attendance
+                <h2>
 
-        </h2>
+                    <i class="fa-solid fa-user-check"></i>
+
+                    Take Attendance
+
+                </h2>
+
+                <p>
+                    Record attendance for students or employees
+                </p>
+
+            </div>
+
+        </div>
+
 
         <div class="form-grid">
 
+            <!-- TYPE -->
+
             <div class="form-group">
 
-                <label>Attendance Type</label>
+                <label for="type">
+                    Attendance Type
+                </label>
 
-                <select id="type" onchange="loadNames()">
+                <select id="type"
+                        onchange="loadNames()">
 
-                    <option value="STUDENT">Student</option>
+                    <option value="STUDENT">
+                        Student
+                    </option>
 
-                    <option value="EMPLOYEE">Employee</option>
+                    <option value="EMPLOYEE">
+                        Employee
+                    </option>
 
                 </select>
 
             </div>
 
+
+            <!-- NAME -->
+
             <div class="form-group">
 
-                <label>Name</label>
+                <label for="name">
+                    Name
+                </label>
 
                 <select id="name">
 
-                    <option value="">Select Name</option>
+                    <option value="">
+                        Select Name
+                    </option>
 
                 </select>
 
             </div>
 
+
+            <!-- DATE -->
+
             <div class="form-group">
 
-                <label>Date</label>
+                <label for="date">
+                    Date
+                </label>
 
-                <input
-                        type="date"
-                        id="date">
+                <input type="date"
+                       id="date">
 
             </div>
 
+
+            <!-- STATUS -->
+
             <div class="form-group">
 
-                <label>Status</label>
+                <label for="status">
+                    Status
+                </label>
 
                 <select id="status">
 
-                    <option value="PRESENT">Present</option>
+                    <option value="PRESENT">
+                        Present
+                    </option>
 
-                    <option value="ABSENT">Absent</option>
+                    <option value="ABSENT">
+                        Absent
+                    </option>
 
                 </select>
 
@@ -100,10 +273,10 @@
 
         </div>
 
-        <div class="button-group">
 
-            <button
-                    class="btn btn-save"
+        <div class="form-actions">
+
+            <button class="save-btn"
                     onclick="saveAttendance()">
 
                 <i class="fa-solid fa-floppy-disk"></i>
@@ -112,8 +285,8 @@
 
             </button>
 
-            <button
-                    class="btn btn-clear"
+
+            <button class="clear-btn"
                     onclick="clearForm()">
 
                 <i class="fa-solid fa-eraser"></i>
@@ -125,29 +298,97 @@
         </div>
 
     </div>
+
+
     <!-- ================= ATTENDANCE RECORDS ================= -->
 
-    <div class="card">
+    <div class="records-card">
 
-        <h2>
+        <div class="records-header">
 
-            <i class="fa-solid fa-table"></i>
+            <div>
 
-            Attendance Records
+                <h2>
 
-        </h2>
+                    <i class="fa-solid fa-list"></i>
 
-        <div class="search-box">
+                    Attendance Records
 
-            <input
-                    type="text"
-                    id="searchAttendance"
-                    placeholder="🔍 Search by Name or Type"
-                    onkeyup="searchAttendance()">
+                </h2>
+
+                <p>
+                    View and manage university attendance records
+                </p>
+
+            </div>
+
+
+            <!-- CONTROLS -->
+
+            <div class="record-controls">
+
+                <!-- SEARCH -->
+
+                <div class="search-box">
+
+                    <i class="fa-solid fa-magnifying-glass"></i>
+
+                    <input
+                            type="text"
+                            id="searchAttendance"
+                            placeholder="Search name or type..."
+                            oninput="searchAttendance()">
+
+                </div>
+
+
+                <!-- TYPE FILTER -->
+
+                <select id="typeFilter"
+                        onchange="filterAttendance()">
+
+                    <option value="">
+                        All Types
+                    </option>
+
+                    <option value="STUDENT">
+                        Students
+                    </option>
+
+                    <option value="EMPLOYEE">
+                        Employees
+                    </option>
+
+                </select>
+
+
+                <!-- STATUS FILTER -->
+
+                <select id="statusFilter"
+                        onchange="filterAttendance()">
+
+                    <option value="">
+                        All Status
+                    </option>
+
+                    <option value="PRESENT">
+                        Present
+                    </option>
+
+                    <option value="ABSENT">
+                        Absent
+                    </option>
+
+                </select>
+
+            </div>
 
         </div>
 
-        <div class="table-responsive">
+
+        <!-- TABLE -->
+
+        <div class="table-wrapper">
 
             <table>
 
@@ -155,7 +396,7 @@
 
                 <tr>
 
-                    <th>ID</th>
+                    <th>#</th>
 
                     <th>Type</th>
 
@@ -165,15 +406,14 @@
 
                     <th>Status</th>
 
-                    <th>Actions</th>
+                    <th>Action</th>
 
                 </tr>
 
                 </thead>
 
-                <tbody id="attendanceTable">
 
-                <!-- JavaScript loads attendance records -->
+                <tbody id="attendanceTable">
 
                 </tbody>
 
@@ -181,22 +421,24 @@
 
         </div>
 
-    </div>
 
+        <!-- EMPTY -->
 
-    <!-- ================= BACK BUTTON ================= -->
+        <div id="emptyState"
+             class="empty-state"
+             style="display:none;">
 
-    <div class="back-section">
+            <i class="fa-solid fa-calendar-xmark"></i>
 
-        <button
-                class="back-btn"
-                onclick="goDashboard()">
+            <h3>
+                No Attendance Found
+            </h3>
 
-            <i class="fa-solid fa-arrow-left"></i>
+            <p>
+                Try changing your search or filters.
+            </p>
 
-            Back To Dashboard
-
-        </button>
+        </div>
 
     </div>
 
@@ -214,11 +456,10 @@
 </div>
 
 
-<!-- Common JS -->
 <script src="js/common.js"></script>
 
-<!-- Attendance JS -->
 <script src="js/attendance.js"></script>
 
 </body>
+
 </html>

@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>My Fee Status | University ERP</title>
+
+    <link rel="stylesheet"
+          href="css/student-fee.css">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- =====================================================
+         PAGE HEADER
+    ====================================================== -->
+
+    <div class="page-header">
+
+        <div class="header-left">
+
+            <button
+                    type="button"
+                    class="back-icon"
+                    onclick="goDashboard()">
+
+                <i class="fa-solid fa-arrow-left"></i>
+
+            </button>
+
+            <div>
+
+                <h1>
+                    My Fee Status
+                </h1>
+
+                <p>
+                    View your fee details and payment status
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         STUDENT BANNER
+    ====================================================== -->
+
+    <div class="student-banner">
+
+        <div class="student-left">
+
+            <div class="student-icon">
+
+                <i class="fa-solid fa-graduation-cap"></i>
+
+            </div>
+
+            <div class="student-details">
+
+                <h2 id="studentName">
+                    Loading...
+                </h2>
+
+                <p>
+                    Enrollment:
+                    <strong id="enrollmentNo">
+                        Loading...
+                    </strong>
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="active-badge">
+
+            <i class="fa-solid fa-circle-check"></i>
+
+            Active Student
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         FEE SUMMARY
+    ====================================================== -->
+
+    <div class="fee-cards">
+
+        <!-- Total Fee -->
+
+        <div class="fee-card blue">
+
+            <div>
+
+                <span>
+                    Total Fee
+                </span>
+
+                <h2 id="totalFee">
+                    ₹0.00
+                </h2>
+
+            </div>
+
+            <i class="fa-solid fa-indian-rupee-sign"></i>
+
+        </div>
+
+
+        <!-- Paid Amount -->
+
+        <div class="fee-card green">
+
+            <div>
+
+                <span>
+                    Paid Amount
+                </span>
+
+                <h2 id="paidAmount">
+                    ₹0.00
+                </h2>
+
+            </div>
+
+            <i class="fa-solid fa-circle-check"></i>
+
+        </div>
+
+
+        <!-- Remaining Amount -->
+
+        <div class="fee-card orange">
+
+            <div>
+
+                <span>
+                    Remaining Amount
+                </span>
+
+                <h2 id="remainingAmount">
+                    ₹0.00
+                </h2>
+
+            </div>
+
+            <i class="fa-solid fa-wallet"></i>
+
+        </div>
+
+
+        <!-- Payment Status -->
+
+        <div class="fee-card purple">
+
+            <div>
+
+                <span>
+                    Payment Status
+                </span>
+
+                <h2 id="paymentStatus">
+                    -
+                </h2>
+
+            </div>
+
+            <i class="fa-solid fa-file-invoice"></i>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         STUDENT INFORMATION
+    ====================================================== -->
+
+    <div class="content-card">
+
+        <div class="section-heading">
+
+            <div class="section-icon">
+
+                <i class="fa-solid fa-user-graduate"></i>
+
+            </div>
+
+            <div>
+
+                <h2>
+                    Student Information
+                </h2>
+
+                <p>
+                    Your academic information
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="student-info">
+
+            <!-- Course -->
+
+            <div class="info-box">
+
+                <span>
+                    Course
+                </span>
+
+                <strong id="course">
+                    Loading...
+                </strong>
+
+            </div>
+
+
+            <!-- Semester -->
+
+            <div class="info-box">
+
+                <span>
+                    Semester
+                </span>
+
+                <strong id="semester">
+                    Loading...
+                </strong>
+
+            </div>
+
+
+            <!-- Academic Year -->
+
+            <div class="info-box">
+
+                <span>
+                    Academic Year
+                </span>
+
+                <strong>
+                    2026-27
+                </strong>
+
+            </div>
+
+
+            <!-- Enrollment Status -->
+
+            <div class="info-box">
+
+                <span>
+                    Enrollment Status
+                </span>
+
+                <strong class="active-text">
+                    Active
+                </strong>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         FEE DETAILS
+    ====================================================== -->
+
+    <div class="content-card">
+
+        <div class="section-heading">
+
+            <div class="section-icon">
+
+                <i class="fa-solid fa-table-list"></i>
+
+            </div>
+
+            <div>
+
+                <h2>
+                    Fee Details
+                </h2>
+
+                <p>
+                    View your semester-wise fee records
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="table-responsive">
+
+            <table>
+
+                <thead>
+
+                <tr>
+
+                    <th>
+                        S.No.
+                    </th>
+
+                    <th>
+                        Semester
+                    </th>
+
+                    <th>
+                        Total Fee
+                    </th>
+
+                    <th>
+                        Paid
+                    </th>
+
+                    <th>
+                        Remaining
+                    </th>
+
+                    <th>
+                        Payment Date
+                    </th>
+
+                    <th>
+                        Payment Mode
+                    </th>
+
+                    <th>
+                        Status
+                    </th>
+
+                    <th>
+                        Action
+                    </th>
+
+                </tr>
+
+                </thead>
+
+
+                <tbody id="feeTable">
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         INFORMATION BOX
+    ====================================================== -->
+
+    <div class="information-box">
+
+        <div class="information-icon">
+
+            <i class="fa-solid fa-circle-info"></i>
+
+        </div>
+
+        <div>
+
+            <h3>
+                Fee Information
+            </h3>
+
+            <p>
+                Your fee information is maintained by the
+                University ERP system. Please contact the
+                university administration for any fee-related
+                queries or corrections.
+            </p>
+
+        </div>
+
+    </div>
+
+
+
+
+
+    <!-- =====================================================
+         FOOTER
+    ====================================================== -->
+
+    <footer>
+
+        © 2026 University ERP System |
+        Designed & Developed by
+        <strong>Suresh Gadri</strong>
+
+    </footer>
+
+</div>
+
+
+<!-- =====================================================
+     JAVASCRIPT
+====================================================== -->
+
+<script src="js/student-fee.js"></script>
+
+</body>
+
+</html>

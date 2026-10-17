@@ -1,7 +1,18 @@
+// =====================================================
+// UNIVERSITY ERP
+// EMPLOYEE ATTENDANCE REPORT
+// =====================================================
+
 let attendanceList = [];
+
 let filteredAttendance = [];
 
 const userId = localStorage.getItem("userId");
+
+
+// =====================================================
+// PAGE LOAD
+// =====================================================
 
 window.onload = function () {
 
@@ -12,34 +23,63 @@ window.onload = function () {
         window.location.href = "login.html";
 
         return;
-
     }
 
     loadAttendance();
 
 };
 
-// ======================================
-// Load Employee Attendance
-// ======================================
+
+// =====================================================
+// DASHBOARD
+// =====================================================
+
+function goDashboard() {
+
+    window.location.href = "employee-dashboard.html";
+
+}
+
+
+// =====================================================
+// LOAD EMPLOYEE ATTENDANCE
+// =====================================================
 
 function loadAttendance() {
 
     fetch("/attendance/employee/" + userId)
 
-        .then(response => response.json())
+        .then(response => {
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "Unable to load attendance"
+                );
+
+            }
+
+            return response.json();
+
+        })
 
         .then(data => {
 
-            attendanceList = data;
+            attendanceList = Array.isArray(data)
+                ? data
+                : [];
 
-            filteredAttendance = [...attendanceList];
+            filteredAttendance =
+                [...attendanceList];
+
 
             loadEmployeeInfo();
 
             updateCards();
 
-            displayAttendance(filteredAttendance);
+            displayAttendance(
+                filteredAttendance
+            );
 
         })
 
@@ -47,45 +87,88 @@ function loadAttendance() {
 
             console.error(error);
 
-            alert("Unable to load attendance.");
+            document.getElementById(
+                "employeeName"
+            ).innerText = "Unable to Load";
+
+            document.getElementById(
+                "employeeCode"
+            ).innerText = "-";
+
+            document.getElementById(
+                "attendanceTable"
+            ).innerHTML = `
+
+                <tr>
+
+                    <td colspan="3">
+
+                        Unable to load attendance records.
+
+                    </td>
+
+                </tr>
+
+            `;
 
         });
 
 }
 
-// ======================================
-// Employee Information
-// ======================================
+
+// =====================================================
+// LOAD EMPLOYEE INFORMATION
+// =====================================================
 
 function loadEmployeeInfo() {
 
     if (attendanceList.length === 0) {
 
-        document.getElementById("employeeName").innerText = "No Data";
+        document.getElementById(
+            "employeeName"
+        ).innerText = "No Data";
 
-        document.getElementById("employeeCode").innerText = "-";
+        document.getElementById(
+            "employeeCode"
+        ).innerText = "-";
 
         return;
 
     }
 
-    document.getElementById("employeeName").innerText =
-        attendanceList[0].personName;
 
-    document.getElementById("employeeCode").innerText =
-        attendanceList[0].personId;
+    const firstRecord =
+        attendanceList[0];
+
+
+    document.getElementById(
+        "employeeName"
+    ).innerText =
+        firstRecord.personName || "Employee";
+
+
+    document.getElementById(
+        "employeeCode"
+    ).innerText =
+        firstRecord.personId || "-";
 
 }
 
-// ======================================
-// Display Attendance
-// ======================================
+
+// =====================================================
+// DISPLAY ATTENDANCE
+// =====================================================
 
 function displayAttendance(list) {
 
-    let table = document.getElementById("attendanceTable");
+    const table =
+        document.getElementById(
+            "attendanceTable"
+        );
+
 
     table.innerHTML = "";
+
 
     if (list.length === 0) {
 
@@ -93,7 +176,11 @@ function displayAttendance(list) {
 
             <tr>
 
-                <td colspan="3">No attendance records found.</td>
+                <td colspan="3">
+
+                    No attendance records found.
+
+                </td>
 
             </tr>
 
@@ -103,23 +190,46 @@ function displayAttendance(list) {
 
     }
 
+
     list.forEach((attendance, index) => {
+
+        const status =
+            String(
+                attendance.status || ""
+            ).toUpperCase();
+
+
+        let statusClass =
+            status === "PRESENT"
+                ? "present"
+                : "absent";
+
+
+        let statusText =
+            status === "PRESENT"
+                ? "PRESENT"
+                : "ABSENT";
+
 
         table.innerHTML += `
 
             <tr>
 
-                <td>${index + 1}</td>
+                <td>
+                    ${index + 1}
+                </td>
 
-                <td>${attendance.attendanceDate}</td>
+
+                <td>
+                    ${attendance.attendanceDate || "-"}
+                </td>
+
 
                 <td>
 
-                    <span class="${attendance.status === 'PRESENT'
-            ? 'present'
-            : 'absent'}">
+                    <span class="${statusClass}">
 
-                        ${attendance.status}
+                        ${statusText}
 
                     </span>
 
@@ -133,141 +243,427 @@ function displayAttendance(list) {
 
 }
 
-// ======================================
-// Summary Cards
-// ======================================
+
+// =====================================================
+// UPDATE SUMMARY CARDS
+// =====================================================
 
 function updateCards() {
 
-    const total = filteredAttendance.length;
+    const total =
+        filteredAttendance.length;
+
 
     const present =
-        filteredAttendance.filter(a => a.status === "PRESENT").length;
+        filteredAttendance.filter(
+            attendance =>
+                String(
+                    attendance.status || ""
+                ).toUpperCase() === "PRESENT"
+        ).length;
+
 
     const absent =
-        filteredAttendance.filter(a => a.status === "ABSENT").length;
+        filteredAttendance.filter(
+            attendance =>
+                String(
+                    attendance.status || ""
+                ).toUpperCase() === "ABSENT"
+        ).length;
+
 
     const percentage =
         total === 0
-            ? 0
-            : ((present / total) * 100).toFixed(2);
+            ? "0.00"
+            : ((present / total) * 100)
+                .toFixed(2);
 
-    document.getElementById("totalDays").innerText = total;
 
-    document.getElementById("presentCount").innerText = present;
+    document.getElementById(
+        "totalDays"
+    ).innerText = total;
 
-    document.getElementById("absentCount").innerText = absent;
 
-    document.getElementById("attendancePercentage").innerText =
+    document.getElementById(
+        "presentCount"
+    ).innerText = present;
+
+
+    document.getElementById(
+        "absentCount"
+    ).innerText = absent;
+
+
+    document.getElementById(
+        "attendancePercentage"
+    ).innerText =
         percentage + "%";
 
 }
 
-// ======================================
-// Search & Month Filter
-// ======================================
+
+// =====================================================
+// SEARCH & MONTH FILTER
+// =====================================================
 
 function filterAttendance() {
 
     const search =
-        document.getElementById("searchDate").value.toLowerCase();
+        document.getElementById(
+            "searchDate"
+        ).value
+            .trim()
+            .toLowerCase();
+
 
     const month =
-        document.getElementById("monthFilter").value;
+        document.getElementById(
+            "monthFilter"
+        ).value;
 
-    filteredAttendance = attendanceList.filter(attendance => {
 
-        const matchSearch =
-            attendance.attendanceDate.toLowerCase().includes(search);
+    filteredAttendance =
+        attendanceList.filter(attendance => {
 
-        const matchMonth =
-            month === "" ||
-            attendance.attendanceDate.startsWith(month);
+            const date =
+                String(
+                    attendance.attendanceDate || ""
+                ).toLowerCase();
 
-        return matchSearch && matchMonth;
 
-    });
+            const matchSearch =
+                date.includes(search);
+
+
+            const matchMonth =
+                month === "" ||
+                date.startsWith(month);
+
+
+            return matchSearch &&
+                matchMonth;
+
+        });
+
 
     updateCards();
 
-    displayAttendance(filteredAttendance);
+    displayAttendance(
+        filteredAttendance
+    );
 
 }
 
-// ======================================
-// Export CSV
-// ======================================
+
+// =====================================================
+// EXPORT EXCEL / CSV
+// =====================================================
 
 function exportExcel() {
 
-    let csv = "Date,Status\n";
+    if (filteredAttendance.length === 0) {
 
-    filteredAttendance.forEach(a => {
+        alert(
+            "No attendance records available to export."
+        );
 
-        csv += `${a.attendanceDate},${a.status}\n`;
+        return;
 
-    });
+    }
 
-    const blob = new Blob([csv], {
-        type: "text/csv"
-    });
 
-    const link = document.createElement("a");
+    let csv =
+        "S.No.,Date,Status\n";
 
-    link.href = URL.createObjectURL(blob);
 
-    link.download = "Employee_Attendance_Report.csv";
+    filteredAttendance.forEach(
+        (attendance, index) => {
+
+            csv +=
+                `${index + 1},` +
+                `"${attendance.attendanceDate || ""}",` +
+                `"${attendance.status || ""}"\n`;
+
+        }
+    );
+
+
+    const blob =
+        new Blob(
+            [csv],
+            {
+                type: "text/csv;charset=utf-8;"
+            }
+        );
+
+
+    const url =
+        URL.createObjectURL(blob);
+
+
+    const link =
+        document.createElement("a");
+
+
+    link.href = url;
+
+    link.download =
+        "Employee_Attendance_Report.csv";
+
+
+    document.body.appendChild(link);
 
     link.click();
 
+    document.body.removeChild(link);
+
+
+    URL.revokeObjectURL(url);
+
 }
 
-// ======================================
-// Export PDF
-// ======================================
+
+// =====================================================
+// EXPORT PDF
+// =====================================================
 
 function exportPDF() {
 
-    const { jsPDF } = window.jspdf;
+    if (filteredAttendance.length === 0) {
 
-    const doc = new jsPDF();
+        alert(
+            "No attendance records available to export."
+        );
+
+        return;
+
+    }
+
+
+    if (!window.jspdf) {
+
+        alert(
+            "PDF library is not loaded."
+        );
+
+        return;
+
+    }
+
+
+    const {
+        jsPDF
+    } = window.jspdf;
+
+
+    const doc =
+        new jsPDF();
+
+
+    /* ============================
+       HEADER
+    ============================ */
 
     doc.setFontSize(18);
 
-    doc.text("University ERP", 20, 20);
+    doc.text(
+        "University ERP",
+        20,
+        20
+    );
+
 
     doc.setFontSize(14);
 
-    doc.text("Employee Attendance Report", 20, 30);
+    doc.text(
+        "Employee Attendance Report",
+        20,
+        30
+    );
 
-    let y = 45;
 
-    filteredAttendance.forEach(a => {
+    /* ============================
+       EMPLOYEE INFORMATION
+    ============================ */
 
-        doc.setFontSize(11);
+    const employeeName =
+        document.getElementById(
+            "employeeName"
+        ).innerText;
 
-        doc.text(
 
-            `${a.attendanceDate}   -   ${a.status}`,
+    const employeeCode =
+        document.getElementById(
+            "employeeCode"
+        ).innerText;
 
-            20,
 
-            y
+    doc.setFontSize(11);
 
-        );
 
-        y += 10;
+    doc.text(
+        `Employee Name: ${employeeName}`,
+        20,
+        40
+    );
 
-        if (y > 280) {
 
-            doc.addPage();
+    doc.text(
+        `Employee Code: ${employeeCode}`,
+        20,
+        48
+    );
 
-            y = 20;
+
+    /* ============================
+       SUMMARY
+    ============================ */
+
+    const total =
+        filteredAttendance.length;
+
+
+    const present =
+        filteredAttendance.filter(
+            a =>
+                String(
+                    a.status || ""
+                ).toUpperCase() ===
+                "PRESENT"
+        ).length;
+
+
+    const absent =
+        filteredAttendance.filter(
+            a =>
+                String(
+                    a.status || ""
+                ).toUpperCase() ===
+                "ABSENT"
+        ).length;
+
+
+    const percentage =
+        total === 0
+            ? "0.00"
+            : ((present / total) * 100)
+                .toFixed(2);
+
+
+    doc.text(
+        `Total Working Days: ${total}`,
+        20,
+        58
+    );
+
+
+    doc.text(
+        `Present: ${present}`,
+        20,
+        66
+    );
+
+
+    doc.text(
+        `Absent: ${absent}`,
+        20,
+        74
+    );
+
+
+    doc.text(
+        `Attendance: ${percentage}%`,
+        20,
+        82
+    );
+
+
+    /* ============================
+       TABLE HEADER
+    ============================ */
+
+    let y = 95;
+
+
+    doc.setFontSize(11);
+
+    doc.text(
+        "S.No.",
+        20,
+        y
+    );
+
+
+    doc.text(
+        "Date",
+        55,
+        y
+    );
+
+
+    doc.text(
+        "Status",
+        120,
+        y
+    );
+
+
+    y += 8;
+
+
+    /* ============================
+       TABLE DATA
+    ============================ */
+
+    filteredAttendance.forEach(
+        (attendance, index) => {
+
+            if (y > 280) {
+
+                doc.addPage();
+
+                y = 20;
+
+            }
+
+
+            doc.text(
+                String(index + 1),
+                20,
+                y
+            );
+
+
+            doc.text(
+                String(
+                    attendance.attendanceDate || "-"
+                ),
+                55,
+                y
+            );
+
+
+            doc.text(
+                String(
+                    attendance.status || "-"
+                ),
+                120,
+                y
+            );
+
+
+            y += 8;
 
         }
+    );
 
-    });
 
-    doc.save("Employee_Attendance_Report.pdf");
+    /* ============================
+       SAVE
+    ============================ */
+
+    doc.save(
+        "Employee_Attendance_Report.pdf"
+    );
 
 }

@@ -4,15 +4,17 @@
 <head>
 
     <meta charset="UTF-8">
+
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0">
 
     <title>Student Semester Marksheet | University ERP</title>
 
-    <link rel="stylesheet" href="css/results.css">
+    <link rel="stylesheet"
+          href="css/results.css">
 
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-          rel="stylesheet">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
 </head>
 
@@ -20,14 +22,17 @@
 
 <div class="marksheet-container" id="marksheet">
 
-    <!-- ================= HEADER ================= -->
+    <!-- =====================================================
+         HEADER
+    ====================================================== -->
 
     <div class="header">
 
         <div class="logo">
 
-            <img src="8a472d5a-8f62-46b9-bca2-a7bee3feb65d.png"
-                 alt="University Logo">
+            <img
+                    src="8a472d5a-8f62-46b9-bca2-a7bee3feb65d.png"
+                    alt="University Logo">
 
         </div>
 
@@ -37,50 +42,67 @@
 
             <h3>Student Semester Marksheet</h3>
 
-            <p>Department of Computer Science & Engineering</p>
+            <p>
+                Department of Computer Science & Engineering
+            </p>
 
         </div>
 
     </div>
 
-    <!-- ================= STUDENT INFORMATION ================= -->
+
+    <!-- =====================================================
+         STUDENT INFORMATION
+    ====================================================== -->
 
     <div class="student-card">
 
         <div class="student-profile">
 
-            <h2 id="studentName">Student Name</h2>
+            <h2 id="studentName">
+                Student Name
+            </h2>
 
         </div>
+
 
         <div class="student-details">
 
             <div>
 
-                <label>Enrollment No</label>
+                <label>
+                    Enrollment No
+                </label>
 
-                <span id="enrollmentNo">-</span>
-
-            </div>
-
-            <div>
-
-                <label>Semester</label>
-
-                <span id="semester">-</span>
+                <span id="enrollmentNo">
+                    -
+                </span>
 
             </div>
 
+
             <div>
 
-                <label>Course</label>
+                <label>
+                    Semester
+                </label>
 
-                <span id="course">-</span>
+                <span id="semester">
+                    -
+                </span>
 
             </div>
 
+
             <div>
 
+                <label>
+                    Course
+                </label>
+
+                <span id="course">
+                    -
+                </span>
 
             </div>
 
@@ -88,54 +110,96 @@
 
     </div>
 
-    <!-- ================= SUMMARY ================= -->
+
+    <!-- =====================================================
+         RESULT SUMMARY
+    ====================================================== -->
 
     <div class="summary-grid">
 
-        <div class="summary-card">
 
-            <h4>Marks Obtained</h4>
-
-            <h2 id="totalMarks">0</h2>
-
-        </div>
+        <!-- Marks Obtained -->
 
         <div class="summary-card">
 
-            <h4>Maximum Marks</h4>
+            <h4>
+                Marks Obtained
+            </h4>
 
-            <h2 id="maxMarks">0</h2>
+            <h2 id="totalMarks">
+                0
+            </h2>
 
         </div>
+
+
+        <!-- Maximum Marks -->
 
         <div class="summary-card">
 
-            <h4>Percentage</h4>
+            <h4>
+                Maximum Marks
+            </h4>
 
-            <h2 id="percentage">0%</h2>
+            <h2 id="maxMarks">
+                0
+            </h2>
 
         </div>
+
+
+        <!-- Percentage -->
 
         <div class="summary-card">
 
-            <h4>SGPA</h4>
+            <h4>
+                Percentage
+            </h4>
 
-            <h2 id="sgpa">0.00</h2>
+            <h2 id="percentage">
+                0%
+            </h2>
 
         </div>
 
-        <div class="summary-card result-card"
-             id="resultCard">
 
-            <h4>Result</h4>
+        <!-- SGPA -->
 
-            <h2 id="result">PASS</h2>
+        <div class="summary-card">
+
+            <h4>
+                SGPA
+            </h4>
+
+            <h2 id="sgpa">
+                0.00
+            </h2>
+
+        </div>
+
+
+        <!-- Result -->
+
+        <div
+                class="summary-card result-card"
+                id="resultCard">
+
+            <h4>
+                Result
+            </h4>
+
+            <h2 id="result">
+                -
+            </h2>
 
         </div>
 
     </div>
 
-    <!-- ================= TABLE ================= -->
+
+    <!-- =====================================================
+         SUBJECT WISE PERFORMANCE
+    ====================================================== -->
 
     <div class="table-card">
 
@@ -147,6 +211,7 @@
 
         </div>
 
+
         <div class="table-responsive">
 
             <table>
@@ -155,19 +220,30 @@
 
                 <tr>
 
-                    <th>Sr No</th>
+                    <th>
+                        Sr No
+                    </th>
 
-                    <th>Subject</th>
+                    <th>
+                        Subject
+                    </th>
 
-                    <th>Marks Obtained</th>
+                    <th>
+                        Marks Obtained
+                    </th>
 
-                    <th>Maximum Marks</th>
+                    <th>
+                        Maximum Marks
+                    </th>
 
-                    <th>Status</th>
+                    <th>
+                        Status
+                    </th>
 
                 </tr>
 
                 </thead>
+
 
                 <tbody id="resultTable">
 
@@ -179,11 +255,19 @@
 
     </div>
 
-    <!-- ================= BUTTONS ================= -->
+
+    <!-- =====================================================
+         BUTTONS
+    ====================================================== -->
 
     <div class="action-buttons">
 
-        <button class="print-btn"
+
+        <!-- Print -->
+
+        <button
+                type="button"
+                class="print-btn"
                 onclick="printMarksheet()">
 
             <i class="fa-solid fa-print"></i>
@@ -192,7 +276,12 @@
 
         </button>
 
-        <button class="pdf-btn"
+
+        <!-- PDF -->
+
+        <button
+                type="button"
+                class="pdf-btn"
                 onclick="downloadPDF()">
 
             <i class="fa-solid fa-file-pdf"></i>
@@ -201,19 +290,26 @@
 
         </button>
 
-        <button class="back-btn"
 
-            <a href="#" class="back-btn" onclick="goDashboard()">
+        <!-- Back -->
 
-                ← Back To Dashboard
+        <button
+                type="button"
+                class="back-btn"
+                onclick="goDashboard()">
 
-            </a>
+            <i class="fa-solid fa-arrow-left"></i>
+
+            Back To Dashboard
 
         </button>
 
     </div>
 
-    <!-- ================= FOOTER ================= -->
+
+    <!-- =====================================================
+         FOOTER / SIGNATURE
+    ====================================================== -->
 
     <div class="footer">
 
@@ -226,6 +322,7 @@
             Student Signature
 
         </div>
+
 
         <div>
 
@@ -241,15 +338,26 @@
 
 </div>
 
-<!-- html2pdf -->
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<!-- =====================================================
+     HTML2PDF
+====================================================== -->
 
-<!-- Common JS -->
+<script
+        src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js">
+</script>
+
+
+<!-- =====================================================
+     COMMON JS
+====================================================== -->
 
 <script src="js/common.js"></script>
 
-<!-- Result JS -->
+
+<!-- =====================================================
+     RESULT JS
+====================================================== -->
 
 <script src="js/results.js"></script>
 

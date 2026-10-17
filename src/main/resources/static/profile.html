@@ -4,53 +4,84 @@
 <head>
 
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
     <title>My Profile | University ERP</title>
 
-    <link rel="stylesheet" href="css/profile.css">
+    <link rel="stylesheet"
+          href="css/profile.css">
 
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
 </head>
 
 <body onload="loadProfile()">
 
-<div class="container">
+<div class="page-container">
 
-    <!-- ================= HEADER ================= -->
+    <!-- ================= PAGE HEADER ================= -->
 
     <div class="page-header">
 
-        <h1>
+        <div class="header-left">
 
-            <i class="fa-solid fa-user-circle"></i>
+            <button class="back-btn"
+                    onclick="goDashboard()">
 
-            My Profile
+                <i class="fa-solid fa-arrow-left"></i>
 
-        </h1>
+            </button>
 
-        <p>University ERP User Profile</p>
+            <div>
+
+                <h1>My Profile</h1>
+
+                <p>View and manage your account information</p>
+
+            </div>
+
+        </div>
 
     </div>
 
-    <!-- ================= PROFILE CARD ================= -->
 
-    <div class="card">
 
-        <h2>
+    <!-- ================= PROFILE INFORMATION ================= -->
 
-            <i class="fa-solid fa-address-card"></i>
+    <section class="content-card">
 
-            Profile Information
+        <div class="section-heading">
 
-        </h2>
+            <div>
 
-        <div class="form-grid">
+                <h2>
 
-            <div class="form-group">
+                    <i class="fa-solid fa-address-card"></i>
 
-                <label>Username</label>
+                    Profile Information
+
+                </h2>
+
+                <p>
+                    Your registered University ERP account information
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="profile-grid">
+
+            <div class="info-item">
+
+                <label>
+                    <i class="fa-solid fa-user"></i>
+                    Username
+                </label>
 
                 <input
                         type="text"
@@ -59,9 +90,13 @@
 
             </div>
 
-            <div class="form-group">
 
-                <label>Email</label>
+            <div class="info-item">
+
+                <label>
+                    <i class="fa-solid fa-envelope"></i>
+                    Email
+                </label>
 
                 <input
                         type="email"
@@ -70,9 +105,13 @@
 
             </div>
 
-            <div class="form-group">
 
-                <label>Role</label>
+            <div class="info-item">
+
+                <label>
+                    <i class="fa-solid fa-user-shield"></i>
+                    Role
+                </label>
 
                 <input
                         type="text"
@@ -83,25 +122,42 @@
 
         </div>
 
-    </div>
+    </section>
+
 
     <!-- ================= CHANGE PASSWORD ================= -->
 
-    <div class="card">
+    <section class="content-card">
 
-        <h2>
+        <div class="section-heading">
 
-            <i class="fa-solid fa-lock"></i>
+            <div>
 
-            Change Password
+                <h2>
 
-        </h2>
+                    <i class="fa-solid fa-lock"></i>
 
-        <div class="form-grid">
+                    Account Security
 
-            <div class="form-group">
+                </h2>
 
-                <label>New Password</label>
+                <p>
+                    Change your University ERP account password
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="password-section">
+
+            <div class="info-item">
+
+                <label>
+                    <i class="fa-solid fa-key"></i>
+                    New Password
+                </label>
 
                 <input
                         type="password"
@@ -112,10 +168,11 @@
 
         </div>
 
+
         <div class="button-group">
 
             <button
-                    class="btn btn-save"
+                    class="save-btn"
                     onclick="changePassword()">
 
                 <i class="fa-solid fa-key"></i>
@@ -124,8 +181,9 @@
 
             </button>
 
+
             <button
-                    class="btn btn-clear"
+                    class="clear-btn"
                     onclick="clearPassword()">
 
                 <i class="fa-solid fa-eraser"></i>
@@ -136,18 +194,35 @@
 
         </div>
 
+    </section>
+
+
+    <!-- ================= INFORMATION ================= -->
+
+    <div class="information-box">
+
+        <div class="info-icon">
+
+            <i class="fa-solid fa-circle-info"></i>
+
+        </div>
+
+        <div>
+
+            <h3>
+                Account Information
+            </h3>
+
+            <p>
+                Your profile information is maintained by the
+                University ERP system. Contact the administrator
+                if any registered information needs to be changed.
+            </p>
+
+        </div>
+
     </div>
-    <!-- ================= BACK BUTTON ================= -->
 
-    <div class="back-section">
-
-        <a href="#" class="back-btn" onclick="goDashboard()">
-
-            ← Back To Dashboard
-
-        </a>
-
-    </div>
 
 
     <!-- ================= FOOTER ================= -->
@@ -162,8 +237,9 @@
 
 </div>
 
-<!-- ================= JAVASCRIPT ================= -->
+
 <script src="js/common.js"></script>
+
 <script src="js/profile.js"></script>
 
 </body>

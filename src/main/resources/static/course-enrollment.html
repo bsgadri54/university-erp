@@ -1,33 +1,618 @@
+
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <title>Course Enrollment</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="css/course-enrollment.css">
+    <title>Course Enrollment | University ERP</title>
 
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <link rel="stylesheet"
+          href="css/course-enrollment.css">
 </head>
+
 <body>
 
-<div class="container">
+<div class="page-container">
 
-    <div class="card">
+    <!-- HEADER -->
+    <header class="top-header">
 
-        <h1>Course Enrollment</h1>
+        <div class="header-left">
+            <button class="back-btn" onclick="goBack()">
+                <i class="fa-solid fa-arrow-left"></i>
+            </button>
 
-        <p>
-            Course Enrollment module is currently under development.
-        </p>
+            <div>
+                <h1>Course Enrollment</h1>
+                <p>Manage student course enrollment</p>
+            </div>
+        </div>
 
-        <button class="btn" onclick="goDashboard()">
-            Back To Dashboard
-        </button>
+        <div class="header-actions">
+
+            <button class="secondary-btn"
+                    onclick="openCourseModal()">
+                <i class="fa-solid fa-book"></i>
+                Add Course
+            </button>
+
+            <button class="primary-btn"
+                    onclick="openEnrollmentModal()">
+                <i class="fa-solid fa-plus"></i>
+                Add Enrollment
+            </button>
+
+        </div>
+
+    </header>
+
+
+    <!-- STATISTICS -->
+    <section class="stats-grid">
+
+        <div class="stat-card blue">
+            <div>
+                <span>Total Enrollments</span>
+                <strong id="totalEnrollments">0</strong>
+            </div>
+
+            <i class="fa-solid fa-user-graduate"></i>
+        </div>
+
+
+        <div class="stat-card green">
+            <div>
+                <span>Active Enrollments</span>
+                <strong id="activeEnrollments">0</strong>
+            </div>
+
+            <i class="fa-solid fa-circle-check"></i>
+        </div>
+
+
+        <div class="stat-card orange">
+            <div>
+                <span>Total Courses</span>
+                <strong id="totalCourses">0</strong>
+            </div>
+
+            <i class="fa-solid fa-book-open"></i>
+        </div>
+
+
+        <div class="stat-card purple">
+            <div>
+                <span>Students Enrolled</span>
+                <strong id="studentsEnrolled">0</strong>
+            </div>
+
+            <i class="fa-solid fa-users"></i>
+        </div>
+
+    </section>
+
+
+    <!-- MAIN CONTENT -->
+    <section class="content-card">
+
+        <div class="content-header">
+
+            <div>
+                <h2>
+                    <i class="fa-solid fa-list"></i>
+                    Enrollment Records
+                </h2>
+
+                <p>View and manage student course enrollments</p>
+            </div>
+
+            <div class="search-box">
+
+                <i class="fa-solid fa-magnifying-glass"></i>
+
+                <input type="text"
+                       id="searchInput"
+                       placeholder="Search student, enrollment or course..."
+                       onkeyup="filterEnrollments()">
+
+            </div>
+
+        </div>
+
+
+        <!-- TABLE -->
+        <div class="table-container">
+
+            <table>
+
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Student</th>
+                    <th>Enrollment No.</th>
+                    <th>Course Code</th>
+                    <th>Course Name</th>
+                    <th>Semester</th>
+                    <th>Academic Year</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+
+                <tbody id="enrollmentTableBody">
+
+                <tr>
+                    <td colspan="9" class="loading">
+                        <i class="fa-solid fa-spinner fa-spin"></i>
+                        Loading enrollments...
+                    </td>
+                </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+
+    <!-- FOOTER -->
+    <footer>
+
+        © 2026 University ERP System |
+        Designed & Developed by
+        <strong>Suresh Gadri</strong>
+
+    </footer>
+
+</div>
+
+
+<!-- ===================================================== -->
+<!-- ADD ENROLLMENT MODAL -->
+<!-- ===================================================== -->
+
+<div class="modal-overlay"
+     id="enrollmentModal">
+
+    <div class="modal">
+
+        <div class="modal-header">
+
+            <div>
+                <h2>
+                    <i class="fa-solid fa-user-plus"></i>
+                    Add Course Enrollment
+                </h2>
+
+                <p>Assign a course to a student</p>
+            </div>
+
+            <button class="close-btn"
+                    onclick="closeEnrollmentModal()">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+        </div>
+
+
+        <form id="enrollmentForm">
+
+            <div class="form-section">
+
+                <h3>
+                    <i class="fa-solid fa-user"></i>
+                    Student Information
+                </h3>
+
+                <div class="form-grid">
+
+                    <div class="form-group full">
+                        <label>Select Student *</label>
+
+                        <select id="studentId"
+                                required
+                                onchange="loadStudentDetails()">
+
+                            <option value="">
+                                Select Student
+                            </option>
+
+                        </select>
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>Enrollment Number</label>
+
+                        <input type="text"
+                               id="studentEnrollment"
+                               readonly
+                               placeholder="Auto-filled">
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>Programme</label>
+
+                        <input type="text"
+                               id="studentProgramme"
+                               readonly
+                               placeholder="Auto-filled">
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>Current Semester</label>
+
+                        <input type="text"
+                               id="studentSemester"
+                               readonly
+                               placeholder="Auto-filled">
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="form-section">
+
+                <h3>
+                    <i class="fa-solid fa-book"></i>
+                    Course Information
+                </h3>
+
+                <div class="form-grid">
+
+                    <div class="form-group full">
+
+                        <label>Select Course *</label>
+
+                        <select id="courseId"
+                                required
+                                onchange="loadCourseDetails()">
+
+                            <option value="">
+                                Select Course
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>Course Code</label>
+
+                        <input type="text"
+                               id="courseCode"
+                               readonly
+                               placeholder="Auto-filled">
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>Course Type</label>
+
+                        <input type="text"
+                               id="courseType"
+                               readonly
+                               placeholder="Auto-filled">
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>Credits</label>
+
+                        <input type="text"
+                               id="courseCredits"
+                               readonly
+                               placeholder="Auto-filled">
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>Semester *</label>
+
+                        <select id="semester"
+                                required>
+
+                            <option value="">
+                                Select Semester
+                            </option>
+
+                            <option value="SEM 1">SEM 1</option>
+                            <option value="SEM 2">SEM 2</option>
+                            <option value="SEM 3">SEM 3</option>
+                            <option value="SEM 4">SEM 4</option>
+                            <option value="SEM 5">SEM 5</option>
+                            <option value="SEM 6">SEM 6</option>
+                            <option value="SEM 7">SEM 7</option>
+                            <option value="SEM 8">SEM 8</option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="form-section">
+
+                <h3>
+                    <i class="fa-solid fa-calendar"></i>
+                    Enrollment Details
+                </h3>
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+
+                        <label>Academic Year *</label>
+
+                        <select id="academicYear"
+                                required>
+
+                            <option value="">
+                                Select Academic Year
+                            </option>
+
+                            <option value="2025-26">2025-26</option>
+                            <option value="2026-27">2026-27</option>
+                            <option value="2027-28">2027-28</option>
+                            <option value="2028-29">2028-29</option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>Status *</label>
+
+                        <select id="status"
+                                required>
+
+                            <option value="Active">
+                                Active
+                            </option>
+
+                            <option value="Completed">
+                                Completed
+                            </option>
+
+                            <option value="Dropped">
+                                Dropped
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="modal-footer">
+
+                <button type="button"
+                        class="cancel-btn"
+                        onclick="closeEnrollmentModal()">
+
+                    Cancel
+
+                </button>
+
+                <button type="submit"
+                        class="save-btn">
+
+                    <i class="fa-solid fa-check"></i>
+                    Save Enrollment
+
+                </button>
+
+            </div>
+
+        </form>
 
     </div>
 
 </div>
 
-<script src="js/course-enrollment.js" defer></script>
+
+<!-- ===================================================== -->
+<!-- ADD COURSE MODAL -->
+<!-- ===================================================== -->
+
+<div class="modal-overlay"
+     id="courseModal">
+
+    <div class="modal small-modal">
+
+        <div class="modal-header">
+
+            <div>
+
+                <h2>
+                    <i class="fa-solid fa-book"></i>
+                    Add New Course
+                </h2>
+
+                <p>Create a course for enrollment</p>
+
+            </div>
+
+            <button class="close-btn"
+                    onclick="closeCourseModal()">
+
+                <i class="fa-solid fa-xmark"></i>
+
+            </button>
+
+        </div>
+
+
+        <form id="courseForm">
+
+            <div class="form-grid">
+
+                <div class="form-group">
+
+                    <label>Course Code *</label>
+
+                    <input type="text"
+                           id="newCourseCode"
+                           placeholder="e.g. CS101"
+                           required>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>Course Type *</label>
+
+                    <select id="newCourseType"
+                            required>
+
+                        <option value="">
+                            Select Type
+                        </option>
+
+                        <option value="Core">Core</option>
+                        <option value="Elective">Elective</option>
+                        <option value="Practical">Practical</option>
+                        <option value="Project">Project</option>
+                        <option value="Skill">Skill</option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group full">
+
+                    <label>Course Name *</label>
+
+                    <input type="text"
+                           id="newCourseName"
+                           placeholder="Enter course name"
+                           required>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>Credits *</label>
+
+                    <input type="number"
+                           id="newCourseCredits"
+                           min="1"
+                           max="10"
+                           placeholder="4"
+                           required>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>Department *</label>
+
+                    <input type="text"
+                           id="newCourseDepartment"
+                           placeholder="Computer Science & Engineering"
+                           required>
+
+                </div>
+
+
+                <div class="form-group full">
+
+                    <label>Programme *</label>
+
+                    <input type="text"
+                           id="newCourseProgramme"
+                           placeholder="B.Tech"
+                           required>
+
+                </div>
+
+
+                <div class="form-group full">
+
+                    <label>Status</label>
+
+                    <select id="newCourseStatus">
+
+                        <option value="Active">
+                            Active
+                        </option>
+
+                        <option value="Inactive">
+                            Inactive
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+
+            <div class="modal-footer">
+
+                <button type="button"
+                        class="cancel-btn"
+                        onclick="closeCourseModal()">
+
+                    Cancel
+
+                </button>
+
+                <button type="submit"
+                        class="save-btn">
+
+                    <i class="fa-solid fa-check"></i>
+                    Save Course
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<script src="js/course-enrollment.js"></script>
 
 </body>
 </html>

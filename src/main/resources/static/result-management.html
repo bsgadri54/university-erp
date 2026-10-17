@@ -4,6 +4,7 @@
 <head>
 
     <meta charset="UTF-8">
+
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0">
 
@@ -19,209 +20,220 @@
 
 <body>
 
-<div class="container">
+<div class="page-container">
 
-    <!-- Header -->
+    <!-- ================= HEADER ================= -->
 
-    <div class="header">
+    <div class="page-header">
 
-        <h1>
-            <i class="fas fa-graduation-cap"></i>
-            Result Management
-        </h1>
+        <div class="header-left">
 
-        <p>University ERP Examination Module</p>
+            <button class="back-icon"
+                    onclick="goDashboard()">
 
-    </div>
+                <i class="fa-solid fa-arrow-left"></i>
 
-    <!-- Add / Update Result -->
+            </button>
 
-    <div class="card">
+            <div>
 
-        <h2>
-            <i class="fas fa-edit"></i>
-            Update Marks
-        </h2>
+                <h1>
 
-        <form id="resultForm">
+                    <i class="fa-solid fa-graduation-cap"></i>
 
-            <input type="hidden" id="resultId">
+                    Result Management
 
-            <div class="form-grid">
+                </h1>
 
-                <div class="form-group">
-
-                    <label>Enrollment Number</label>
-
-                    <input
-                            type="text"
-                            id="enrollmentNo"
-                            placeholder="Enter Enrollment Number">
-
-                </div>
-
-                <div class="form-group">
-
-                    <label>Student Name</label>
-
-                    <input
-                            type="text"
-                            id="studentName"
-                            readonly>
-
-                </div>
-
-                <div class="form-group">
-
-                    <label>Course</label>
-
-                    <input
-                            type="text"
-                            id="course"
-                            readonly>
-
-                </div>
-
-                <div class="form-group">
-
-                    <label>Subject</label>
-
-                    <select id="subject">
-
-                        <option value="">
-                            Select Subject
-                        </option>
-
-                        <option>Computer Network</option>
-                        <option>Data Base Management System</option>
-                        <option>Software Engineering</option>
-                        <option>Java Programming</option>
-                        <option>Web Technology</option>
-                        <option>Java Programming LAB</option>
-                        <option>Data Base Management System LAB</option>
-                        <option>Web Technology LAB</option>
-
-                    </select>
-
-                </div>
-
-                <div class="form-group">
-
-                    <label>Semester</label>
-
-                    <select id="semester">
-
-                        <option value="SEM 1">SEM 1</option>
-
-                    </select>
-
-                    </select>
-
-                </div>
-
-                <div class="form-group">
-
-                    <label>Maximum Marks</label>
-
-                    <input
-                            type="number"
-                            id="maxMarks"
-                            value="100"
-                            readonly>
-
-                </div>
-
-                <div class="form-group">
-
-                    <label>Marks Obtained</label>
-
-                    <input
-                            type="number"
-                            id="marks">
-
-                </div>
-
-                <div class="form-group">
-
-                    <label>Percentage</label>
-
-                    <input
-                            type="text"
-                            id="percentage"
-                            readonly>
-
-                </div>
-
-                <div class="form-group">
-
-                    <label>Grade</label>
-
-                    <input
-                            type="text"
-                            id="grade"
-                            readonly>
-
-                </div>
-
-                <div class="form-group">
-
-                    <label>Status</label>
-
-                    <input
-                            type="text"
-                            id="status"
-                            readonly>
-
-                </div>
+                <p>
+                    Manage student examination results
+                </p>
 
             </div>
 
-            <div class="button-group">
+        </div>
 
-                <button
-                        type="submit"
-                        class="save-btn">
 
-                    <i class="fas fa-save"></i>
 
-                    Save Result
 
-                </button>
 
-                <button
-                        type="reset"
-                        class="clear-btn">
 
-                    <i class="fas fa-eraser"></i>
 
-                    Clear
-
-                </button>
-
-            </div>
-
-        </form>
+        </button>
 
     </div>
 
-    <!-- Result Records -->
 
-    <div class="card">
+    <!-- ================= STATISTICS ================= -->
 
-        <h2>
+    <div class="stats-grid">
 
-            <i class="fas fa-table"></i>
+        <div class="stat-card blue">
 
-            Result Records
+            <div>
 
-        </h2>
+                <span>Total Results</span>
 
-        <input
-                type="text"
-                id="search"
-                placeholder="Search by Enrollment Number...">
+                <strong id="totalResults">
+                    0
+                </strong>
 
-        <div class="table-responsive">
+            </div>
+
+            <i class="fa-solid fa-file-lines"></i>
+
+        </div>
+
+
+        <div class="stat-card green">
+
+            <div>
+
+                <span>Students</span>
+
+                <strong id="totalStudents">
+                    0
+                </strong>
+
+            </div>
+
+            <i class="fa-solid fa-users"></i>
+
+        </div>
+
+
+        <div class="stat-card orange">
+
+            <div>
+
+                <span>Subjects</span>
+
+                <strong id="totalSubjects">
+                    0
+                </strong>
+
+            </div>
+
+            <i class="fa-solid fa-book"></i>
+
+        </div>
+
+
+        <div class="stat-card purple">
+
+            <div>
+
+                <span>Passed Results</span>
+
+                <strong id="passedResults">
+                    0
+                </strong>
+
+            </div>
+
+            <i class="fa-solid fa-circle-check"></i>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= RESULT RECORDS ================= -->
+
+    <div class="records-card">
+
+        <div class="records-header">
+
+            <div>
+
+                <h2>
+
+                    <i class="fa-solid fa-table-list"></i>
+
+                    Result Records
+
+                </h2>
+
+                <p>
+                    View and manage student examination results
+                </p>
+
+            </div>
+
+
+            <div class="filters">
+
+                <!-- SEARCH -->
+
+                <div class="search-box">
+
+                    <i class="fa-solid fa-magnifying-glass"></i>
+
+                    <input
+                            type="text"
+                            id="search"
+                            placeholder="Search enrollment, student or subject...">
+
+                </div>
+
+
+                <!-- SEMESTER -->
+
+                <select id="semesterFilter">
+
+                    <option value="">
+                        All Semesters
+                    </option>
+
+                    <option>SEM 1</option>
+                    <option>SEM 2</option>
+                    <option>SEM 3</option>
+                    <option>SEM 4</option>
+                    <option>SEM 5</option>
+                    <option>SEM 6</option>
+                    <option>SEM 7</option>
+                    <option>SEM 8</option>
+
+                </select>
+
+
+                <!-- SUBJECT -->
+
+                <select id="subjectFilter">
+
+                    <option value="">
+                        All Subjects
+                    </option>
+
+                </select>
+
+
+                <!-- STATUS -->
+
+                <select id="statusFilter">
+
+                    <option value="">
+                        All Status
+                    </option>
+
+                    <option value="PASS">
+                        PASS
+                    </option>
+
+                    <option value="FAIL">
+                        FAIL
+                    </option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================= TABLE ================= -->
+
+        <div class="table-wrapper">
 
             <table>
 
@@ -229,11 +241,11 @@
 
                 <tr>
 
-                    <th>ID</th>
+                    <th>#</th>
 
                     <th>Enrollment No</th>
 
-                    <th>Student Name</th>
+                    <th>Student</th>
 
                     <th>Subject</th>
 
@@ -265,20 +277,9 @@
 
     </div>
 
-    <!-- Back Button -->
 
-    <div class="back-btn">
 
-        <button
-                onclick="window.location.href='dashboard.html'">
-
-            ← Back To Dashboard
-
-        </button>
-
-    </div>
-
-    <!-- Footer -->
+    <!-- ================= FOOTER ================= -->
 
     <footer>
 
@@ -289,6 +290,269 @@
     </footer>
 
 </div>
+
+
+<!-- ===================================================== -->
+<!-- ADD / EDIT RESULT MODAL -->
+<!-- ===================================================== -->
+
+<div id="resultModal"
+     class="modal">
+
+    <div class="modal-content">
+
+        <!-- MODAL HEADER -->
+
+        <div class="modal-header">
+
+            <div>
+
+                <h2 id="modalTitle">
+
+                    <i class="fa-solid fa-plus"></i>
+
+                    Add Result
+
+                </h2>
+
+                <p>
+                    Enter student examination result
+                </p>
+
+            </div>
+
+
+            <button class="close-btn"
+                    onclick="closeResultModal()">
+
+                <i class="fa-solid fa-xmark"></i>
+
+            </button>
+
+        </div>
+
+
+        <!-- FORM -->
+
+        <form id="resultForm">
+
+            <input type="hidden"
+                   id="resultId">
+
+
+            <div class="modal-grid">
+
+                <!-- ENROLLMENT -->
+
+                <div class="form-group">
+
+                    <label>
+                        Enrollment Number
+                    </label>
+
+                    <input
+                            type="text"
+                            id="enrollmentNo"
+                            placeholder="Enter Enrollment Number"
+                            autocomplete="off"
+                            required>
+
+                </div>
+
+
+                <!-- STUDENT NAME -->
+
+                <div class="form-group">
+
+                    <label>
+                        Student Name
+                    </label>
+
+                    <input
+                            type="text"
+                            id="studentName"
+                            readonly>
+
+                </div>
+
+
+                <!-- COURSE -->
+
+                <div class="form-group">
+
+                    <label>
+                        Course
+                    </label>
+
+                    <input
+                            type="text"
+                            id="course"
+                            readonly>
+
+                </div>
+
+
+                <!-- SEMESTER -->
+
+                <div class="form-group">
+
+                    <label>
+                        Semester
+                    </label>
+
+                    <select id="semester"
+                            required>
+
+                        <option value="">
+                            Select Student First
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- SUBJECT -->
+
+                <div class="form-group full">
+
+                    <label>
+                        Subject
+                    </label>
+
+                    <select id="subject"
+                            required>
+
+                        <option value="">
+                            Select Student First
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- MAXIMUM MARKS -->
+
+                <div class="form-group">
+
+                    <label>
+                        Maximum Marks
+                    </label>
+
+                    <input
+                            type="number"
+                            id="maxMarks"
+                            value="100"
+                            readonly>
+
+                </div>
+
+
+                <!-- MARKS -->
+
+                <div class="form-group">
+
+                    <label>
+                        Marks Obtained
+                    </label>
+
+                    <input
+                            type="number"
+                            id="marks"
+                            placeholder="Enter Marks"
+                            min="0"
+                            required>
+
+                </div>
+
+
+                <!-- PERCENTAGE -->
+
+                <div class="form-group">
+
+                    <label>
+                        Percentage
+                    </label>
+
+                    <input
+                            type="text"
+                            id="percentage"
+                            readonly>
+
+                </div>
+
+
+                <!-- GRADE -->
+
+                <div class="form-group">
+
+                    <label>
+                        Grade
+                    </label>
+
+                    <input
+                            type="text"
+                            id="grade"
+                            readonly>
+
+                </div>
+
+
+                <!-- STATUS -->
+
+                <div class="form-group">
+
+                    <label>
+                        Status
+                    </label>
+
+                    <input
+                            type="text"
+                            id="status"
+                            readonly>
+
+                </div>
+
+            </div>
+
+
+            <!-- BUTTONS -->
+
+            <div class="modal-buttons">
+
+                <button
+                        type="button"
+                        class="cancel-btn"
+                        onclick="closeResultModal()">
+
+                    Cancel
+
+                </button>
+
+
+                <button
+                        type="submit"
+                        class="save-btn">
+
+                    <i class="fa-solid fa-floppy-disk"></i>
+
+                    <span id="saveButtonText">
+                        Save Result
+                    </span>
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- ================= SWEET ALERT ================= -->
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 

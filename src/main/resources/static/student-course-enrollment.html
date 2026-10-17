@@ -1,0 +1,1031 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>My Course Enrollment | University ERP</title>
+
+    <link rel="stylesheet"
+          href="css/student-course-enrollment.css">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+</head>
+
+<body>
+
+<div class="page-container">
+
+    <!-- =====================================================
+         HEADER
+    ====================================================== -->
+
+    <div class="page-header">
+
+        <div class="header-left">
+
+            <button class="back-btn"
+                    onclick="goBack()">
+
+                <i class="fa-solid fa-arrow-left"></i>
+
+            </button>
+
+            <div>
+
+                <h1>My Course Enrollment</h1>
+
+                <p>
+                    View your enrolled courses
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         STUDENT PROFILE BANNER
+    ====================================================== -->
+
+    <section class="student-banner">
+
+        <div class="student-info">
+
+            <div class="student-icon">
+
+                <i class="fa-solid fa-user-graduate"></i>
+
+            </div>
+
+            <div>
+
+                <h2 id="studentName">
+                    Loading...
+                </h2>
+
+                <p>
+                    Enrollment:
+                    <strong id="enrollmentNo">
+                        -
+                    </strong>
+                </p>
+
+            </div>
+
+        </div>
+
+        <div class="student-status">
+
+            <i class="fa-solid fa-circle-check"></i>
+
+            <span>Active Student</span>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         STATISTICS
+    ====================================================== -->
+
+    <section class="stats-grid">
+
+        <!-- Enrolled Courses -->
+
+        <div class="stat-card blue">
+
+            <div>
+
+                <span>
+                    Enrolled Courses
+                </span>
+
+                <strong id="enrolledCourses">
+                    0
+                </strong>
+
+            </div>
+
+            <i class="fa-solid fa-book-open"></i>
+
+        </div>
+
+
+        <!-- Active Courses -->
+
+        <div class="stat-card green">
+
+            <div>
+
+                <span>
+                    Active Courses
+                </span>
+
+                <strong id="activeCourses">
+                    0
+                </strong>
+
+            </div>
+
+            <i class="fa-solid fa-circle-check"></i>
+
+        </div>
+
+
+        <!-- Total Credits -->
+
+        <div class="stat-card orange">
+
+            <div>
+
+                <span>
+                    Total Credits
+                </span>
+
+                <strong id="totalCredits">
+                    0
+                </strong>
+
+            </div>
+
+            <i class="fa-solid fa-star"></i>
+
+        </div>
+
+
+        <!-- Semester -->
+
+        <div class="stat-card purple">
+
+            <div>
+
+                <span>
+                    Current Semester
+                </span>
+
+                <strong id="semester">
+                    -
+                </strong>
+
+            </div>
+
+            <i class="fa-solid fa-layer-group"></i>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         COURSE SECTION
+    ====================================================== -->
+
+    <section class="content-card">
+
+        <div class="section-heading">
+
+            <div>
+
+                <h2>
+
+                    <i class="fa-solid fa-book-open"></i>
+
+                    My Enrolled Courses
+
+                </h2>
+
+                <p>
+                    Courses assigned by the University
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- Course Card -->
+
+        <div id="courseContainer">
+
+            <div class="loading">
+
+                <i class="fa-solid fa-spinner fa-spin"></i>
+
+                Loading course information...
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         SUBJECT SECTION
+    ====================================================== -->
+
+    <section class="content-card">
+
+        <div class="section-heading">
+
+            <div>
+
+                <h2>
+
+                    <i class="fa-solid fa-list"></i>
+
+                    Course Subjects
+
+                </h2>
+
+                <p>
+                    Subjects mapped to your current semester
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div id="subjectsContainer">
+
+            <div class="loading">
+
+                <i class="fa-solid fa-spinner fa-spin"></i>
+
+                Loading subjects...
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         INFORMATION
+    ====================================================== -->
+
+    <div class="information-box">
+
+        <div class="info-icon">
+
+            <i class="fa-solid fa-circle-info"></i>
+
+        </div>
+
+        <div>
+
+            <h3>
+                Course Enrollment Information
+            </h3>
+
+            <p>
+                Course enrollment is managed by the
+                University administration. Students can
+                view their enrolled courses and mapped
+                subjects but cannot add, edit or delete
+                courses.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         FOOTER
+    ====================================================== -->
+
+    <footer>
+
+        © 2026 University ERP System |
+        Designed &amp; Developed by
+        <strong>Suresh Gadri</strong>
+
+    </footer>
+
+</div>
+
+
+<script>
+
+    /* =====================================================
+       GET ENROLLMENT NUMBER
+    ===================================================== */
+
+    const enrollmentNo =
+        localStorage.getItem("username");
+
+
+    /* =====================================================
+       INITIAL LOAD
+    ===================================================== */
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        function () {
+
+            if (!enrollmentNo) {
+
+                alert(
+                    "Student login information not found."
+                );
+
+                window.location.href =
+                    "login.html";
+
+                return;
+            }
+
+            loadStudent();
+
+        }
+    );
+
+
+    /* =====================================================
+       LOAD STUDENT
+    ===================================================== */
+
+    async function loadStudent() {
+
+        try {
+
+            const response =
+                await fetch(
+                    `/students/enrollment/${encodeURIComponent(enrollmentNo)}`
+                );
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "Unable to load student information."
+                );
+
+            }
+
+            const student =
+                await response.json();
+
+            console.log("Student:", student);
+
+
+            // ===============================
+            // STUDENT NAME
+            // ===============================
+
+            document.getElementById(
+                "studentName"
+            ).textContent =
+                student.name || "Student";
+
+
+            // ===============================
+            // ENROLLMENT NUMBER
+            // ===============================
+
+            document.getElementById(
+                "enrollmentNo"
+            ).textContent =
+                student.enrollmentNo || enrollmentNo;
+
+
+            // ===============================
+            // SEMESTER
+            // ===============================
+
+            const semester =
+                student.semester || "-";
+
+            document.getElementById(
+                "semester"
+            ).textContent =
+                semester;
+
+
+            // ===============================
+            // COURSE
+            // ===============================
+
+            document.getElementById(
+                "enrolledCourses"
+            ).textContent = "1";
+
+
+            document.getElementById(
+                "activeCourses"
+            ).textContent = "1";
+
+
+            // ===============================
+            // RENDER COURSE
+            // ===============================
+
+            renderCourse(student);
+
+
+            // ===============================
+            // LOAD MAPPED SUBJECTS
+            // ===============================
+
+            if (
+                student.course &&
+                student.semester
+            ) {
+
+                await loadStudentSubjects(
+                    student.course,
+                    student.semester
+                );
+
+            } else {
+
+                document.getElementById(
+                    "subjectsContainer"
+                ).innerHTML = `
+
+                <div class="empty-box">
+
+                    <i class="fa-solid fa-book-open"></i>
+
+                    <h3>
+                        No Subjects Mapped
+                    </h3>
+
+                    <p>
+                        Course or semester information
+                        is not available.
+                    </p>
+
+                </div>
+
+            `;
+
+            }
+
+        }
+
+        catch (error) {
+
+            console.error(
+                "Student loading error:",
+                error
+            );
+
+            document.getElementById(
+                "courseContainer"
+            ).innerHTML = `
+
+            <div class="error-box">
+
+                <i class="fa-solid fa-triangle-exclamation"></i>
+
+                <span>
+                    Unable to load student information.
+                </span>
+
+            </div>
+
+        `;
+
+        }
+
+    }
+
+    /* =====================================================
+       LOAD SUBJECTS
+    ===================================================== */
+
+    async function loadStudentSubjects(
+        courseName,
+        semester
+    ) {
+
+        try {
+
+            // ==========================================
+            // WORKING COURSE-SUBJECT MAPPING API
+            // ==========================================
+
+            const url =
+                `/api/course-subject-mappings/student` +
+                `?courseName=${encodeURIComponent(courseName)}` +
+                `&semester=${encodeURIComponent(semester)}`;
+
+
+            console.log(
+                "Loading subjects from:",
+                url
+            );
+
+
+            const response =
+                await fetch(url);
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "Unable to load mapped subjects."
+                );
+
+            }
+
+
+            const subjects =
+                await response.json();
+
+
+            console.log(
+                "Mapped Subjects:",
+                subjects
+            );
+
+
+            // ==========================================
+            // TOTAL CREDITS
+            // ==========================================
+
+            const totalCredits =
+                subjects.reduce(
+                    function (total, subject) {
+
+                        return total +
+                            Number(
+                                subject.credits || 0
+                            );
+
+                    },
+                    0
+                );
+
+
+            document.getElementById(
+                "totalCredits"
+            ).textContent =
+                totalCredits;
+
+
+            // ==========================================
+            // DISPLAY SUBJECTS
+            // ==========================================
+
+            renderSubjects(subjects);
+
+        }
+
+        catch (error) {
+
+            console.error(
+                "Subject loading error:",
+                error
+            );
+
+
+            document.getElementById(
+                "subjectsContainer"
+            ).innerHTML = `
+
+            <div class="empty-box">
+
+                <i class="fa-solid fa-triangle-exclamation"></i>
+
+                <h3>
+                    Unable to Load Subjects
+                </h3>
+
+                <p>
+                    ${escapeHtml(
+                error.message ||
+                "Unable to load mapped subjects."
+            )}
+                </p>
+
+            </div>
+
+        `;
+
+        }
+
+    }
+
+    /* =====================================================
+       COURSE CARD
+    ===================================================== */
+
+    function renderCourse(student) {
+
+        const courseContainer =
+            document.getElementById(
+                "courseContainer"
+            );
+
+
+        courseContainer.innerHTML = `
+
+            <div class="course-card">
+
+                <div class="course-top">
+
+                    <span class="course-code">
+                        ${escapeHtml(
+            getCourseCode(student.course)
+        )}
+                    </span>
+
+                    <span class="active-badge">
+                        Active
+                    </span>
+
+                </div>
+
+
+                <h3>
+
+                    ${escapeHtml(
+            student.course || "Course"
+        )}
+
+                </h3>
+
+
+                <div class="course-details">
+
+                    <div>
+
+                        <span>
+                            Course Type
+                        </span>
+
+                        <strong>
+                            Core
+                        </strong>
+
+                    </div>
+
+
+                    <div>
+
+                        <span>
+                            Credits
+                        </span>
+
+                        <strong id="courseCredits">
+                            Loading...
+                        </strong>
+
+                    </div>
+
+
+                    <div>
+
+                        <span>
+                            Current Semester
+                        </span>
+
+                        <strong>
+                            ${escapeHtml(
+            student.semester || "-"
+        )}
+                        </strong>
+
+                    </div>
+
+
+                    <div>
+
+                        <span>
+                            Academic Year
+                        </span>
+
+                        <strong id="courseAcademicYear">
+                            -
+                        </strong>
+
+                    </div>
+
+
+                    <div>
+
+                        <span>
+                            Enrollment Status
+                        </span>
+
+                        <strong class="status-text">
+                            Active
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        `;
+
+    }
+
+
+    /* =====================================================
+       SUBJECT TABLE
+    ===================================================== */
+
+    function renderSubjects(subjects) {
+
+        const container =
+            document.getElementById(
+                "subjectsContainer"
+            );
+
+
+        if (!subjects ||
+            subjects.length === 0) {
+
+            container.innerHTML = `
+
+                <div class="empty-box">
+
+                    <i class="fa-solid fa-book-open"></i>
+
+                    <h3>
+                        No Subjects Mapped
+                    </h3>
+
+                    <p>
+                        Your University has not mapped
+                        any active subjects for this semester.
+                    </p>
+
+                </div>
+
+            `;
+
+            return;
+        }
+
+
+        /* Academic year */
+
+        if (subjects[0].academicYear) {
+
+            document.getElementById(
+                "courseAcademicYear"
+            ).textContent =
+                subjects[0].academicYear;
+
+        }
+
+
+        /* Course credits */
+
+        const totalCredits =
+            subjects.reduce(
+                function (total, subject) {
+
+                    return total +
+                        Number(
+                            subject.credits || 0
+                        );
+
+                },
+                0
+            );
+
+
+        const creditElement =
+            document.getElementById(
+                "courseCredits"
+            );
+
+
+        if (creditElement) {
+
+            creditElement.textContent =
+                totalCredits;
+
+        }
+
+
+        let html = `
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>#</th>
+
+                            <th>Subject Code</th>
+
+                            <th>Subject Name</th>
+
+                            <th>Type</th>
+
+                            <th>Credits</th>
+
+                            <th>Semester</th>
+
+                            <th>Academic Year</th>
+
+                            <th>Status</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+        `;
+
+
+        subjects.forEach(
+            function (subject, index) {
+
+                html += `
+
+                    <tr>
+
+                        <td>
+                            ${index + 1}
+                        </td>
+
+                        <td>
+
+                            <span class="subject-code">
+
+                                ${escapeHtml(
+                    subject.subjectCode || "-"
+                )}
+
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            <strong>
+
+                                ${escapeHtml(
+                    subject.subjectName || "-"
+                )}
+
+                            </strong>
+
+                        </td>
+
+                        <td>
+
+                            <span class="type-badge">
+
+                                ${escapeHtml(
+                    subject.subjectType || "-"
+                )}
+
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            <strong>
+
+                                ${subject.credits || 0}
+
+                            </strong>
+
+                        </td>
+
+                        <td>
+
+                            ${escapeHtml(
+                    subject.semester || "-"
+                )}
+
+                        </td>
+
+                        <td>
+
+                            ${escapeHtml(
+                    subject.academicYear || "-"
+                )}
+
+                        </td>
+
+                        <td>
+
+                            <span class="active-badge">
+
+                                Active
+
+                            </span>
+
+                        </td>
+
+                    </tr>
+
+                `;
+
+            }
+        );
+
+
+        html += `
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        `;
+
+
+        container.innerHTML =
+            html;
+
+    }
+
+
+    /* =====================================================
+       COURSE CODE
+    ===================================================== */
+
+    function getCourseCode(course) {
+
+        if (!course) {
+            return "COURSE";
+        }
+
+
+        const value =
+            course.toUpperCase();
+
+
+        if (
+            value.includes("COMPUTER SCIENCE") ||
+            value.includes("CSE")
+        ) {
+
+
+
+        }
+
+
+        return "PROGRAM";
+
+    }
+
+
+    /* =====================================================
+       BACK BUTTON
+    ===================================================== */
+
+    function goBack() {
+
+        window.history.back();
+
+    }
+
+
+    /* =====================================================
+       HTML ESCAPE
+    ===================================================== */
+
+    function escapeHtml(value) {
+
+        if (value === null ||
+            value === undefined) {
+
+            return "";
+
+        }
+
+
+        return String(value)
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+
+    }
+
+</script>
+
+</body>
+
+</html>

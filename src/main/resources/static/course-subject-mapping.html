@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Course Subject Mapping | University ERP</title>
+
+    <link rel="stylesheet"
+          href="css/course-subject-mapping.css">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+</head>
+
+<body>
+
+<div class="page-container">
+
+    <!-- HEADER -->
+    <div class="page-header">
+
+        <div class="header-left">
+
+            <button class="back-btn"
+                    onclick="history.back()">
+
+                <i class="fa-solid fa-arrow-left"></i>
+
+            </button>
+
+            <div>
+
+                <h2>Course Subject Mapping</h2>
+
+                <p>
+                    Map subjects with courses and semesters
+                </p>
+
+            </div>
+
+        </div>
+
+        <button class="add-btn"
+                onclick="openMappingForm()">
+
+            <i class="fa-solid fa-plus"></i>
+
+            Add Mapping
+
+        </button>
+
+    </div>
+
+
+    <!-- STATISTICS -->
+
+    <div class="stats-grid">
+
+        <div class="stat-card blue">
+
+            <div>
+
+                <span>Total Mappings</span>
+
+                <strong id="totalMappings">0</strong>
+
+            </div>
+
+            <i class="fa-solid fa-link"></i>
+
+        </div>
+
+
+        <div class="stat-card green">
+
+            <div>
+
+                <span>Active Mappings</span>
+
+                <strong id="activeMappings">0</strong>
+
+            </div>
+
+            <i class="fa-solid fa-circle-check"></i>
+
+        </div>
+
+
+        <div class="stat-card orange">
+
+            <div>
+
+                <span>Courses Covered</span>
+
+                <strong id="courseCount">0</strong>
+
+            </div>
+
+            <i class="fa-solid fa-book"></i>
+
+        </div>
+
+
+        <div class="stat-card purple">
+
+            <div>
+
+                <span>Subjects Mapped</span>
+
+                <strong id="subjectCount">0</strong>
+
+            </div>
+
+            <i class="fa-solid fa-graduation-cap"></i>
+
+        </div>
+
+    </div>
+
+
+    <!-- MAPPINGS -->
+
+    <div class="content-card">
+
+        <div class="section-header">
+
+            <div>
+
+                <h3>
+
+                    <i class="fa-solid fa-diagram-project"></i>
+
+                    Course Subject Mappings
+
+                </h3>
+
+                <p>
+                    View and manage subjects assigned to courses
+                </p>
+
+            </div>
+
+
+            <input
+                    type="text"
+                    id="searchInput"
+                    placeholder="Search mapping..."
+                    onkeyup="filterMappings()">
+
+        </div>
+
+
+        <div class="table-container">
+
+            <table>
+
+                <thead>
+
+                <tr>
+
+                    <th>#</th>
+
+                    <th>Programme</th>
+
+                    <th>Course</th>
+
+                    <th>Subject</th>
+
+                    <th>Type</th>
+
+                    <th>Credits</th>
+
+                    <th>Semester</th>
+
+                    <th>Academic Year</th>
+
+                    <th>Status</th>
+
+                    <th>Action</th>
+
+                </tr>
+
+                </thead>
+
+                <tbody id="mappingTable">
+
+                </tbody>
+
+            </table>
+
+            <div id="emptyState"
+                 class="empty-state">
+
+                <i class="fa-solid fa-diagram-project"></i>
+
+                <p>No course subject mappings found</p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ADD MAPPING MODAL -->
+
+    <div id="mappingModal"
+         class="modal">
+
+        <div class="modal-box">
+
+            <div class="modal-header">
+
+                <div>
+
+                    <h2>Add Course Subject Mapping</h2>
+
+                    <p>
+                        Assign a subject to a course
+                    </p>
+
+                </div>
+
+                <button onclick="closeMappingForm()">
+
+                    <i class="fa-solid fa-xmark"></i>
+
+                </button>
+
+            </div>
+
+
+            <form id="mappingForm"
+                  onsubmit="saveMapping(event)">
+
+
+                <!-- PROGRAMME -->
+
+                <div class="form-group">
+
+                    <label>
+
+                        Programme
+
+                    </label>
+
+                    <select id="programme"
+                            required
+                            onchange="loadCoursesByProgramme()">
+
+                        <option value="">
+                            Select Programme
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- COURSE -->
+
+                <div class="form-group">
+
+                    <label>
+
+                        Course
+
+                    </label>
+
+                    <select id="course"
+                            required
+                            disabled>
+
+                        <option value="">
+                            Select Course
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-row">
+
+
+                    <!-- SEMESTER -->
+
+                    <div class="form-group">
+
+                        <label>
+
+                            Semester
+
+                        </label>
+
+                        <select id="semester"
+                                required>
+
+                            <option value="">
+                                Select Semester
+                            </option>
+
+                            <option value="SEM 1">
+                                SEM 1
+                            </option>
+
+                            <option value="SEM 2">
+                                SEM 2
+                            </option>
+
+                            <option value="SEM 3">
+                                SEM 3
+                            </option>
+
+                            <option value="SEM 4">
+                                SEM 4
+                            </option>
+
+                            <option value="SEM 5">
+                                SEM 5
+                            </option>
+
+                            <option value="SEM 6">
+                                SEM 6
+                            </option>
+
+                            <option value="SEM 7">
+                                SEM 7
+                            </option>
+
+                            <option value="SEM 8">
+                                SEM 8
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- ACADEMIC YEAR -->
+
+                    <div class="form-group">
+
+                        <label>
+
+                            Academic Year
+
+                        </label>
+
+                        <select id="academicYear"
+                                required>
+
+                            <option value="">
+                                Select Academic Year
+                            </option>
+
+                            <option value="2026-27">
+                                2026-27
+                            </option>
+
+                            <option value="2027-28">
+                                2027-28
+                            </option>
+
+                            <option value="2028-29">
+                                2028-29
+                            </option>
+
+                            <option value="2029-30">
+                                2029-30
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                <!-- SUBJECT -->
+
+                <div class="form-group">
+
+                    <label>
+
+                        Subject
+
+                    </label>
+
+                    <select id="subject"
+                            required>
+
+                        <option value="">
+                            Select Subject
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- STATUS -->
+
+                <div class="form-group">
+
+                    <label>
+
+                        Status
+
+                    </label>
+
+                    <select id="status">
+
+                        <option value="Active">
+                            Active
+                        </option>
+
+                        <option value="Inactive">
+                            Inactive
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="modal-footer">
+
+                    <button type="button"
+                            class="cancel-btn"
+                            onclick="closeMappingForm()">
+
+                        Cancel
+
+                    </button>
+
+                    <button type="submit"
+                            class="save-btn">
+
+                        <i class="fa-solid fa-save"></i>
+
+                        Save Mapping
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- FOOTER -->
+
+    <footer>
+
+        © 2026 University ERP System |
+        Designed & Developed by
+        <strong>Suresh Gadri</strong>
+
+    </footer>
+
+</div>
+
+
+<script src="js/course-subject-mapping.js"></script>
+
+</body>
+
+</html>

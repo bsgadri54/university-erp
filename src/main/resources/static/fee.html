@@ -1,33 +1,588 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <title>Fee Status</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Fee Management | University ERP</title>
 
     <link rel="stylesheet" href="css/fee.css">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 </head>
 
 <body>
 
 <div class="container">
 
-    <div class="card">
+    <!-- ================= HEADER ================= -->
 
-        <h1>Fee Management</h1>
+    <div class="page-header">
 
-        <p>
-            Fee status module is currently under development.
-        </p>
+        <div class="header-left">
 
-        <button class="btn" onclick="goDashboard()">
-            Back To Dashboard
+            <button class="back-icon"
+                    onclick="goDashboard()"
+                    title="Back to Dashboard">
+
+                <i class="fa-solid fa-arrow-left"></i>
+
+            </button>
+
+            <div>
+
+                <h1>
+                    <i class="fa-solid fa-money-bill-wave"></i>
+                    Fee Management
+                </h1>
+
+                <p>
+                    Manage student fee records
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <button class="add-btn"
+                onclick="openFeeModal()">
+
+            <i class="fa-solid fa-plus"></i>
+            Add Fee
+
         </button>
+
+    </div>
+
+
+    <!-- ================= STATISTICS ================= -->
+
+    <div class="stats-grid">
+
+        <div class="stat-card blue">
+
+            <div>
+
+                <span>Total Fees</span>
+
+                <strong id="totalFeesCount">
+                    0
+                </strong>
+
+            </div>
+
+            <i class="fa-solid fa-file-invoice-dollar"></i>
+
+        </div>
+
+
+        <div class="stat-card green">
+
+            <div>
+
+                <span>Total Collected</span>
+
+                <strong id="totalCollected">
+                    ₹0.00
+                </strong>
+
+            </div>
+
+            <i class="fa-solid fa-circle-check"></i>
+
+        </div>
+
+
+        <div class="stat-card orange">
+
+            <div>
+
+                <span>Paid Amount</span>
+
+                <strong id="paidAmountStat">
+                    ₹0.00
+                </strong>
+
+            </div>
+
+            <i class="fa-solid fa-money-bill"></i>
+
+        </div>
+
+
+        <div class="stat-card purple">
+
+            <div>
+
+                <span>Pending Amount</span>
+
+                <strong id="pendingAmountStat">
+                    ₹0.00
+                </strong>
+
+            </div>
+
+            <i class="fa-solid fa-wallet"></i>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= FEE RECORDS ================= -->
+
+    <div class="card records-card">
+
+        <div class="section-header">
+
+            <div>
+
+                <h2>
+                    <i class="fa-solid fa-users"></i>
+                    Fee Records
+                </h2>
+
+                <p>
+                    View and manage student fee records
+                </p>
+
+            </div>
+
+
+            <div class="filters">
+
+                <div class="search-box">
+
+                    <i class="fa-solid fa-magnifying-glass"></i>
+
+                    <input
+                            type="text"
+                            id="feeSearch"
+                            placeholder="Search enrollment, student or course..."
+                            onkeyup="searchFees()">
+
+                </div>
+
+
+                <select id="semesterFilter"
+                        onchange="searchFees()">
+
+                    <option value="">
+                        All Semesters
+                    </option>
+
+                </select>
+
+
+                <select id="modeFilter"
+                        onchange="searchFees()">
+
+                    <option value="">
+                        All Modes
+                    </option>
+
+                    <option value="CASH">
+                        Cash
+                    </option>
+
+                    <option value="UPI">
+                        UPI
+                    </option>
+
+                    <option value="CARD">
+                        Card
+                    </option>
+
+                    <option value="BANK TRANSFER">
+                        Bank Transfer
+                    </option>
+
+                    <option value="ONLINE">
+                        Online
+                    </option>
+
+                </select>
+
+
+                <select id="statusFilter"
+                        onchange="searchFees()">
+
+                    <option value="">
+                        All Status
+                    </option>
+
+                    <option value="PAID">
+                        Paid
+                    </option>
+
+                    <option value="PARTIAL">
+                        Partial
+                    </option>
+
+                    <option value="PENDING">
+                        Pending
+                    </option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================= TABLE ================= -->
+
+        <div class="table-responsive">
+
+            <table>
+
+                <thead>
+
+                <tr>
+
+                    <th>#</th>
+                    <th>Enrollment No</th>
+                    <th>Student</th>
+                    <th>Course</th>
+                    <th>Semester</th>
+                    <th>Total Fee</th>
+                    <th>Paid</th>
+                    <th>Remaining</th>
+                    <th>Payment Date</th>
+                    <th>Mode</th>
+                    <th>Status</th>
+                    <th>Action</th>
+
+                </tr>
+
+                </thead>
+
+
+                <tbody id="feeTable">
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer>
+
+        © 2026 University ERP System |
+        Designed & Developed by
+        <strong>Suresh Gadri</strong>
+
+    </footer>
+
+</div>
+
+
+<!-- =================================================
+     ADD / UPDATE FEE MODAL
+================================================= -->
+
+<div class="modal-overlay"
+     id="feeModal">
+
+    <div class="modal">
+
+        <div class="modal-header">
+
+            <div>
+
+                <h2 id="modalTitle">
+                    <i class="fa-solid fa-file-invoice-dollar"></i>
+                    Add Fee
+                </h2>
+
+                <p>
+                    Enter student fee information
+                </p>
+
+            </div>
+
+
+            <button class="close-btn"
+                    onclick="closeFeeModal()">
+
+                <i class="fa-solid fa-xmark"></i>
+
+            </button>
+
+        </div>
+
+
+        <div class="modal-body">
+
+            <input type="hidden"
+                   id="feeId">
+
+
+            <div class="form-grid">
+
+                <!-- Student -->
+
+                <div class="form-group">
+
+                    <label>
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        Search Student
+                    </label>
+
+                    <input
+                            type="text"
+                            id="studentSearch"
+                            list="studentList"
+                            placeholder="Enrollment No / Student Name"
+                            autocomplete="off"
+                            oninput="findStudent()">
+
+                    <datalist id="studentList"></datalist>
+
+                </div>
+
+
+                <!-- Enrollment -->
+
+                <div class="form-group">
+
+                    <label>
+                        Enrollment No
+                    </label>
+
+                    <input
+                            type="text"
+                            id="enrollmentNo"
+                            readonly>
+
+                </div>
+
+
+                <!-- Student Name -->
+
+                <div class="form-group">
+
+                    <label>
+                        Student Name
+                    </label>
+
+                    <input
+                            type="text"
+                            id="studentName"
+                            readonly>
+
+                </div>
+
+
+                <!-- Course -->
+
+                <div class="form-group">
+
+                    <label>
+                        Course
+                    </label>
+
+                    <input
+                            type="text"
+                            id="course"
+                            readonly>
+
+                </div>
+
+
+                <!-- Semester -->
+
+                <div class="form-group">
+
+                    <label>
+                        Semester
+                    </label>
+
+                    <input
+                            type="text"
+                            id="semester"
+                            readonly>
+
+                </div>
+
+
+                <!-- Total -->
+
+                <div class="form-group">
+
+                    <label>
+                        <i class="fa-solid fa-indian-rupee-sign"></i>
+                        Total Fee
+                    </label>
+
+                    <input
+                            type="number"
+                            id="totalFee"
+                            placeholder="Enter Total Fee"
+                            min="0"
+                            step="0.01"
+                            oninput="calculateRemaining()">
+
+                </div>
+
+
+                <!-- Paid -->
+
+                <div class="form-group">
+
+                    <label>
+                        <i class="fa-solid fa-money-check-dollar"></i>
+                        Paid Amount
+                    </label>
+
+                    <input
+                            type="number"
+                            id="paidAmount"
+                            placeholder="Enter Paid Amount"
+                            min="0"
+                            step="0.01"
+                            oninput="calculateRemaining()">
+
+                </div>
+
+
+                <!-- Remaining -->
+
+                <div class="form-group">
+
+                    <label>
+                        Remaining Amount
+                    </label>
+
+                    <input
+                            type="number"
+                            id="remainingAmount"
+                            readonly>
+
+                </div>
+
+
+                <!-- Date -->
+
+                <div class="form-group">
+
+                    <label>
+                        Payment Date
+                    </label>
+
+                    <input
+                            type="date"
+                            id="paymentDate">
+
+                </div>
+
+
+                <!-- Mode -->
+
+                <div class="form-group">
+
+                    <label>
+                        Payment Mode
+                    </label>
+
+                    <select id="paymentMode">
+
+                        <option value="">
+                            Select Payment Mode
+                        </option>
+
+                        <option value="CASH">
+                            Cash
+                        </option>
+
+                        <option value="UPI">
+                            UPI
+                        </option>
+
+                        <option value="CARD">
+                            Card
+                        </option>
+
+                        <option value="BANK TRANSFER">
+                            Bank Transfer
+                        </option>
+
+                        <option value="ONLINE">
+                            Online
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- Status -->
+
+                <div class="form-group">
+
+                    <label>
+                        Payment Status
+                    </label>
+
+                    <select id="paymentStatus">
+
+                        <option value="PENDING">
+                            Pending
+                        </option>
+
+                        <option value="PARTIAL">
+                            Partial
+                        </option>
+
+                        <option value="PAID">
+                            Paid
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="modal-footer">
+
+            <button class="btn btn-save"
+                    onclick="saveFee()">
+
+                <i class="fa-solid fa-floppy-disk"></i>
+                Save Fee
+
+            </button>
+
+
+            <button class="btn btn-clear"
+                    onclick="clearFeeForm()">
+
+                <i class="fa-solid fa-eraser"></i>
+                Clear
+
+            </button>
+
+        </div>
 
     </div>
 
 </div>
 
-<script src="js/fee.js" defer></script>
+
+<script src="js/common.js"></script>
+<script src="js/fee.js"></script>
 
 </body>
 </html>

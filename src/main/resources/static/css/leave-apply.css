@@ -1,310 +1,804 @@
+/* ==========================================
+   University ERP - Leave Apply
+   ========================================== */
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: "Segoe UI", sans-serif;
+    font-family: "Segoe UI", Arial, sans-serif;
 }
+
+
+/* ==========================================
+   BODY
+   ========================================== */
 
 body {
-    background: #f4f7fc;
-    padding: 30px;
+    background: #f3f6fb;
+    color: #123;
+    padding: 20px;
 }
 
-.container {
-    max-width: 1200px;
-    margin: auto;
+
+/* ==========================================
+   MAIN CONTAINER
+   ========================================== */
+
+.page-container {
+    width: 100%;
+    max-width: 1600px;
+    margin: 0 auto;
 }
 
-.page-header {
-    background: linear-gradient(135deg,#1e3c72,#2a5298);
-    color: white;
-    text-align: center;
-    padding: 30px;
+
+/* ==========================================
+   HEADER
+   ========================================== */
+
+.header {
+    background: #ffffff;
+
+    min-height: 72px;
+
     border-radius: 12px;
-    margin-bottom: 25px;
-    box-shadow: 0 5px 15px rgba(0,0,0,.15);
+
+    padding: 14px 18px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+
+    margin-bottom: 14px;
+
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.07);
 }
 
-.page-header h1{
-    font-size:38px;
-    margin-bottom:8px;
+
+/* Back Button */
+
+.back-btn {
+    width: 38px;
+    height: 38px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #eef4ff;
+
+    color: #2467d8;
+
+    border-radius: 8px;
+
+    text-decoration: none;
+
+    font-size: 17px;
+
+    transition: 0.2s;
 }
 
-.page-header p{
-    font-size:15px;
-    opacity:.9;
+
+.back-btn:hover {
+    background: #2467d8;
+    color: #ffffff;
 }
 
-.card{
-    background:#fff;
-    border-radius:12px;
-    padding:25px;
-    margin-bottom:25px;
-    box-shadow:0 4px 15px rgba(0,0,0,.08);
+
+/* Header Content */
+
+.header-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
-.card h2{
-    color:#1e3c72;
-    margin-bottom:20px;
-    border-left:5px solid #2a5298;
-    padding-left:10px;
+
+.header h1 {
+    font-size: 25px;
+
+    color: #123b78;
+
+    font-weight: 700;
+
+    line-height: 1.2;
 }
 
-.form-grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-    gap:20px;
+
+.header h1 i {
+    color: #2467d8;
+
+    margin-right: 6px;
 }
 
-.form-group{
-    display:flex;
-    flex-direction:column;
+
+.header p {
+    margin-top: 2px;
+
+    font-size: 11px;
+
+    color: #718096;
 }
 
-.form-group label{
-    font-weight:600;
-    margin-bottom:8px;
+
+/* ==========================================
+   CARD
+   ========================================== */
+
+.card {
+    background: #ffffff;
+
+    border-radius: 12px;
+
+    padding: 18px;
+
+    margin-bottom: 14px;
+
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
+
+    overflow: hidden;
 }
+
+
+/* ==========================================
+   CARD HEADING
+   ========================================== */
+
+.card h2 {
+    color: #12468f;
+
+    font-size: 17px;
+
+    font-weight: 700;
+
+    border-left: 4px solid #2467d8;
+
+    padding-left: 9px;
+
+    margin-bottom: 15px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 5px;
+}
+
+
+.card h2 i {
+    color: #2467d8;
+}
+
+
+/* ==========================================
+   FORM GRID
+   ========================================== */
+
+.form-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, minmax(0, 1fr));
+
+    gap: 14px 18px;
+}
+
+
+/* ==========================================
+   FORM GROUP
+   ========================================== */
+
+.form-group {
+    display: flex;
+
+    flex-direction: column;
+
+    min-width: 0;
+}
+
+
+.form-group label {
+    font-size: 12px;
+
+    font-weight: 600;
+
+    color: #173d6b;
+
+    margin-bottom: 6px;
+}
+
+
+/* ==========================================
+   INPUT / SELECT / TEXTAREA
+   ========================================== */
 
 .form-group input,
 .form-group select,
-.form-group textarea{
-    padding:12px;
-    border:1px solid #ccc;
-    border-radius:8px;
-    font-size:15px;
+.form-group textarea {
+
+    width: 100%;
+
+    border: 1px solid #d3deec;
+
+    background: #ffffff;
+
+    border-radius: 6px;
+
+    padding: 9px 11px;
+
+    font-size: 13px;
+
+    color: #17324f;
+
+    outline: none;
+
+    transition: 0.2s;
 }
+
+
+.form-group input,
+.form-group select {
+    height: 34px;
+}
+
+
+.form-group textarea {
+    min-height: 82px;
+
+    resize: vertical;
+}
+
+
+/* Focus */
 
 .form-group input:focus,
 .form-group select:focus,
-.form-group textarea:focus{
-    outline:none;
-    border-color:#2a5298;
+.form-group textarea:focus {
+
+    border-color: #2467d8;
+
+    box-shadow: 0 0 0 2px rgba(36, 103, 216, 0.08);
 }
 
-.full-width{
-    margin-top:20px;
+
+/* Readonly */
+
+.form-group input[readonly] {
+
+    background: #f0f4f9;
+
+    color: #44566c;
+
+    cursor: not-allowed;
 }
 
-.button-group{
-    margin-top:25px;
+
+/* Full Width */
+
+.full-width {
+    grid-column: 1 / -1;
 }
 
-.btn-save{
-    background:#28a745;
-    color:white;
-    border:none;
-    padding:12px 22px;
-    border-radius:8px;
-    cursor:pointer;
-    margin-right:10px;
-    font-size:15px;
-}
-
-.btn-save:hover{
-    background:#218838;
-}
-
-.btn-clear{
-    background:#ff9800;
-    color:white;
-    border:none;
-    padding:12px 22px;
-    border-radius:8px;
-    cursor:pointer;
-    font-size:15px;
-}
-
-.btn-clear:hover{
-    background:#e68900;
-}
-
-#searchLeave{
-    width:100%;
-    padding:12px;
-    margin-bottom:20px;
-    border:1px solid #ccc;
-    border-radius:8px;
-}
-
-table{
-    width:100%;
-    border-collapse:collapse;
-}
-
-table th{
-    background:#2a5298;
-    color:white;
-    padding:12px;
-}
-
-table td{
-    padding:12px;
-    border-bottom:1px solid #ddd;
-    text-align:center;
-}
-
-table tr:nth-child(even){
-    background:#f8f9fa;
-}
-
-.back-btn{
-    margin-top:20px;
-}
-
-.back-btn a{
-    background:#2a5298;
-    color:white;
-    text-decoration:none;
-    padding:12px 20px;
-    border-radius:8px;
-}
-
-.back-btn a:hover{
-    background:#1e3c72;
-}
-
-.btn-delete{
-    background:#dc3545;
-    color:#fff;
-    border:none;
-    padding:8px 14px;
-    border-radius:6px;
-    cursor:pointer;
-    font-weight:600;
-}
-
-.btn-delete:hover{
-    background:#bb2d3b;
-}
-/* ==========================================
-   Status Badges
-========================================== */
-
-.status {
-    display: inline-block;
-    padding: 6px 14px;
-    border-radius: 20px;
-    font-size: 13px;
-    font-weight: 600;
-    color: #fff;
-    min-width: 95px;
-    text-align: center;
-}
-
-.status.pending {
-    background: #ffc107;
-    color: #212529;
-}
-
-.status.approved {
-    background: #28a745;
-}
-
-.status.rejected {
-    background: #dc3545;
-}
 
 /* ==========================================
-   Locked Badge
-========================================== */
+   BUTTON GROUP
+   ========================================== */
 
-.locked {
-    display: inline-block;
-    background: #6c757d;
-    color: #fff;
-    padding: 8px 14px;
+.button-group {
+
+    margin-top: 14px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+}
+
+
+/* ==========================================
+   SAVE BUTTON
+   ========================================== */
+
+.btn-save {
+
+    border: none;
+
+    background: #16a05d;
+
+    color: #ffffff;
+
+    padding: 9px 15px;
+
     border-radius: 6px;
-    font-size: 13px;
+
+    font-size: 12px;
+
     font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.2s;
 }
 
+
+.btn-save:hover {
+    background: #12864f;
+}
+
+
+.btn-save i {
+    margin-right: 4px;
+}
+
+
 /* ==========================================
-   Table Improvements
-========================================== */
+   CLEAR BUTTON
+   ========================================== */
+
+.btn-clear {
+
+    border: none;
+
+    background: #ff9800;
+
+    color: #ffffff;
+
+    padding: 9px 15px;
+
+    border-radius: 6px;
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+
+.btn-clear:hover {
+    background: #e68900;
+}
+
+
+/* ==========================================
+   SEARCH
+   ========================================== */
+
+#searchLeave {
+
+    width: 100%;
+
+    height: 36px;
+
+    padding: 8px 11px;
+
+    border: 1px solid #d3deec;
+
+    border-radius: 6px;
+
+    outline: none;
+
+    font-size: 12px;
+
+    color: #17324f;
+
+    margin-bottom: 12px;
+}
+
+
+#searchLeave:focus {
+
+    border-color: #2467d8;
+
+    box-shadow: 0 0 0 2px rgba(36, 103, 216, 0.08);
+}
+
+
+/* ==========================================
+   TABLE WRAPPER
+   ========================================== */
+
+.table-wrapper {
+
+    width: 100%;
+
+    overflow-x: auto;
+
+    border-radius: 4px;
+}
+
+
+/* ==========================================
+   TABLE
+   ========================================== */
 
 table {
+
     width: 100%;
+
+    min-width: 1050px;
+
     border-collapse: collapse;
-    margin-top: 15px;
-    overflow-x: auto;
+
+    font-size: 11px;
 }
 
+
+/* ==========================================
+   TABLE HEADER
+   ========================================== */
+
 table th {
+
+    background: #245a9d;
+
+    color: #ffffff;
+
+    padding: 9px 8px;
+
+    text-align: center;
+
+    font-weight: 600;
+
     white-space: nowrap;
 }
 
+
+/* ==========================================
+   TABLE BODY
+   ========================================== */
+
 table td {
-    vertical-align: middle;
+
+    padding: 9px 8px;
+
+    text-align: center;
+
+    border-bottom: 1px solid #e4e9ef;
+
+    white-space: nowrap;
+
+    color: #17324f;
 }
 
-tbody tr:hover {
+
+table tbody tr:nth-child(even) {
+
+    background: #f7f9fc;
+}
+
+
+table tbody tr:hover {
+
     background: #eef5ff;
 }
 
-/* ==========================================
-   Responsive Table
-========================================== */
-
-.card {
-    overflow-x: auto;
-}
 
 /* ==========================================
-   Form Improvements
-========================================== */
+   STATUS BADGES
+   ========================================== */
 
-textarea {
-    resize: vertical;
-    min-height: 100px;
-}
+.status {
 
-input[readonly] {
-    background: #f8f9fa;
+    display: inline-block;
+
+    min-width: 62px;
+
+    padding: 5px 10px;
+
+    border-radius: 20px;
+
+    font-size: 10px;
+
     font-weight: 600;
-    color: #555;
+
+    text-align: center;
 }
 
-/* ==========================================
-   Mobile Responsive
-========================================== */
 
-@media (max-width: 768px) {
+/* Pending */
+
+.status.pending {
+
+    background: #fff0bd;
+
+    color: #996d00;
+}
+
+
+/* Approved */
+
+.status.approved {
+
+    background: #d9f7e7;
+
+    color: #16824b;
+}
+
+
+/* Rejected */
+
+.status.rejected {
+
+    background: #ffdcdc;
+
+    color: #d92c2c;
+}
+
+
+/* ==========================================
+   DELETE BUTTON
+   ========================================== */
+
+.btn-delete {
+
+    border: none;
+
+    background: #dc3545;
+
+    color: #ffffff;
+
+    padding: 6px 10px;
+
+    border-radius: 5px;
+
+    font-size: 10px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+
+.btn-delete:hover {
+
+    background: #bb2d3b;
+}
+
+
+.btn-delete i {
+    margin-right: 3px;
+}
+
+
+/* ==========================================
+   LOCKED
+   ========================================== */
+
+.locked {
+
+    display: inline-block;
+
+    background: #6c757d;
+
+    color: #ffffff;
+
+    padding: 6px 10px;
+
+    border-radius: 5px;
+
+    font-size: 10px;
+
+    font-weight: 600;
+}
+
+
+/* ==========================================
+   NO RECORDS
+   ========================================== */
+
+.no-records {
+
+    padding: 20px !important;
+
+    text-align: center !important;
+
+    color: #7b8794 !important;
+}
+
+
+/* ==========================================
+   FOOTER
+   ========================================== */
+
+.page-footer {
+
+    width: 100%;
+
+    background: #ffffff;
+
+    border-radius: 10px;
+
+    padding: 12px;
+
+    margin-top: 2px;
+
+    text-align: center;
+
+    color: #718096;
+
+    font-size: 10px;
+
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.05);
+}
+
+
+.page-footer strong {
+
+    color: #2467d8;
+
+    font-weight: 700;
+}
+
+
+/* ==========================================
+   RESPONSIVE - TABLET
+   ========================================== */
+
+@media (max-width: 1100px) {
+
+    .form-grid {
+
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+
+    }
+
+}
+
+
+/* ==========================================
+   RESPONSIVE - MOBILE
+   ========================================== */
+
+@media (max-width: 700px) {
 
     body {
-        padding: 15px;
-    }
-
-    .page-header h1 {
-        font-size: 28px;
-    }
-
-    .page-header p {
-        font-size: 14px;
-    }
-
-    .card {
-        padding: 18px;
-    }
-
-    table {
-        font-size: 13px;
-    }
-
-    table th,
-    table td {
         padding: 10px;
     }
 
-    .btn-save,
-    .btn-clear,
-    .btn-delete {
-        width: 100%;
-        margin-top: 8px;
+
+    .header {
+
+        padding: 12px;
+
+        min-height: 62px;
+
     }
 
-    .button-group {
-        display: flex;
-        flex-direction: column;
+
+    .back-btn {
+
+        width: 34px;
+        height: 34px;
+
+        font-size: 15px;
+
     }
+
+
+    .header h1 {
+
+        font-size: 20px;
+
+    }
+
+
+    .header p {
+
+        font-size: 10px;
+
+    }
+
+
+    .card {
+
+        padding: 14px;
+
+        margin-bottom: 10px;
+
+    }
+
+
+    .card h2 {
+
+        font-size: 15px;
+
+        margin-bottom: 13px;
+
+    }
+
+
+    .form-grid {
+
+        grid-template-columns: 1fr;
+
+        gap: 11px;
+
+    }
+
+
+    .full-width {
+
+        grid-column: auto;
+
+    }
+
+
+    .button-group {
+
+        flex-direction: column;
+
+        align-items: stretch;
+
+    }
+
+
+    .btn-save,
+    .btn-clear {
+
+        width: 100%;
+
+    }
+
+
+    #searchLeave {
+
+        margin-bottom: 10px;
+
+    }
+
+
+    .page-footer {
+
+        font-size: 9px;
+
+        padding: 10px;
+
+    }
+
+}
+
+
+/* ==========================================
+   VERY SMALL MOBILE
+   ========================================== */
+
+@media (max-width: 400px) {
+
+    .header h1 {
+
+        font-size: 18px;
+
+    }
+
+
+    .card {
+
+        padding: 12px;
+
+    }
+
+
+    .form-group label {
+
+        font-size: 11px;
+
+    }
+
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+
+        font-size: 12px;
+
+    }
+
 }

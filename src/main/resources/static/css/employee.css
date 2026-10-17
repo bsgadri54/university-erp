@@ -1,340 +1,1186 @@
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;
+/* =====================================================
+   UNIVERSITY ERP
+   EMPLOYEE MANAGEMENT
+   SAME VISUAL DESIGN AS STUDENT MANAGEMENT
+===================================================== */
+
+
+/* =====================================================
+   GLOBAL
+===================================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-body{
-    background:#f4f7fc;
-    color:#333;
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f4f7fb;
+    color: #172033;
 }
 
-/* ===========================
-   Container
-=========================== */
 
-.container{
-    width:95%;
-    max-width:1500px;
-    margin:30px auto;
+/* =====================================================
+   PAGE CONTAINER
+===================================================== */
+
+.page-container {
+    min-height: 100vh;
+    padding: 24px;
 }
 
-/* ===========================
-   Header
-=========================== */
 
-.page-header{
-    background:linear-gradient(135deg,#1e3c72,#2a5298);
-    color:#fff;
-    text-align:center;
-    padding:35px 20px;
-    border-radius:15px;
-    margin-bottom:25px;
-    box-shadow:0 10px 25px rgba(0,0,0,.15);
+/* =====================================================
+   HEADER
+===================================================== */
+
+.page-header {
+    background: #ffffff;
+
+    border-radius: 14px;
+
+    padding: 20px 24px;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    gap: 20px;
+
+    box-shadow:
+            0 4px 18px rgba(0, 0, 0, 0.06);
+
+    margin-bottom: 20px;
 }
 
-.page-header h1{
-    font-size:34px;
-    font-weight:700;
-    margin-bottom:10px;
+
+/* =====================================================
+   HEADER LEFT
+===================================================== */
+
+.header-left {
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
 }
 
-.page-header p{
-    font-size:16px;
-    opacity:.95;
+
+/* =====================================================
+   BACK BUTTON
+===================================================== */
+
+.back-icon {
+    width: 43px;
+    height: 43px;
+
+    border: none;
+
+    border-radius: 10px;
+
+    background: #eef3ff;
+
+    color: #2463d4;
+
+    cursor: pointer;
+
+    font-size: 17px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    transition: 0.2s;
 }
 
-/* ===========================
-   Cards
-=========================== */
-
-.card{
-    background:#fff;
-    border-radius:15px;
-    padding:25px;
-    margin-bottom:25px;
-    box-shadow:0 8px 20px rgba(0,0,0,.08);
+.back-icon:hover {
+    background: #2463d4;
+    color: white;
 }
 
-.card h2{
-    color:#1e3c72;
-    margin-bottom:20px;
-    border-left:5px solid #2a5298;
-    padding-left:12px;
+
+/* =====================================================
+   HEADER TITLE
+===================================================== */
+
+.header-left h1 {
+    font-size: 25px;
+
+    margin-bottom: 5px;
+
+    color: #172033;
 }
 
-/* ===========================
-   Form
-=========================== */
+.header-left h1 i {
+    color: #2463d4;
 
-.form-grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-    gap:20px;
+    margin-right: 5px;
 }
 
-.form-group{
-    display:flex;
-    flex-direction:column;
+.header-left p {
+    color: #777;
+
+    font-size: 13px;
 }
 
-.form-group label{
-    font-weight:600;
-    margin-bottom:8px;
-    color:#444;
+
+/* =====================================================
+   ADD EMPLOYEE BUTTON
+===================================================== */
+
+.add-btn {
+    border: none;
+
+    background: #2463d4;
+
+    color: white;
+
+    padding: 11px 17px;
+
+    border-radius: 8px;
+
+    cursor: pointer;
+
+    font-weight: 600;
+
+    font-size: 13px;
+
+    transition: 0.2s;
 }
+
+.add-btn:hover {
+    background: #174cae;
+}
+
+.add-btn i {
+    margin-right: 5px;
+}
+
+
+/* =====================================================
+   STATISTICS
+===================================================== */
+
+.stats-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 15px;
+
+    margin-bottom: 20px;
+}
+
+
+.stat-card {
+    border-radius: 14px;
+
+    padding: 20px;
+
+    min-height: 110px;
+
+    color: white;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    box-shadow:
+            0 5px 15px rgba(0, 0, 0, 0.08);
+
+    transition: 0.2s;
+}
+
+.stat-card:hover {
+    transform: translateY(-2px);
+}
+
+
+/* =====================================================
+   STAT TEXT
+===================================================== */
+
+.stat-card span {
+    font-size: 13px;
+
+    opacity: 0.9;
+}
+
+.stat-card strong {
+    display: block;
+
+    font-size: 30px;
+
+    margin-top: 8px;
+}
+
+
+/* =====================================================
+   STAT ICON
+===================================================== */
+
+.stat-card > i,
+.stat-icon {
+    font-size: 35px;
+
+    opacity: 0.85;
+}
+
+
+/* =====================================================
+   STAT COLORS
+===================================================== */
+
+.blue {
+    background:
+            linear-gradient(
+                    135deg,
+                    #2874e8,
+                    #4897f5
+            );
+}
+
+.green {
+    background:
+            linear-gradient(
+                    135deg,
+                    #17a653,
+                    #35c66d
+            );
+}
+
+.orange {
+    background:
+            linear-gradient(
+                    135deg,
+                    #f37b13,
+                    #ff9b35
+            );
+}
+
+.purple {
+    background:
+            linear-gradient(
+                    135deg,
+                    #7735bd,
+                    #9d55ed
+            );
+}
+
+
+/* =====================================================
+   RECORDS CARD
+===================================================== */
+
+.records-card {
+    background: white;
+
+    border-radius: 14px;
+
+    padding: 22px;
+
+    box-shadow:
+            0 4px 18px rgba(0, 0, 0, 0.06);
+
+    margin-bottom: 20px;
+}
+
+
+/* =====================================================
+   RECORDS HEADER
+===================================================== */
+
+.records-header {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    gap: 20px;
+
+    margin-bottom: 20px;
+}
+
+.records-header h2 {
+    font-size: 18px;
+
+    color: #2463d4;
+}
+
+.records-header h2 i {
+    margin-right: 7px;
+}
+
+.records-header p {
+    font-size: 13px;
+
+    color: #777;
+
+    margin-top: 5px;
+}
+
+
+/* =====================================================
+   FILTERS
+===================================================== */
+
+.filters {
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+}
+
+
+/* =====================================================
+   SEARCH BOX
+===================================================== */
+
+.search-box {
+    width: 350px;
+
+    height: 42px;
+
+    border:
+            1px solid #dce1e8;
+
+    border-radius: 8px;
+
+    display: flex;
+
+    align-items: center;
+
+    padding: 0 13px;
+
+    background: #fafbfd;
+}
+
+.search-box i {
+    color: #8b95a5;
+
+    margin-right: 9px;
+
+    pointer-events: none;
+}
+
+.search-box input {
+    border: none;
+
+    outline: none;
+
+    width: 100%;
+
+    background: transparent;
+
+    font-size: 13px;
+}
+
+
+/* =====================================================
+   FILTER SELECTS
+===================================================== */
+
+.filters select {
+    height: 42px;
+
+    border:
+            1px solid #dce1e8;
+
+    border-radius: 8px;
+
+    padding: 0 12px;
+
+    background: #fafbfd;
+
+    color: #455064;
+
+    font-size: 13px;
+
+    outline: none;
+
+    min-width: 150px;
+}
+
+.filters select:focus {
+    border-color: #2463d4;
+
+    box-shadow:
+            0 0 0 3px
+            rgba(36, 99, 212, 0.08);
+}
+
+.search-box:focus-within {
+    border-color: #2463d4;
+
+    box-shadow:
+            0 0 0 3px
+            rgba(36, 99, 212, 0.08);
+}
+
+
+/* =====================================================
+   TABLE CONTAINER
+===================================================== */
+
+.table-wrapper {
+    width: 100%;
+
+    overflow-x: auto;
+}
+
+
+/* =====================================================
+   TABLE
+===================================================== */
+
+table {
+    width: 100%;
+
+    border-collapse: collapse;
+
+    min-width: 1050px;
+}
+
+
+/* =====================================================
+   TABLE HEADER
+===================================================== */
+
+thead {
+    background: #f4f7fc;
+}
+
+th {
+    padding: 14px 12px;
+
+    text-align: left;
+
+    font-size: 12px;
+
+    color: #556070;
+
+    white-space: nowrap;
+
+    font-weight: 600;
+}
+
+
+/* =====================================================
+   TABLE BODY
+===================================================== */
+
+td {
+    padding: 14px 12px;
+
+    border-bottom:
+            1px solid #edf0f4;
+
+    font-size: 13px;
+
+    white-space: nowrap;
+
+    color: #172033;
+}
+
+tbody tr:hover {
+    background: #fafcff;
+}
+
+
+/* =====================================================
+   EMPLOYEE NAME
+===================================================== */
+
+.employee-name {
+    display: flex;
+
+    align-items: center;
+
+    gap: 9px;
+}
+
+.employee-name strong {
+    font-weight: 600;
+
+    color: #172033;
+}
+
+
+/* =====================================================
+   EMPLOYEE AVATAR
+===================================================== */
+
+.avatar {
+    width: 32px;
+
+    height: 32px;
+
+    min-width: 32px;
+
+    border-radius: 50%;
+
+    background: #eef3ff;
+
+    color: #2463d4;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-weight: 700;
+
+    font-size: 13px;
+}
+
+
+/* =====================================================
+   EMPLOYEE CODE
+===================================================== */
+
+.employee-code {
+    color: #2463d4;
+
+    font-weight: 700;
+}
+
+
+/* =====================================================
+   STATUS
+===================================================== */
+
+.status {
+    padding: 6px 10px;
+
+    border-radius: 20px;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 5px;
+}
+
+.status.active {
+    background: #e4f8ec;
+
+    color: #159447;
+}
+
+.status.inactive {
+    background: #ffe9e9;
+
+    color: #d73737;
+}
+
+.status i {
+    font-size: 7px;
+}
+
+
+/* =====================================================
+   ACTION BUTTONS
+===================================================== */
+
+.action-buttons {
+    display: flex;
+
+    gap: 6px;
+}
+
+.edit-btn,
+.delete-btn {
+    width: 34px;
+
+    height: 34px;
+
+    border: none;
+
+    border-radius: 7px;
+
+    cursor: pointer;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    transition: 0.2s;
+}
+
+
+/* EDIT */
+
+.edit-btn {
+    background: #e5f8ec;
+
+    color: #159447;
+}
+
+.edit-btn:hover {
+    background: #159447;
+
+    color: white;
+}
+
+
+/* DELETE */
+
+.delete-btn {
+    background: #fff0f0;
+
+    color: #e04444;
+}
+
+.delete-btn:hover {
+    background: #e04444;
+
+    color: white;
+}
+
+
+/* =====================================================
+   NO DATA
+===================================================== */
+
+.no-data {
+    text-align: center;
+
+    padding: 40px !important;
+
+    color: #888;
+
+    font-size: 13px !important;
+}
+
+
+/* =====================================================
+   BOTTOM BACK BUTTON
+===================================================== */
+
+.bottom-back {
+    margin-top: 20px;
+}
+
+.bottom-back button {
+    border: none;
+
+    padding: 11px 17px;
+
+    border-radius: 8px;
+
+    background: #2463d4;
+
+    color: white;
+
+    cursor: pointer;
+
+    font-weight: 600;
+
+    font-size: 13px;
+
+    transition: 0.2s;
+}
+
+.bottom-back button:hover {
+    background: #174cae;
+}
+
+
+/* =====================================================
+   FOOTER
+   SAME AS STUDENT MANAGEMENT
+===================================================== */
+
+footer {
+    margin-top: 20px;
+
+    background: white;
+
+    border-radius: 12px;
+
+    padding: 17px;
+
+    text-align: center;
+
+    color: #777;
+
+    font-size: 12px;
+
+    box-shadow:
+            0 4px 15px
+            rgba(0, 0, 0, 0.04);
+}
+
+footer strong {
+    color: #2463d4;
+}
+
+
+/* =====================================================
+   MODAL OVERLAY
+===================================================== */
+
+.modal {
+    position: fixed;
+
+    inset: 0;
+
+    background:
+            rgba(14, 24, 42, 0.55);
+
+    display: none;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 20px;
+
+    z-index: 9999;
+}
+
+.modal.show {
+    display: flex;
+}
+
+
+/* =====================================================
+   MODAL CONTENT
+===================================================== */
+
+.modal-content {
+    background: white;
+
+    width: min(760px, 100%);
+
+    max-height: 92vh;
+
+    overflow-y: auto;
+
+    border-radius: 15px;
+
+    box-shadow:
+            0 15px 50px
+            rgba(0, 0, 0, 0.2);
+
+    animation:
+            modalOpen 0.2s ease;
+}
+
+
+@keyframes modalOpen {
+
+    from {
+        opacity: 0;
+
+        transform:
+                translateY(15px)
+                scale(0.98);
+    }
+
+    to {
+        opacity: 1;
+
+        transform:
+                translateY(0)
+                scale(1);
+    }
+}
+
+
+/* =====================================================
+   MODAL HEADER
+===================================================== */
+
+.modal-header {
+    padding: 20px 23px;
+
+    border-bottom:
+            1px solid #edf0f4;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: flex-start;
+}
+
+.modal-header h2 {
+    font-size: 20px;
+
+    color: #172033;
+}
+
+.modal-header h2 i {
+    color: #2463d4;
+
+    margin-right: 7px;
+}
+
+.modal-header p {
+    color: #888;
+
+    font-size: 12px;
+
+    margin-top: 5px;
+}
+
+
+/* =====================================================
+   CLOSE BUTTON
+===================================================== */
+
+.close-btn {
+    width: 35px;
+
+    height: 35px;
+
+    border: none;
+
+    background: #f1f3f6;
+
+    border-radius: 7px;
+
+    cursor: pointer;
+
+    color: #555;
+
+    transition: 0.2s;
+}
+
+.close-btn:hover {
+    background: #e04444;
+
+    color: white;
+}
+
+
+/* =====================================================
+   EMPLOYEE FORM
+===================================================== */
+
+#employeeForm {
+    padding: 20px 23px;
+}
+
+
+/* =====================================================
+   MODAL GRID
+===================================================== */
+
+.modal-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    gap: 15px;
+}
+
+
+/* =====================================================
+   FORM GROUP
+===================================================== */
+
+.form-group {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 6px;
+}
+
+.form-group.full {
+    grid-column: 1 / -1;
+}
+
+.form-group label {
+    font-size: 12px;
+
+    font-weight: 600;
+
+    color: #455064;
+
+    margin-bottom: 1px;
+}
+
+
+/* =====================================================
+   FORM INPUTS
+===================================================== */
 
 .form-group input,
-.form-group select{
-    width:100%;
-    padding:12px 15px;
-    border:1px solid #ccc;
-    border-radius:10px;
-    font-size:15px;
-    transition:.3s;
-    background:#fff;
+.form-group select {
+    width: 100%;
+
+    height: 42px;
+
+    border:
+            1px solid #d9dfe8;
+
+    border-radius: 7px;
+
+    padding: 0 12px;
+
+    outline: none;
+
+    background: white;
+
+    color: #202838;
+
+    font-size: 13px;
 }
 
 .form-group input:focus,
-.form-group select:focus{
-    outline:none;
-    border-color:#2a5298;
-    box-shadow:0 0 8px rgba(42,82,152,.25);
+.form-group select:focus {
+    border-color: #2463d4;
+
+    box-shadow:
+            0 0 0 3px
+            rgba(36, 99, 212, 0.08);
 }
 
-/* ===========================
-   Buttons
-=========================== */
+.form-group input[readonly] {
+    background: #f5f7fa;
 
-.button-group{
-    margin-top:25px;
-    display:flex;
-    gap:15px;
-    flex-wrap:wrap;
+    color: #687386;
 }
 
-.btn{
-    border:none;
-    cursor:pointer;
-    padding:12px 28px;
-    border-radius:8px;
-    font-size:15px;
-    font-weight:600;
-    transition:.3s;
+
+/* =====================================================
+   MODAL BUTTONS
+===================================================== */
+
+.modal-buttons {
+    display: flex;
+
+    justify-content: flex-end;
+
+    gap: 10px;
+
+    padding-top: 20px;
 }
 
-.btn-save{
-    background:#28a745;
-    color:#fff;
+
+/* CANCEL */
+
+.cancel-btn {
+    border: none;
+
+    padding: 11px 17px;
+
+    border-radius: 8px;
+
+    background: #edf0f4;
+
+    color: #555;
+
+    cursor: pointer;
+
+    font-weight: 600;
+
+    transition: 0.2s;
 }
 
-.btn-save:hover{
-    background:#218838;
+.cancel-btn:hover {
+    background: #dfe3e8;
 }
 
-.btn-clear{
-    background:#ff9800;
-    color:#fff;
+
+/* SAVE */
+
+.save-btn {
+    border: none;
+
+    padding: 11px 17px;
+
+    border-radius: 8px;
+
+    background: #2463d4;
+
+    color: white;
+
+    cursor: pointer;
+
+    font-weight: 600;
+
+    transition: 0.2s;
 }
 
-.btn-clear:hover{
-    background:#e68900;
+.save-btn:hover {
+    background: #174cae;
 }
 
-/* ===========================
-   Search
-=========================== */
 
-.search-box{
-    margin-bottom:20px;
-}
+/* =====================================================
+   TABLET
+===================================================== */
 
-.search-box input{
-    width:100%;
-    padding:12px 15px;
-    border-radius:10px;
-    border:1px solid #ccc;
-    font-size:15px;
-}
+@media (max-width: 1000px) {
 
-.search-box input:focus{
-    outline:none;
-    border-color:#2a5298;
-    box-shadow:0 0 8px rgba(42,82,152,.2);
-}
-
-/* ===========================
-   Table
-=========================== */
-
-.table-responsive{
-    overflow-x:auto;
-}
-
-table{
-    width:100%;
-    border-collapse:collapse;
-    min-width:900px;
-}
-
-thead{
-    background:#2a5298;
-    color:#fff;
-}
-
-thead th{
-    padding:15px;
-    text-align:center;
-    font-size:15px;
-}
-
-tbody td{
-    padding:14px;
-    text-align:center;
-    border-bottom:1px solid #eee;
-}
-
-tbody tr:nth-child(even){
-    background:#f9fbff;
-}
-
-tbody tr:hover{
-    background:#eef5ff;
-}
-
-/* ===========================
-   Action Buttons
-=========================== */
-
-.btn-edit,
-.btn-delete{
-    display:inline-block;
-    padding:8px 16px;
-    border-radius:6px;
-    text-decoration:none;
-    color:#fff;
-    font-size:14px;
-    margin:2px;
-    transition:.3s;
-}
-
-.btn-edit{
-    background:#28a745;
-}
-
-.btn-edit:hover{
-    background:#218838;
-}
-
-.btn-delete{
-    background:#dc3545;
-}
-
-.btn-delete:hover{
-    background:#bb2d3b;
-}
-
-.no-data{
-    text-align:center;
-    padding:20px;
-    font-weight:600;
-    color:#888;
-}
-
-/* ===========================
-   Back Button
-=========================== */
-
-.back-section{
-    margin:20px 0;
-    text-align:left;
-}
-
-.back-btn{
-    display:inline-block;
-    text-decoration:none;
-    background:#2a5298;
-    color:#fff;
-    padding:12px 25px;
-    border-radius:8px;
-    font-weight:600;
-    transition:.3s;
-}
-
-.back-btn:hover{
-    background:#1e3c72;
-}
-
-/* ===========================
-   Footer
-=========================== */
-
-footer{
-    margin-top:30px;
-    background:#1e3c72;
-    color:#fff;
-    text-align:center;
-    padding:18px;
-    border-radius:12px;
-    font-size:15px;
-}
-
-/* ===========================
-   Responsive
-=========================== */
-
-@media(max-width:992px){
-
-    .page-header h1{
-        font-size:28px;
-    }
-
-    .form-grid{
-        grid-template-columns:1fr;
+    .stats-grid {
+        grid-template-columns:
+            repeat(2, 1fr);
     }
 
 }
 
-@media(max-width:768px){
 
-    .container{
-        width:96%;
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media (max-width: 700px) {
+
+    .page-container {
+        padding: 12px;
     }
 
-    .card{
-        padding:18px;
+
+    .page-header {
+        flex-direction: column;
+
+        align-items: stretch;
     }
 
-    .button-group{
-        flex-direction:column;
+
+    .header-actions {
+        flex-direction: column;
     }
 
-    .btn{
-        width:100%;
+
+    .header-actions button,
+    .add-btn {
+        width: 100%;
     }
 
-    .back-btn{
-        width:100%;
-        text-align:center;
+
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+
+    .records-card {
+        padding: 12px;
+    }
+
+
+    .records-header {
+        flex-direction: column;
+
+        align-items: stretch;
+    }
+
+
+    .filters {
+        flex-direction: column;
+
+        align-items: stretch;
+    }
+
+
+    .search-box {
+        width: 100%;
+    }
+
+
+    .filters select {
+        width: 100%;
+    }
+
+
+    .modal {
+        padding: 10px;
+    }
+
+
+    .modal-content {
+        max-height: 90vh;
+    }
+
+
+    .modal-grid {
+        grid-template-columns: 1fr;
+    }
+
+
+    .form-group.full {
+        grid-column: auto;
+    }
+
+
+    .modal-buttons {
+        flex-direction: column-reverse;
+    }
+
+
+    .cancel-btn,
+    .save-btn {
+        width: 100%;
+    }
+
+
+    .bottom-back button {
+        width: 100%;
     }
 
 }
 
-@media(max-width:480px){
 
-    .page-header{
-        padding:25px 15px;
+/* =====================================================
+   VERY SMALL MOBILE
+===================================================== */
+
+@media (max-width: 450px) {
+
+    .page-header {
+        flex-direction: column;
     }
 
-    .page-header h1{
-        font-size:24px;
+
+    .header-left {
+        width: 100%;
     }
 
-    .page-header p{
-        font-size:14px;
+
+    .add-btn {
+        width: 100%;
     }
 
-    .card h2{
-        font-size:20px;
+
+    .stats-grid {
+        grid-template-columns: 1fr;
     }
+
+
+    .filters {
+        display: grid;
+
+        grid-template-columns: 1fr;
+    }
+
+
+    .search-box {
+        width: 100%;
+    }
+
+}

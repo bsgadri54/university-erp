@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
 
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Attendance Report</title>
+    <title>Attendance Report | University ERP</title>
 
     <link rel="stylesheet" href="css/attendance-report.css">
 
@@ -18,188 +18,421 @@
 
 <div class="container">
 
-    <!-- Header -->
+    <!-- ================= HEADER ================= -->
 
-    <div class="header">
+    <div class="page-header">
 
-        <h1>
-            <i class="fa-solid fa-chart-column"></i>
-            Attendance Report
-        </h1>
+        <div class="header-left">
 
-        <p>University ERP Attendance Analytics</p>
+            <button class="back-btn" onclick="goDashboard()">
+                <i class="fa-solid fa-arrow-left"></i>
+            </button>
+
+            <div class="header-title">
+
+                <h1>
+                    <i class="fa-solid fa-chart-column"></i>
+                    Attendance Report
+                </h1>
+
+                <p>
+                    University ERP Attendance Analytics & Management
+                </p>
+
+            </div>
+
+        </div>
+
+        <div class="header-badge">
+            <i class="fa-solid fa-shield-halved"></i>
+            Administrator
+        </div>
 
     </div>
 
-    <!-- Summary Cards -->
 
-    <div class="cards">
+    <!-- ================= SUMMARY ================= -->
+
+    <section class="cards">
 
         <div class="card blue">
 
-            <i class="fa-solid fa-users"></i>
+            <div class="card-content">
 
-            <h2 id="totalAttendance">0</h2>
+                <span>Total Records</span>
 
-            <p>Total Records</p>
+                <h2 id="totalAttendance">0</h2>
+
+                <small>
+                    All attendance records
+                </small>
+
+            </div>
+
+            <div class="card-icon">
+                <i class="fa-solid fa-clipboard-list"></i>
+            </div>
 
         </div>
+
 
         <div class="card green">
 
-            <i class="fa-solid fa-circle-check"></i>
+            <div class="card-content">
 
-            <h2 id="presentCount">0</h2>
+                <span>Present</span>
 
-            <p>Present</p>
+                <h2 id="presentCount">0</h2>
+
+                <small>
+                    Present records
+                </small>
+
+            </div>
+
+            <div class="card-icon">
+                <i class="fa-solid fa-circle-check"></i>
+            </div>
 
         </div>
+
 
         <div class="card red">
 
-            <i class="fa-solid fa-circle-xmark"></i>
+            <div class="card-content">
 
-            <h2 id="absentCount">0</h2>
+                <span>Absent</span>
 
-            <p>Absent</p>
+                <h2 id="absentCount">0</h2>
+
+                <small>
+                    Absent records
+                </small>
+
+            </div>
+
+            <div class="card-icon">
+                <i class="fa-solid fa-circle-xmark"></i>
+            </div>
 
         </div>
+
 
         <div class="card purple">
 
-            <i class="fa-solid fa-user-graduate"></i>
+            <div class="card-content">
 
-            <h2 id="studentCount">0</h2>
+                <span>Students</span>
 
-            <p>Students</p>
+                <h2 id="studentCount">0</h2>
+
+                <small>
+                    Student attendance
+                </small>
+
+            </div>
+
+            <div class="card-icon">
+                <i class="fa-solid fa-user-graduate"></i>
+            </div>
 
         </div>
+
 
         <div class="card orange">
 
-            <i class="fa-solid fa-user-tie"></i>
+            <div class="card-content">
 
-            <h2 id="employeeCount">0</h2>
+                <span>Employees</span>
 
-            <p>Employees</p>
+                <h2 id="employeeCount">0</h2>
+
+                <small>
+                    Employee attendance
+                </small>
+
+            </div>
+
+            <div class="card-icon">
+                <i class="fa-solid fa-user-tie"></i>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= ATTENDANCE CONTENT ================= -->
+
+    <section class="content-card">
+
+        <!-- Section Heading -->
+
+        <div class="section-heading">
+
+            <div>
+
+                <h2>
+                    <i class="fa-solid fa-calendar-check"></i>
+                    Attendance Records
+                </h2>
+
+                <p>
+                    View, search and manage student and employee attendance records
+                </p>
+
+            </div>
+
+            <div class="record-count">
+                <i class="fa-solid fa-database"></i>
+                <span id="recordCount">0 Records</span>
+            </div>
+
+        </div>
+
+
+        <!-- ================= FILTERS ================= -->
+
+        <div class="filter-panel">
+
+            <div class="filter-item search-filter">
+
+                <label>
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    Search
+                </label>
+
+                <div class="input-wrapper">
+
+                    <i class="fa-solid fa-search"></i>
+
+                    <input
+                            type="text"
+                            id="search"
+                            placeholder="Search by name or person ID..."
+                            onkeyup="searchAttendance()">
+
+                </div>
+
+            </div>
+
+
+            <div class="filter-item">
+
+                <label>
+                    <i class="fa-solid fa-users"></i>
+                    Person Type
+                </label>
+
+                <select
+                        id="typeFilter"
+                        onchange="filterAttendance()">
+
+                    <option value="ALL">
+                        All Types
+                    </option>
+
+                    <option value="STUDENT">
+                        Student
+                    </option>
+
+                    <option value="EMPLOYEE">
+                        Employee
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="filter-item">
+
+                <label>
+                    <i class="fa-solid fa-calendar-day"></i>
+                    Attendance Date
+                </label>
+
+                <input
+                        type="date"
+                        id="dateFilter"
+                        onchange="filterAttendance()">
+
+            </div>
+
+
+            <div class="filter-item filter-action">
+
+                <label>
+                    &nbsp;
+                </label>
+
+                <button
+                        class="clear-btn"
+                        onclick="clearFilters()">
+
+                    <i class="fa-solid fa-filter-circle-xmark"></i>
+                    Clear Filters
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================= ACTION BUTTONS ================= -->
+
+        <div class="action-bar">
+
+            <div class="action-left">
+
+                <button
+                        class="action-btn refresh"
+                        onclick="loadAttendance()">
+
+                    <i class="fa-solid fa-rotate"></i>
+                    Refresh
+
+                </button>
+
+
+                <button
+                        class="action-btn print"
+                        onclick="window.print()">
+
+                    <i class="fa-solid fa-print"></i>
+                    Print
+
+                </button>
+
+
+                <button
+                        class="action-btn excel"
+                        onclick="exportExcel()">
+
+                    <i class="fa-solid fa-file-excel"></i>
+                    Excel
+
+                </button>
+
+
+                <button
+                        class="action-btn pdf"
+                        onclick="exportPDF()">
+
+                    <i class="fa-solid fa-file-pdf"></i>
+                    PDF
+
+                </button>
+
+            </div>
+
+            <div class="report-status">
+
+                <span class="status-dot"></span>
+
+                Live Attendance Data
+
+            </div>
+
+        </div>
+
+
+        <!-- ================= TABLE ================= -->
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+
+                <tr>
+
+                    <th>ID</th>
+
+                    <th>Type</th>
+
+                    <th>Person ID</th>
+
+                    <th>Name</th>
+
+                    <th>Date</th>
+
+                    <th>Status</th>
+
+                </tr>
+
+                </thead>
+
+                <tbody id="attendanceReportTable">
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= INFORMATION ================= -->
+
+    <div class="information-box">
+
+        <div class="info-icon">
+
+            <i class="fa-solid fa-circle-info"></i>
+
+        </div>
+
+        <div>
+
+            <h3>
+                Attendance Information
+            </h3>
+
+            <p>
+                This report contains attendance records maintained by
+                the University ERP system. Administrators can search,
+                filter and export attendance information for students
+                and employees.
+            </p>
 
         </div>
 
     </div>
 
-    <!-- Filters -->
 
-    <div class="filter-box">
+    <!-- ================= FOOTER ================= -->
 
-        <input
-                type="text"
-                id="search"
-                placeholder="🔍 Search by Name or Person ID..."
-                onkeyup="searchAttendance()">
-
-        <select id="typeFilter" onchange="filterAttendance()">
-
-            <option value="ALL">All Types</option>
-
-            <option value="STUDENT">Student</option>
-
-            <option value="EMPLOYEE">Employee</option>
-
-        </select>
-
-        <input
-                type="date"
-                id="dateFilter"
-                onchange="filterAttendance()">
-
-    </div>
-
-    <!-- Buttons -->
-
-    <div class="button-bar">
-
-        <button onclick="loadAttendance()">
-
-            <i class="fa-solid fa-rotate"></i>
-
-            Refresh
-
-        </button>
-
-        <button onclick="window.print()">
-
-            <i class="fa-solid fa-print"></i>
-
-            Print
-
-        </button>
-
-        <button onclick="exportExcel()">
-
-            <i class="fa-solid fa-file-excel"></i>
-
-            Excel
-
-        </button>
-
-        <button onclick="exportPDF()">
-
-            <i class="fa-solid fa-file-pdf"></i>
-
-            PDF
-
-        </button>
-
-    </div>
-
-    <!-- Table -->
-
-    <div class="table-box">
-
-        <table>
-
-            <thead>
-
-            <tr>
-
-                <th>ID</th>
-
-                <th>Type</th>
-
-                <th>Person ID</th>
-
-                <th>Name</th>
-
-                <th>Date</th>
-
-                <th>Status</th>
-
-            </tr>
-
-            </thead>
-
-            <tbody id="attendanceReportTable">
-
-            </tbody>
-
-        </table>
-
-    </div>
-
-    <!-- Footer -->
-
-    <div class="footer">
+    <footer>
 
         © 2026 University ERP System |
-        Designed & Developed by <b>Suresh Gadri</b>
+        Designed & Developed by
+        <strong>Suresh Gadri</strong>
 
-    </div>
+    </footer>
 
 </div>
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 <script src="js/attendance-report.js"></script>
+
+<script>
+
+    function clearFilters() {
+
+        document.getElementById("search").value = "";
+        document.getElementById("typeFilter").value = "ALL";
+        document.getElementById("dateFilter").value = "";
+
+        filterAttendance();
+
+    }
+
+</script>
 
 </body>
 </html>

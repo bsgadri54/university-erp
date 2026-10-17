@@ -8,8 +8,10 @@
 
     <title>Leave Approval | University ERP</title>
 
+    <!-- Leave Approval CSS -->
     <link rel="stylesheet" href="css/leave-approval.css">
 
+    <!-- Font Awesome -->
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
@@ -19,42 +21,56 @@
 
 <div class="container">
 
-    <!-- Header -->
+    <!-- =====================================================
+         HEADER
+    ====================================================== -->
 
-    <div class="header">
+    <header class="header">
 
-        <h1>
+        <a href="dashboard.html" class="back-btn" title="Back to Dashboard">
+            <i class="fas fa-arrow-left"></i>
+        </a>
 
-            <i class="fas fa-calendar-check"></i>
+        <div class="header-content">
 
-            Leave Approval
+            <h1>
+                <i class="fas fa-calendar-check"></i>
+                Leave Approval
+            </h1>
 
-        </h1>
+            <p>For approve leave of employee</p>
 
-        <p>University ERP Admin Module</p>
+        </div>
 
-    </div>
+    </header>
 
-    <!-- ==========================================
-         Update Leave
-    ========================================== -->
 
-    <div class="card">
+    <!-- =====================================================
+         UPDATE LEAVE APPLICATION
+    ====================================================== -->
+
+    <section class="card">
 
         <h2>
             <i class="fas fa-edit"></i>
             Update Leave Application
         </h2>
 
+
         <form id="leaveForm">
 
+            <!-- Hidden Leave ID -->
             <input type="hidden" id="leaveId">
+
 
             <div class="form-grid">
 
+                <!-- Employee ID -->
                 <div class="form-group">
 
-                    <label>Employee ID</label>
+                    <label for="personId">
+                        Employee ID
+                    </label>
 
                     <input
                             type="text"
@@ -63,9 +79,13 @@
 
                 </div>
 
+
+                <!-- Employee Name -->
                 <div class="form-group">
 
-                    <label>Employee Name</label>
+                    <label for="personName">
+                        Employee Name
+                    </label>
 
                     <input
                             type="text"
@@ -74,9 +94,13 @@
 
                 </div>
 
+
+                <!-- Leave Type -->
                 <div class="form-group">
 
-                    <label>Leave Type</label>
+                    <label for="leaveType">
+                        Leave Type
+                    </label>
 
                     <input
                             type="text"
@@ -85,9 +109,13 @@
 
                 </div>
 
+
+                <!-- From Date -->
                 <div class="form-group">
 
-                    <label>From Date</label>
+                    <label for="fromDate">
+                        From Date
+                    </label>
 
                     <input
                             type="text"
@@ -96,9 +124,13 @@
 
                 </div>
 
+
+                <!-- To Date -->
                 <div class="form-group">
 
-                    <label>To Date</label>
+                    <label for="toDate">
+                        To Date
+                    </label>
 
                     <input
                             type="text"
@@ -107,9 +139,13 @@
 
                 </div>
 
+
+                <!-- Total Days -->
                 <div class="form-group">
 
-                    <label>Total Days</label>
+                    <label for="totalDays">
+                        Total Days
+                    </label>
 
                     <input
                             type="number"
@@ -118,25 +154,39 @@
 
                 </div>
 
+
+                <!-- Status -->
                 <div class="form-group">
 
-                    <label>Status</label>
+                    <label for="status">
+                        Status
+                    </label>
 
                     <select id="status">
 
-                        <option value="PENDING">Pending</option>
+                        <option value="PENDING">
+                            Pending
+                        </option>
 
-                        <option value="APPROVED">Approved</option>
+                        <option value="APPROVED">
+                            Approved
+                        </option>
 
-                        <option value="REJECTED">Rejected</option>
+                        <option value="REJECTED">
+                            Rejected
+                        </option>
 
                     </select>
 
                 </div>
 
+
+                <!-- Remarks -->
                 <div class="form-group full-width">
 
-                    <label>Remarks</label>
+                    <label for="remarks">
+                        Remarks
+                    </label>
 
                     <textarea
                             id="remarks"
@@ -147,6 +197,8 @@
 
             </div>
 
+
+            <!-- Buttons -->
             <div class="button-group">
 
                 <button
@@ -155,17 +207,16 @@
                         onclick="updateLeave()">
 
                     <i class="fas fa-save"></i>
-
                     Update Leave
 
                 </button>
+
 
                 <button
                         type="reset"
                         class="clear-btn">
 
                     <i class="fas fa-eraser"></i>
-
                     Clear
 
                 </button>
@@ -174,82 +225,98 @@
 
         </form>
 
-    </div>
+    </section>
 
-    <!-- Leave Requests -->
 
-    <div class="card">
+    <!-- =====================================================
+         LEAVE APPLICATIONS
+    ====================================================== -->
+
+    <section class="card">
 
         <h2>
 
             <i class="fas fa-list"></i>
-
             Leave Applications
 
         </h2>
 
+
+        <!-- Search -->
         <input
                 type="text"
                 id="searchLeave"
-                placeholder="Search Employee ID / Name / Status">
+                placeholder="Search Employee ID / Name / Status"
+                autocomplete="off">
 
-        <table>
 
-            <thead>
+        <!-- Responsive Table Wrapper -->
+        <div class="table-wrapper">
 
-            <tr>
+            <table>
 
-                <th>ID</th>
+                <thead>
 
-                <th>Employee ID</th>
+                <tr>
 
-                <th>Employee Name</th>
+                    <th>ID</th>
+                    <th>Employee ID</th>
+                    <th>Employee Name</th>
+                    <th>Leave Type</th>
+                    <th>From Date</th>
+                    <th>To Date</th>
+                    <th>Total Days</th>
+                    <th>Reason</th>
+                    <th>Applied Date</th>
+                    <th>Approval Date</th>
+                    <th>Status</th>
+                    <th>Remarks</th>
+                    <th>Action</th>
 
-                <th>Leave Type</th>
+                </tr>
 
-                <th>From Date</th>
+                </thead>
 
-                <th>To Date</th>
 
-                <th>Total Days</th>
+                <tbody id="leaveTableBody">
 
-                <th>Reason</th>
+                <!-- Data loaded by JavaScript -->
 
-                <th>Applied Date</th>
+                </tbody>
 
-                <th>Approval Date</th>
+            </table>
 
-                <th>Status</th>
+        </div>
 
-                <th>Remarks</th>
+    </section>
 
-                <th>Action</th>
 
-            </tr>
+    <!-- =====================================================
+         FOOTER
+    ====================================================== -->
 
-            </thead>
+    <footer class="page-footer">
 
-            <tbody id="leaveTableBody">
+        © 2026 University ERP System |
+        Designed &amp; Developed by
+        <strong>Suresh Gadri</strong>
 
-            </tbody>
-
-        </table>
-
-    </div>
-
-    <div class="back-btn">
-
-        <a href="dashboard.html">
-
-            ← Back to Dashboard
-
-        </a>
-
-    </div>
+    </footer>
 
 </div>
 
+
+<!-- =====================================================
+     SWEET ALERT
+====================================================== -->
+
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+<!-- =====================================================
+     LEAVE APPROVAL JAVASCRIPT
+====================================================== -->
+
 <script src="js/leave-approval.js"></script>
 
 </body>
